@@ -1,0 +1,605 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)http://www.paddypower.com/ajax?action=go_bet_accumulator -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Pimp My Bet</title>
+<link rel="stylesheet" href="./bet_accumulator.css" type="text/css" media="all">
+
+<script type="text/javascript">
+
+
+document.domain = 'paddypower.com';
+
+
+</script>
+
+<script type="text/javascript">
+
+var cur_prices = {};
+
+var bb_existing = {};
+var cb_existing = {};
+var bets_removed = {};
+bets_removed['bb'] = false;
+bets_removed['cc'] = false;
+
+
+
+
+	var skip_price_calc = false;
+
+
+function page_load() {
+
+	
+
+	// in case only one bit is being shown...
+	
+
+	
+		switch_accumulator_display('bb');
+	
+
+	set_acc_tool_height();
+}
+
+
+function calc_cur_bet_potential_winnings() {
+
+	// work out which bet accumulator we are showing
+	
+	bb_style = document.getElementById('best_odds_max').style.display;
+
+	if (bb_style == "block") {
+		calc_potential_winnings('bb',false);
+	}
+
+	
+
+	
+
+}
+
+
+//If incentive true then do incentive calculations, else do potential winnings
+
+function calc_potential_winnings(betacc_type , incentive) {
+
+	// check to see if we should bother doing the calculation
+	if (incentive){
+		if (skip_price_calc == true) {
+			document.getElementById(betacc_type + '_incentive').childNodes[0].nodeValue = "One or more selection is at SP";
+			return;
+		}
+		stake = 10;
+	} else {
+		if (skip_price_calc == true) {
+			// at least one of the selections is SP - don't try to work out odds
+		document.getElementById(betacc_type + '_winnings').childNodes[0].nodeValue = "N/A";
+			return;
+		}
+		// get the stake
+		stake = document.getElementById(betacc_type + '_stake').value;
+		// check that the stake is numeric between 0 and 1000000
+		if (isNaN(parseFloat(stake)) && stake != "") {
+			document.getElementById(betacc_type + '_winnings').childNodes[0].nodeValue = "Invalid Stake";
+			return false;
+		}
+
+		if (stake < 0 || stake == "") {
+			stake = 0;
+		}
+
+		if (stake > 1000000) {
+			stake = 1000000;
+		}
+
+	}
+
+	// first, get odds for current bets on the betslip
+	var odds = 1.0;
+	var set_winnings_zero = true;
+
+	for (var i in cur_prices) {
+		odds = odds * cur_prices[i];
+		set_winnings_zero = false;
+	}
+
+	// then work out the accumulator tool bets
+
+	if (betacc_type == 'bb') {
+		var info = bb_existing;
+	}
+	else if (betacc_type == 'cb') {
+		var info = cb_existing;
+	}
+
+	for (var i in info) {
+		if (incentive) {
+			odds = odds*document.potential_bets[i].lp_dec;
+			set_winnings_zero = false;
+		} else {
+			if (info[i]) {
+				odds = odds*document.potential_bets[i].lp_dec;
+				set_winnings_zero = false;
+			}
+		}
+	}
+
+
+	if (set_winnings_zero == true) {
+		var odds_formatted = 0;
+		odds = 0;
+	} else {
+		var odds_formatted = Math.round(odds * 100) / 100;
+	}
+
+	potential_winnings = stake * odds;
+
+	if (potential_winnings.toFixed(2)) {
+		potential_winnings = potential_winnings.toFixed(2);
+	} else {
+		potential_winnings = Math.round(potential_winnings * 100) / 100;
+	}
+	if (incentive) {
+		document.getElementById(betacc_type + '_incentive').childNodes[0].nodeValue = "10  could win you a massive " + potential_winnings + " ";
+	} else {
+		document.getElementById(betacc_type + '_winnings').childNodes[0].nodeValue = " " +potential_winnings;
+	}
+}
+
+
+function minimise() {
+	document.getElementById('pimpmaximised').style.display = 'none'
+	document.getElementById('pimpminimised').style.display = 'block'
+	document.getElementById('show').style.display = 'block'
+	document.getElementById('hide').style.display = 'none'
+
+	set_acc_tool_height();
+}
+
+
+function maximise() {
+	document.getElementById('pimpminimised').style.display = 'none'
+	document.getElementById('pimpmaximised').style.display = 'block'
+	document.getElementById('show').style.display = 'none'
+	document.getElementById('hide').style.display = 'block'
+
+	set_acc_tool_height();
+}
+
+function switch_accumulator_display(type) {
+
+	switch (type) {
+		case "bb":
+			
+			
+			document.getElementById('best_bets_max').style.display = 'block';
+			document.getElementById('best_bets_min').style.display = 'block';
+			document.getElementById('top5').className = 'on';
+			
+
+
+
+			break;
+		case "cb":
+
+			
+			document.getElementById('best_bets_max').style.display = 'none';
+			document.getElementById('best_bets_min').style.display = 'none';
+			document.getElementById('top5').className = '';
+			
+			
+
+
+
+			break;
+	}
+
+	set_acc_tool_height();
+}
+
+
+
+
+function set_acc_tool_height() {
+
+	var MZ=(document.getElementById?true:false);
+	var ie=(document.all?true:false);
+	//var iframeWin = window.parent.frames['bet_acc_iframe'];
+	var iframeWin = window.parent.frames['bet_acc_iframe'];
+
+	var docHt = getIFrameHeight(document);
+
+	if(ie){
+		window.parent.document.all['bet_acc_iframe'].style.height=docHt+"px";
+	} else if(MZ){
+		window.parent.document.getElementById('bet_acc_iframe').height=docHt;
+	}
+}
+
+function getIFrameHeight(doc) {
+
+	var docHt = 0, sh, oh;
+	docHt = doc.getElementById('pimpwrapper').offsetHeight;
+
+	return docHt;
+}
+
+function ieDropDownFix() {
+
+	var uls = document.getElementsByTagName("ul");
+	var ul, li, lis, num;
+	var i=uls.length-1;
+
+	do {
+		if (uls[i].className=="dd-tv") {
+			li = uls[i].getElementsByTagName("li");
+
+			li[0].onmouseover=function() {this.className+=" sfhover";this.style.zIndex ="99"}
+			li[0].onmouseout=function() {this.className=this.className.replace(new RegExp(" sfhover\\b"), "");}
+
+			ul = li[0].getElementsByTagName("ul");
+			lis = ul[0].getElementsByTagName("li");
+
+			if (lis.length > 10)
+				ul[0].className +=" scroll";
+		}
+	} while(i--);
+}
+
+function bet_acc_remove_sel(ev_oc_id, prefix) {
+
+	if (prefix == 'bb') {
+		bb_existing[ev_oc_id]=false;
+	}
+	else if (prefix == 'cb') {
+		cb_existing[ev_oc_id]=false;
+		var info = cb_existing;
+	}
+	else {
+		return;
+	}
+	document.getElementById(prefix+'_'+ev_oc_id).style.display = 'none';
+	bets_removed[prefix] = true;
+
+}
+
+
+function refresh_selections(prefix, ignore_list) {
+	if (prefix == 'bb') {
+		var info = bb_existing;
+		var alt_pre = 'cb';
+	}
+	else if (prefix == 'cb') {
+		var info = cb_existing;
+		var alt_pre = 'bb'
+	}
+	var existing_ids = "";
+	if (bets_removed[prefix]){
+		for (var i in info) {
+			if (info[i]) {
+				if (existing_ids == ""){
+					existing_ids = i;
+				} else {
+					existing_ids = existing_ids+','+i;
+				}
+			}
+		}
+	}
+
+	var url = 'http://www.paddypower.com/bet?action=go_bet_accumulator&'+prefix+'_ignore_list='+ignore_list+'&show_'+prefix+'=1&'+prefix+'_existing_list='+existing_ids+'&show_'+alt_pre+'=0';
+	self.location.href = url;
+}
+
+document.potential_bets = {};
+
+function add_to_bet(prefix) {
+
+	var betStakeElem = document.getElementById(prefix + '_stake');
+
+
+	if (prefix == 'bb') {
+		var info = bb_existing;
+	} else if (prefix == 'cb') {
+		var info = cb_existing;
+	} else {
+		return;
+	}
+
+	for (var evOcId in info) {
+
+		evOcInfo = document.potential_bets[evOcId];
+		if (! evOcInfo) {
+			continue;
+		}
+		if (info[evOcId]) {
+			parent.BS_set_leg('price_type', 'L');
+			parent.BS_set_leg('lp_num', evOcInfo['lp_num']);
+			parent.BS_set_leg('lp_den', evOcInfo['lp_den']);
+			parent.BS_set_leg('selections', evOcId);
+			parent.BS_set_leg('hcap_value', evOcInfo['hcap_value']);
+			parent.BS_set_leg('bet_origin','PIMPMYBET');
+			parent.BS_select_bet(evOcId);
+		}
+
+	}
+
+	var stake = betStakeElem.value;
+	parent.BS_set_extra_info('acc_stake', stake);
+	parent.BS_go_bets();
+}
+
+</script>
+
+
+<!-- canonical tag -->
+<link rel="canonical" href="http://www.paddypower.com/ajax?action=go_bet_accumulator">
+
+
+</head><body onload="page_load()">
+
+<div id="pimpwrapper">
+	<!--<h2>Accum builder</h2>-->
+	<div id="hdr-top-nav">
+		<h4>Pimp That Bet</h4>
+	</div>
+
+	<div id="pimpintwrapper">
+
+		<ul id="pimp-hdr">
+	
+			<li id="top5" class="on"><a href="http://www.paddypower.com/ajax?action=go_bet_accumulator#" onclick="switch_accumulator_display(&#39;bb&#39;);return false;">Popular Bets</a></li>
+	
+	
+		</ul>
+
+		<div id="pimptabs" style="display: none">
+			<ul id="pimpul">
+				<li id="pyb" class="textIndent"><a href="http://www.paddypower.com/ajax?action=go_bet_accumulator#" onclick="maximise();">Accum builder</a></li>
+				<li id="help"><ul class="dd-tv"><li><img src="http://www.paddypower.com/ajax?action=go_bet_accumulator" class="home-help" width="18" height="15" alt=""><!-- http://i.ppstatic.com/img/bet_accumulator/help.gif --><ul><li>These bets are currently being offered on the site.<br><br>
+The potential winnings are based on a 5-Fold Accum.<br><br>
+Any selections you have in your bet slip will be shown here as part of this bet.</li></ul></li></ul></li>
+				<li id="hide"><a href="http://www.paddypower.com/ajax?action=go_bet_accumulator#" onclick="minimise();return false"><img src="http://www.paddypower.com/ajax?action=go_bet_accumulator" title="Minimise" class="home-hide" width="18" height="15" alt=""><!-- http://i.ppstatic.com/img/bet_accumulator/hide.gif --></a></li>
+				<li id="show"><a href="http://www.paddypower.com/ajax?action=go_bet_accumulator#" onclick="maximise();return false"><img src="http://www.paddypower.com/ajax?action=go_bet_accumulator" title="Maximise" class="home-show" width="18" height="15" alt=""><!-- http://i.ppstatic.com/img/bet_accumulator/show.gif --></a></li>
+			</ul>
+		</div>
+		<div id="pimpmaximised">
+		<div id="pimpblurb">
+			<p>Boost your potential winnings by adding these popular bets</p>
+		</div>
+
+		<div id="best_bets_max" style="display:block;">
+
+			<form action="http://www.paddypower.com/ajax?action=go_bet_accumulator" name="bb_curbets">
+			
+			</form>
+
+			<!--<p class="pimpp">Our tips</p>-->
+
+			
+			
+			<div class="pimpselection" id="bb_492487907">
+				<ul>
+					<li>
+						<a class="x-s" onclick="javascript:bet_acc_remove_sel(&#39;492487907&#39;,&#39;bb&#39;);calc_potential_winnings(&#39;bb&#39;,false);">
+						</a>
+						&nbsp;
+						<span class="pimpselname">
+							Everton : 3/4
+						</span>
+						<br>
+						<span class="pimpmktdesc">
+							
+								Everton v Crystal Palace: Win-Draw-Win</span></li>
+							
+						
+						<script type="text/javascript">
+							document.potential_bets['492487907'] = {
+								'lp_num': '3',
+								'lp_den': '4',
+								'lp_dec': '1.75',
+								'selections': '492487907',
+								'hcap_value': '',
+								'selected': 'true'
+							};
+							bb_existing['492487907'] = true;
+						</script>
+				</ul>
+			</div>
+			
+			<div class="pimpselection" id="bb_499559994" style="background-color: rgb(244, 244, 244);">
+				<ul>
+					<li>
+						<a class="x-s" onclick="javascript:bet_acc_remove_sel(&#39;499559994&#39;,&#39;bb&#39;);calc_potential_winnings(&#39;bb&#39;,false);">
+						</a>
+						&nbsp;
+						<span class="pimpselname">
+							Zamadance : 13/8
+						</span>
+						<br>
+						<span class="pimpmktdesc">
+							
+								2016-09-30 18:50:00: NEWCASTLE: Win or E/W Market</span></li>
+							
+						
+						<script type="text/javascript">
+							document.potential_bets['499559994'] = {
+								'lp_num': '13',
+								'lp_den': '8',
+								'lp_dec': '2.625',
+								'selections': '499559994',
+								'hcap_value': '',
+								'selected': 'true'
+							};
+							bb_existing['499559994'] = true;
+						</script>
+				</ul>
+			</div>
+			
+			<div class="pimpselection" id="bb_499560015">
+				<ul>
+					<li>
+						<a class="x-s" onclick="javascript:bet_acc_remove_sel(&#39;499560015&#39;,&#39;bb&#39;);calc_potential_winnings(&#39;bb&#39;,false);">
+						</a>
+						&nbsp;
+						<span class="pimpselname">
+							Mandarin : 2/1
+						</span>
+						<br>
+						<span class="pimpmktdesc">
+							
+								2016-09-30 19:20:00: NEWCASTLE: Win or E/W Market</span></li>
+							
+						
+						<script type="text/javascript">
+							document.potential_bets['499560015'] = {
+								'lp_num': '2',
+								'lp_den': '1',
+								'lp_dec': '3.0',
+								'selections': '499560015',
+								'hcap_value': '',
+								'selected': 'true'
+							};
+							bb_existing['499560015'] = true;
+						</script>
+				</ul>
+			</div>
+			
+			<div class="pimpselection" id="bb_492487953" style="background-color: rgb(244, 244, 244);">
+				<ul>
+					<li>
+						<a class="x-s" onclick="javascript:bet_acc_remove_sel(&#39;492487953&#39;,&#39;bb&#39;);calc_potential_winnings(&#39;bb&#39;,false);">
+						</a>
+						&nbsp;
+						<span class="pimpselname">
+							Liverpool : 2/5
+						</span>
+						<br>
+						<span class="pimpmktdesc">
+							
+								Swansea v Liverpool: Win-Draw-Win</span></li>
+							
+						
+						<script type="text/javascript">
+							document.potential_bets['492487953'] = {
+								'lp_num': '2',
+								'lp_den': '5',
+								'lp_dec': '1.4',
+								'selections': '492487953',
+								'hcap_value': '',
+								'selected': 'true'
+							};
+							bb_existing['492487953'] = true;
+						</script>
+				</ul>
+			</div>
+			
+			<div class="pimpselection" id="bb_499560072">
+				<ul>
+					<li>
+						<a class="x-s" onclick="javascript:bet_acc_remove_sel(&#39;499560072&#39;,&#39;bb&#39;);calc_potential_winnings(&#39;bb&#39;,false);">
+						</a>
+						&nbsp;
+						<span class="pimpselname">
+							Cocoa Beach : 4/1
+						</span>
+						<br>
+						<span class="pimpmktdesc">
+							
+								2016-09-30 20:20:00: NEWCASTLE: Win or E/W Market</span></li>
+							
+						
+						<script type="text/javascript">
+							document.potential_bets['499560072'] = {
+								'lp_num': '4',
+								'lp_den': '1',
+								'lp_dec': '5.0',
+								'selections': '499560072',
+								'hcap_value': '',
+								'selected': 'true'
+							};
+							bb_existing['499560072'] = true;
+						</script>
+				</ul>
+			</div>
+			
+
+			<div class="stake stakeBets">
+				<strong>Stake per bet</strong>:  <input id="bb_stake" type="text" name="sthg" value="10.00" onkeyup="return calc_potential_winnings(&#39;bb&#39;,false);">
+			</div>
+			<div class="cf:after"></div>
+			<div class="pw pwBets">
+				<strong>Possible winnings</strong>: <span id="bb_winnings"> 964.69</span>
+			</div>
+			<div class="cf:after"></div>
+
+		</div>
+
+		<ul class="btn-o">
+			<li>
+				
+				<a href="http://www.paddypower.com/ajax?action=go_bet_accumulator#" onclick="refresh_selections(&#39;bb&#39;,&#39;492487907,499559994,499560015,492487953,499560072&#39;); return false;">More bets</a>
+				
+			</li>
+			
+				<li class="liBets"><a href="http://www.paddypower.com/ajax?action=go_bet_accumulator#" onclick="add_to_bet(&#39;bb&#39;); return false;">Bet Now</a></li>
+			
+		</ul>
+
+		<p id="pimpbuttons"> </p>
+
+<script type="text/javascript">
+	calc_potential_winnings('bb',false);
+</script>
+		</div> <!-- pimpmaximised -->
+
+		<!-- minimised version here -->
+		<div id="pimpminimised">
+			
+			<div id="best_bets_min" style="display:block;">
+				<p class="pimpblurb">Boost your potential winnings by adding these popular bets <br>
+				<span id="pimpem"><span id="bb_incentive">10  could win you a massive 964.69 </span></span></p>
+			</div>
+			
+			
+		</div>
+
+	</div> <!-- pimpintwrapper -->
+</div> <!-- pimpwrapper -->
+
+<script type="text/javascript">
+//<![CDATA[
+function pimpstripe(){
+	var selcount = 0;
+	var sels = document.getElementsByTagName("div");
+	for(var s=0;s<sels.length;s++){
+		if(sels[s].className == "pimpselection"){
+			selcount++;
+			if((selcount % 2) == 0){
+				sels[s].style.backgroundColor = "#f4f4f4";
+			}
+		}
+	}
+
+}
+
+
+if (window.attachEvent) { ieDropDownFix(); }
+
+
+calc_potential_winnings('bb',true);
+
+
+
+
+pimpstripe();
+
+
+
+
+// ]]>
+</script>
+
+
+
+</body></html>

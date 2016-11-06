@@ -1,0 +1,72 @@
+﻿@model PredictionAlgo.Models.PredictionComparison
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PredictionComparison</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AlgoScoreSpreadPrediction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AlgoScoreSpreadPrediction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookScoreSpreadPrediction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookScoreSpreadPrediction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualScoreSpreadPrediction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualScoreSpreadPrediction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TeamToBack)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TeamToBack)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SwerveTeam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SwerveTeam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PredictionResult)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PredictionResult)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

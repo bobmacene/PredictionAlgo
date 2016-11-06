@@ -1,0 +1,114 @@
+﻿@model PredictionAlgo.Models.ResultStatistics
+    @using PredictionAlgo.Models
+
+@{
+    ViewBag.Title = "PredictResult";
+}
+
+
+<h2>Predicted Score Delta</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)   
+        <p>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SelectHomeTeam, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.SelectHomeTeam, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SelectHomeTeam, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SelectAwayTeam, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.SelectAwayTeam, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SelectAwayTeam, "", new { @class = "text-danger" })
+                </div>
+            </div>
+  
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SelectDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SelectDate, new { htmlAttributes = new { @class = "form-control" } })
+                           @Html.ValidationMessageFor(model => model.SelectDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>       
+            <p>
+                <div class="col-md-offset-2 col-md-10" >
+                    <input type="submit" value="Get Predicted Score Delta"  class="btn btn-info" />
+                </div>
+        </p>
+
+        <div>
+            <h4>Result Statistics</h4>
+        
+            <br />
+            <p><legend>Predicted Score Delta and Related Statistics:</legend></p>
+            
+            <p>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.HomeTeam)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.SelectHomeTeam)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AwayTeam)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.SelectAwayTeam)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Date)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.SelectDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AverageHomeScoreLastFiveHomeGames)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.GetAverageHomeScoreLastFiveHomeGames)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AverageScoreDeltaLastFiveHomeGames)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.GetAverageScoreDeltaLastFiveHomeGames)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AverageAwayScoreLastFiveAwayGames)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.GetAverageAwayScoreLastFiveAwayGames)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AverageScoreDeltaLastFiveAwayGames)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.GetAverageScoreDeltaLastFiveAwayGames)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AverageScoreDeltaOfLastTwoResultsBetweenTeams)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.GetAverageScoreDeltaOfLastTwoResultsBetweenTeams)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PredictedScoreDelta)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.GetPredictedScoreDelta)
+                </dd>
+            </dl>  
+        </div>
+    </p>
+    <p>
+        @Html.Partial("/Views/Fixtures/_PartialPageLastFiveFixtures.cshtml", new List<Fixture> { new Fixture().NullFixture })
+    </p>
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

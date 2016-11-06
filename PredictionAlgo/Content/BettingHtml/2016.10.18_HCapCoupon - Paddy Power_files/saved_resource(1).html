@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- saved from url=(0169)https://cdn.dopamine-gaming.com/cdn/paddy/games/jackpotPanels/banner/dist/?jackpotId=betfairMacau&lang=en&currency=GBP&buttonSkin=paddy&bannerClickURL=https://google.com -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Jackpot Banner</title>
+
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="google" content="notranslate">
+
+		<style>
+			html, body {
+				margin: 0;
+				padding: 0;
+				background: black;
+				color: white;
+				height: 100%;
+			}
+			.hitArea {
+				width: 100%;
+				height: 100%;
+				background: white;
+				position: absolute;
+				opacity: 0;
+				display: none;
+				transition: opacity 0.3s;
+			}
+			.hitArea.active {
+				cursor: pointer;
+				display: block;
+			}
+			.hitArea.active:hover {
+				opacity: 0.1;
+			}
+		</style>
+	</head>
+	<body>
+		<a class="hitArea active" target="_top" href="https://google.com/"></a>
+		<canvas id="stageJackpotPanel" width="220" height="465" style="width: 220px; height: 465px;"></canvas>
+
+		<!-- Import app: -->
+		<script type="text/javascript" src="./vendor.js.download"></script>
+		<script type="text/javascript" src="./app.min.js.download"></script>
+
+		<!-- Example usage: -->
+		<script type="text/javascript">
+			'use strict';
+			$(function () {
+
+				var p = com.dopamine.utils.parseURLParams();
+				console.warn('URL params:', p);
+
+				var cfg = {
+					// Dynamic params
+					jackpotId: p.jackpotId,
+					lang: p.lang,
+					bannerClickURL: p.bannerClickURL,
+					buttonSkin: p.buttonSkin,
+					currency: p.currency,
+
+					// Static params
+					jackpotBasePath: 'https://cdn.dopamine-gaming.com/cdn/paddy/games/jackpotPanels/' + p.jackpotId + '/',
+					feedURL: 'https://games.betfairarcade.com/games/dopamine/platform/jackpots/',
+					initialUpdateInterval: 5,
+					updateInterval: 60
+				};
+
+				var app = new com.dopamine.app(cfg);
+			});
+		</script>
+
+	
+<script src="./vendor.js(1).download"></script><script src="./game.min.js.download"></script></body></html>

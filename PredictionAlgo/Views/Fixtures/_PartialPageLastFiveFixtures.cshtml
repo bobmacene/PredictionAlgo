@@ -1,0 +1,86 @@
+﻿@model IEnumerable<PredictionAlgo.Models.Fixture>
+
+@{
+    ViewBag.Title = "FixtureRanges";
+}
+
+<legend>Last Five Home Team Fixtures </legend>
+
+<table class="table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SelectDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.result)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SelectHomeTeam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SelectAwayTeam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AwayScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScoreDelta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PredictedDelta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActualVersusPredictedDelta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PredictedResult)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PredictionOutcome)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FixtureDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.result)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SelectHomeTeam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SelectAwayTeam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AwayScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScoreDelta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PredictedDelta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualVersusPredictedDelta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PredictedResult)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PredictionOutcome)
+            </td>
+        </tr>
+    }
+
+</table>
