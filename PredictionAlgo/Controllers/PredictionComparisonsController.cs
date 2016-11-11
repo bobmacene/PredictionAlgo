@@ -16,6 +16,7 @@ namespace PredictionAlgo.Controllers
         {
             var predictCompare = new PredictionComparisonData();
             predictCompare.AddPredictionComparisonsToFile(_db.MatchBettingDatas.ToList());
+
             ViewData["SuccessRate"] = predictCompare.GetTotalPreditionSuccess;
             return View(_db.PredictionComparisons.ToList().OrderByDescending(x=>x.FixtureDate));
         } 

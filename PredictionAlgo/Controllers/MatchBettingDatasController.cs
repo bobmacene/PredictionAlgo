@@ -16,6 +16,8 @@ namespace PredictionAlgo.Controllers
         {
             var bettingData = new BettingData();
             var pro12Data = bettingData.GetMatchBettingData;
+
+            if (pro12Data.Count == 0) ViewData["NoData"] = "No currently betting odds available online";
             return View(pro12Data.ToList());
         }
 

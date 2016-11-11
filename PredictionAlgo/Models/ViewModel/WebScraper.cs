@@ -142,17 +142,21 @@ namespace PredictionAlgo.Models.ViewModel
             {
                 if (oddsSpread.IsMatchDataAvailable)
                 {
-                    Team isValidTeam;
+                    Team isValidHomeTeam;
+                    Team isValidAwayTeam;
+
                     try
                     {
-                        isValidTeam = (Team)Enum.Parse(typeof(Team), oddsSpread.HomeTeam);
+                        isValidHomeTeam = (Team)Enum.Parse(typeof(Team), oddsSpread.HomeTeam);
+                        isValidAwayTeam = (Team)Enum.Parse(typeof(Team), oddsSpread.AwayTeam);
                     }
                     catch(Exception)
                     {
-                        isValidTeam = Team.None;
+                        isValidHomeTeam = Team.None;
+                        isValidAwayTeam = Team.None;
                     }
                         
-                    if (isValidTeam != Team.None)
+                    if (isValidHomeTeam != Team.None || isValidAwayTeam != Team.None)
                     {
                         matchBettingDataList.Add(new MatchBettingData(oddsSpread));
                     }                    
