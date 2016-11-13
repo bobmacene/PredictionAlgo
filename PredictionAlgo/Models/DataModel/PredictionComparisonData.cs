@@ -7,7 +7,7 @@ namespace PredictionAlgo.Models.DataModel
 {
     public class PredictionComparisonData
     {
-        public List<PredictionComparison> PredictedComparisonDataList { get; set; } = new List<PredictionComparison>(1030);
+        public List<PredictionComparison> PredictedComparisonDataList { get; set; } = new List<PredictionComparison>();
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
         private readonly PredictedResult _predictedResult = new PredictedResult();
         private Team? _swerveTeam;

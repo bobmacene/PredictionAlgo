@@ -54,6 +54,23 @@ namespace PredictionAlgo.Models
         {
             return predictionDelta - bookSpread;
         }
+
+        public PredictionComparison GetAllPredictionComparisons(PredictionAlgoContext context)
+        {
+            var predictedScoreDelta = GetPredictedScoreSpread(betData.HomeTeam, betData.AwayTeam, betData.FixtureDate, _db);
+            GetTeamToBack(betData.HomeTeam, betData.AwayTeam, predictedScoreDelta, betData.HomeSpread);
+
+            var prediction = new PredictionComparison(betData, _teamToBack, _swerveTeam, predictedScoreDelta);
+            prediction.ActualScoreDelta = GetActualScoreDelta(prediction.BettingData.FixtureReference, fixtures);
+            prediction.PredictionResult = GetPredictionOutcome(betData, predictedScoreDelta, prediction.ActualScoreDelta);
+            prediction.PredictionComparisonReference = WebScraper.GetFixtureReference(prediction.HomeTeam, prediction.BettingData.FixtureDate);
+            prediction.BettingData.MatchDataReference = prediction.PredictionComparisonReference;
+            PredictedComparisonDataList.Add(prediction);
+
+            return
+        }
+
+
         //public PredictionOutcome GetPredictionOutcome(PredictionComparison prediction, Team? teamToBack)
         //{
         //    var actualWinner = prediction.TeamToBack == teamToBack ? teamToBack : prediction.SwerveTeam;

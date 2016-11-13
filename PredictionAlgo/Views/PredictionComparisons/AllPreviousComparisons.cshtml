@@ -2,17 +2,21 @@
 
         
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "All Previous Comparisons";
 }
 
-<h2>Prediction Comparison</h2>
-    <h4>Algorthym Overall Prediction Success Rate: @ViewData["SuccessRate"]</h4>
-
-<div>
-    <input type="button" class="btn btn-info" value="Get All Previous Comparisons" onclick="@("window.location.href='" + @Url.Action("Index", "Fixtures") + "'");" />
+<div style="background-color:darkgoldenrod">
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink("Current Comparisons", "Index", "PredictionComparisons")
+            <li>
+        </ul>
+    </div>
 </div>
 
-<br />
+<h2>Prediction Comparison</h2>
+    <h4>Algorthym Prediction Success Rate: @ViewData["SuccessRate"]</h4>
+
 <table class="table">
     <tr>
         <th>
@@ -80,11 +84,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.PredictionResult)
         </td>
-        @*<td>
-            @Html.ActionLink("Edit", "Edit", new {id = item.PredictionComparisonReference}) |
-            @Html.ActionLink("Details", "Details", new {id = item.PredictionComparisonReference}) |
-            @Html.ActionLink("Delete", "Delete", new {id = item.PredictionComparisonReference})
-        </td>*@
+      
     </tr>
 }
 
