@@ -47,6 +47,44 @@ namespace PredictionAlgo.Models.DataModel
             }
             _db.SaveChanges();
         }
+
+        public IEnumerable<PredictionComparison> GetAllPredictionComparisons(PredictionAlgoContext context)
+        {
+            var fixturesWithBettingData = GetFixtureAndBettingDatas(context);
+
+            var predictionComparisons = fixturesWithBettingData.Select(
+                fixtureWithBetting => new PredictionComparison(
+                fixtureWithBetting.Fixture, fixtureWithBetting.BettingData)).ToList();
+
+            foreach (var prediction in predictionComparisons)
+            {
+                prediction.SwerveTeam = prediction.TeamToBack == prediction.HomeTeam
+                    ? prediction.AwayTeam
+                    : prediction.HomeTeam;
+            }
+
+            return predictionComparisons;
+        }
+        private static IEnumerable<FixtureAndBettingData> GetFixtureAndBettingDatas(PredictionAlgoContext context)
+        {
+            var fixturesWithBettingData = new List<FixtureAndBettingData>();
+
+            var fixtures = context.Fixtures.Where(x => x.FixtureDate > new DateTime(2016, 07, 30));
+            var bettingData = context.MatchBettingDatas;
+
+            foreach (var fixture in fixtures)
+            {
+                foreach (var betting in bettingData)
+                {
+                    if (fixture.FixtureReference == betting.FixtureReference)
+                    {
+                        fixturesWithBettingData.Add(new FixtureAndBettingData(fixture, betting));
+                    }
+                }
+            }
+            return fixturesWithBettingData;
+        }
+
         private PredictionOutcome GetPredictionOutcome( MatchBettingData bettingData, double predictedScoreDelta, double actualScoreDelta)
         {
             var checkTeamToBackOutcome = CheckTeamToBackOutcome(bettingData, predictedScoreDelta);
@@ -73,6 +111,7 @@ namespace PredictionAlgo.Models.DataModel
             }
             return actualScoreDelta < predictedScoreDelta  ? PredictionOutcome.Success : PredictionOutcome.Fail;
         }
+
         private double GetPredictedScoreSpread(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
         {
             var aveHomeScoreLastFiveHomeResults = _predictedResult.GetAverageHomeScoreLastFiveHomeGames(homeTeam, date, context);
@@ -102,12 +141,11 @@ namespace PredictionAlgo.Models.DataModel
             return -1000;
         }
 
-        public Team? GetTeamToBack(Team? homeTeam, Team? awayTeam, double predictedScoreSpread, double bookScoreSpread)
+        private void GetTeamToBack(Team? homeTeam, Team? awayTeam, double predictedScoreSpread, double bookScoreSpread)
         {
             var predictedVsBookScoreSpread = predictedScoreSpread - bookScoreSpread;
             _teamToBack = predictedVsBookScoreSpread < 0 ? homeTeam : awayTeam;
             _swerveTeam = _teamToBack == homeTeam ? awayTeam : homeTeam;
-            return _teamToBack;
         }
         public double GetTotalPreditionSuccess
         {
@@ -120,7 +158,7 @@ namespace PredictionAlgo.Models.DataModel
                 return numberOfSuccessPredictions / totalPredictionCount;
             }
         }
-        private void UpdateMatchBettingDataReferences() // used initially
+        private void UpdateMatchBettingDataReferences() // used initially to update references
         {
             foreach (var bettingData in _db.MatchBettingDatas.ToList())
             {
@@ -128,5 +166,18 @@ namespace PredictionAlgo.Models.DataModel
             }
             _db.SaveChanges();
         }
+    }
+    internal class FixtureAndBettingData
+    {
+        public Fixture Fixture;
+        public MatchBettingData BettingData;
+
+        public FixtureAndBettingData(Fixture fixture, MatchBettingData betting)
+        {
+            Fixture = fixture;
+            BettingData = betting;
+        }
+
+        public FixtureAndBettingData() { }
     }
 }

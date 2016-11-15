@@ -36,7 +36,7 @@ namespace PredictionAlgo.Models
 
         public MatchBettingData BettingData { get; }
 
-        public PredictionComparison() { }  // required for PredictionComparison view ToList call
+        public PredictionComparison() { }  
         public PredictionComparison(MatchBettingData bettingData, Team? teamToBack, Team? swerveTeam, double algoScoreSpreadPrediction)
         {
             FixtureDate = bettingData.FixtureDate;
@@ -54,6 +54,7 @@ namespace PredictionAlgo.Models
     
         public PredictionComparison(Fixture fixture, MatchBettingData betting)
         {
+            PredictionComparisonReference = fixture.FixtureReference;
             FixtureDate = fixture.FixtureDate;
             HomeTeam = fixture.HomeTeam;
             HomeSpread = betting.HomeSpread;
@@ -71,59 +72,10 @@ namespace PredictionAlgo.Models
             return predictionDelta - bookSpread;
         }
 
-        public PredictionComparison GetAllPredictionComparisons(PredictionAlgoContext context)
-        {
-            var predictionComparisons = new List<PredictionComparison>();
-            var predictionComp = new PredictionComparison();
-
-            var fixtures = context.Fixtures.Where(x => x.FixtureDate > new DateTime(2016, 07, 30));
-            var bettingData = context.MatchBettingDatas;
-
-            foreach (var fixture in fixtures)
-            {
-                var prediction = new PredictionComparison
-                {
-                    PredictionComparisonReference = ViewModel.WebScraper.GetFixtureReference(fixture.HomeTeam, fixture.FixtureDate),
-
-                }
-            }
-
-            var predictedScoreDelta = GetPredictedScoreSpread(betData.HomeTeam, betData.AwayTeam, betData.FixtureDate, _db);
-            GetTeamToBack(betData.HomeTeam, betData.AwayTeam, predictedScoreDelta, betData.HomeSpread);
-
-            var prediction = new PredictionComparison(betData, _teamToBack, _swerveTeam, predictedScoreDelta);
-            prediction.ActualScoreDelta = GetActualScoreDelta(prediction.BettingData.FixtureReference, fixtures);
-            prediction.PredictionResult = GetPredictionOutcome(betData, predictedScoreDelta, prediction.ActualScoreDelta);
-            prediction.PredictionComparisonReference = WebScraper.GetFixtureReference(prediction.HomeTeam, prediction.BettingData.FixtureDate);
-            prediction.BettingData.MatchDataReference = prediction.PredictionComparisonReference;
-            PredictedComparisonDataList.Add(prediction);
-
-            return
-        }
-
-        private Team? GetTeamToBack(Team? homeTeam, Team? awayTeam, double predictedScoreSpread, double bookScoreSpread)
+        private static Team? GetTeamToBack(Team? homeTeam, Team? awayTeam, double predictedScoreSpread, double bookScoreSpread)
         {
             var predictedVsBookScoreSpread = predictedScoreSpread - bookScoreSpread;
             return  predictedVsBookScoreSpread < 0 ? homeTeam : awayTeam;
-        }
-
-     
-        //public PredictionOutcome GetPredictionOutcome(PredictionComparison prediction, Team? teamToBack)
-        //{
-        //    var actualWinner = prediction.TeamToBack == teamToBack ? teamToBack : prediction.SwerveTeam;
-        //    return prediction.TeamToBack == actualWinner ? PredictionOutcome.Success : PredictionOutcome.Fail;
-        //}
-    }
-
-    internal class FixtureAndBettingData
-    {
-        private Fixture _fixture;
-        private MatchBettingData _bettingData;
-
-        public FixtureAndBettingData(Fixture fixture, MatchBettingData betting)
-        {
-            _fixture = fixture;
-            _bettingData = betting;
         }
     }
 

@@ -10,17 +10,49 @@ namespace PredictionAlgo.Controllers
     public class PredictionComparisonsController : Controller
     {
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
+        private readonly PredictionComparisonData _predictCompare = new PredictionComparisonData();
 
         // GET: PredictionComparisons
         public ActionResult Index()
         {
-            var predictCompare = new PredictionComparisonData();
-            predictCompare.AddPredictionComparisonsToFile(_db.MatchBettingDatas.ToList());
+            _predictCompare.AddPredictionComparisonsToFile(_db.MatchBettingDatas.ToList());
 
-            ViewData["SuccessRate"] = predictCompare.GetTotalPreditionSuccess;
+            ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
+
+           // ViewData["DataAvailable"] = 
             return View(_db.PredictionComparisons.ToList().OrderByDescending(x=>x.FixtureDate));
-        } 
+        }
 
+        public ActionResult AllPreviousComparisons()
+        {
+            var allPredictionComparisons = _predictCompare.GetAllPredictionComparisons(_db);
+            var distinctList = allPredictionComparisons.GroupBy(x => x.PredictionComparisonReference)
+                         .Select(g => g.First())
+                         .ToList();
+
+            foreach (var prediction in distinctList)
+            {
+                if (_db.PredictionComparisons.Any(
+                        x => x.PredictionComparisonReference == prediction.PredictionComparisonReference))
+                {
+                    var recordToEdit = _db.PredictionComparisons.FirstOrDefault(
+                            x => x.PredictionComparisonReference == prediction.PredictionComparisonReference);
+
+                    _db.PredictionComparisons.Remove(recordToEdit);
+                    _db.PredictionComparisons.Add(prediction);
+                }
+                else
+                {
+                    _db.PredictionComparisons.Add(prediction);
+                }
+            }
+
+
+            _db.SaveChanges();
+
+            ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
+            return View(_db.PredictionComparisons.ToList().OrderByDescending(x => x.FixtureDate));
+        }
         // GET: PredictionComparisons/Details/5
         public ActionResult Details(string id)
         {
