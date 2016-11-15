@@ -6,39 +6,38 @@ namespace PredictionAlgo.Models.ViewModel
 {
     public class PredictedResult
     {
-        private IDictionary<Team?, ICollection<Fixture>> GetHomeTeamResults(PredictionAlgoContext context)
+        private static IDictionary<Team?, ICollection<Fixture>> GetHomeTeamResults(PredictionAlgoContext context)
         {
             var teamResults = new Dictionary<Team?, ICollection<Fixture>>(context.Fixtures.Count() / Teams.Pro12Teams.Count());
 
             foreach (var fixture in context.Fixtures)
             {
-                if (fixture == null) continue;
-                if (teamResults.ContainsKey(fixture.HomeTeam))
+                if (fixture.HomeTeam != null && teamResults.ContainsKey(fixture.HomeTeam))
                 {
                     teamResults[fixture.HomeTeam].Add(fixture);
                 }
                 else
                 {
-                    teamResults.Add(fixture.HomeTeam, new List<Fixture> { fixture });
+                    if (fixture.HomeTeam != null) teamResults.Add(fixture.HomeTeam, new List<Fixture> { fixture });
                 }
             }
             return teamResults;
         }
 
-        private IDictionary<Team?, ICollection<Fixture>> GetAwayTeamResults(PredictionAlgoContext context)
+        private static IDictionary<Team?, ICollection<Fixture>> GetAwayTeamResults(PredictionAlgoContext context)
         {
             var teamResults = new Dictionary<Team?, ICollection<Fixture>>(context.Fixtures.Count() / Teams.Pro12Teams.Count());
 
             foreach (var fixture in context.Fixtures)
             {
                 if (fixture == null) continue;
-                if (teamResults.ContainsKey(fixture.AwayTeam))
+                if (fixture.AwayTeam != null && teamResults.ContainsKey(fixture.AwayTeam))
                 {
                     teamResults[fixture.AwayTeam].Add(fixture);
                 }
                 else
                 {
-                    teamResults.Add(fixture.AwayTeam, new List<Fixture> { fixture });
+                    if (fixture.AwayTeam != null) teamResults.Add(fixture.AwayTeam, new List<Fixture> { fixture });
                 }
             }
             return teamResults;
@@ -208,42 +207,45 @@ namespace PredictionAlgo.Models.ViewModel
             }
             return prediction;
         }
-        public List<Fixture> GetRangeOfFixtures(PredictionAlgoContext context, DateTime startDate, DateTime endDate)
-        {
-            return context.Fixtures.Where(fixture => fixture.FixtureDate >= startDate && fixture.FixtureDate <= endDate).ToList();
-        }
 
-        public List<ResultStatistics> GetPredictedResultList(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
-        {
-            var aveHomeScoreLastFiveHomeResults = GetAverageHomeScoreLastFiveHomeGames(homeTeam, date, context);
-            var aveAwayScoreLastFiveAwayResults = GetAverageAwayScoreLastFiveAwayGames(awayTeam, date, context);
+        #region FixtureRange
+        //public List<Fixture> GetRangeOfFixtures(PredictionAlgoContext context, DateTime startDate, DateTime endDate)
+        //{
+        //    return context.Fixtures.Where(fixture => fixture.FixtureDate >= startDate && fixture.FixtureDate <= endDate).ToList();
+        //}
 
-            var scoreDeltalastFiveHomeResults = GetAverageAwayScoreLastFiveAwayGames(homeTeam, date, context);
-            var scoreDeltalastFiveAwayResults = GetAverageScoreDeltaLastFiveAwayGames(awayTeam, date, context);
+        //public List<ResultStatistics> GetPredictedResultList(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
+        //{
+        //    var aveHomeScoreLastFiveHomeResults = GetAverageHomeScoreLastFiveHomeGames(homeTeam, date, context);
+        //    var aveAwayScoreLastFiveAwayResults = GetAverageAwayScoreLastFiveAwayGames(awayTeam, date, context);
 
-            var lastTwoResultsBtwnTeams = GetAverageScoreDeltaOfLastTwoResultsBetweenTeams(homeTeam, awayTeam, date, context);
+        //    var scoreDeltalastFiveHomeResults = GetAverageAwayScoreLastFiveAwayGames(homeTeam, date, context);
+        //    var scoreDeltalastFiveAwayResults = GetAverageScoreDeltaLastFiveAwayGames(awayTeam, date, context);
 
-            var predictedDelta = (aveHomeScoreLastFiveHomeResults - aveAwayScoreLastFiveAwayResults
-                                                    + scoreDeltalastFiveHomeResults
-                                                    + scoreDeltalastFiveAwayResults
-                                                    + lastTwoResultsBtwnTeams)
-                                                    / 4;
-            return new List<ResultStatistics>
-            {
-                new ResultStatistics
-                {
-                    HomeTeam = homeTeam,
-                    AwayTeam = awayTeam,
-                    Date = date,
-                    AverageHomeScoreLastFiveHomeGames = aveHomeScoreLastFiveHomeResults,
-                    AverageScoreDeltaLastFiveHomeGames = aveAwayScoreLastFiveAwayResults,
-                    AverageAwayScoreLastFiveAwayGames = scoreDeltalastFiveHomeResults,
-                    AverageScoreDeltaLastFiveAwayGames = scoreDeltalastFiveAwayResults,
-                    AverageScoreDeltaOfLastTwoResultsBetweenTeams = lastTwoResultsBtwnTeams,
-                    PredictedScoreDelta = predictedDelta
-                }
-            };
-        }
+        //    var lastTwoResultsBtwnTeams = GetAverageScoreDeltaOfLastTwoResultsBetweenTeams(homeTeam, awayTeam, date, context);
+
+        //    var predictedDelta = (aveHomeScoreLastFiveHomeResults - aveAwayScoreLastFiveAwayResults
+        //                                            + scoreDeltalastFiveHomeResults
+        //                                            + scoreDeltalastFiveAwayResults
+        //                                            + lastTwoResultsBtwnTeams)
+        //                                            / 4;
+        //    return new List<ResultStatistics>
+        //    {
+        //        new ResultStatistics
+        //        {
+        //            HomeTeam = homeTeam,
+        //            AwayTeam = awayTeam,
+        //            Date = date,
+        //            AverageHomeScoreLastFiveHomeGames = aveHomeScoreLastFiveHomeResults,
+        //            AverageScoreDeltaLastFiveHomeGames = aveAwayScoreLastFiveAwayResults,
+        //            AverageAwayScoreLastFiveAwayGames = scoreDeltalastFiveHomeResults,
+        //            AverageScoreDeltaLastFiveAwayGames = scoreDeltalastFiveAwayResults,
+        //            AverageScoreDeltaOfLastTwoResultsBetweenTeams = lastTwoResultsBtwnTeams,
+        //            PredictedScoreDelta = predictedDelta
+        //        }
+        //    };
+        //} 
+        #endregion
 
     }
 }

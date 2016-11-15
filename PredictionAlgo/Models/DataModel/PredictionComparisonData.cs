@@ -17,6 +17,7 @@ namespace PredictionAlgo.Models.DataModel
         {
             //UpdateMatchBettingDataReferences(); // used initially to set references correctly
             var fixtures = _db.Fixtures;
+
             foreach (var betData in bettingData)
             {
                 var predictedScoreDelta = GetPredictedScoreSpread(betData.HomeTeam, betData.AwayTeam, betData.FixtureDate, _db);
@@ -29,6 +30,7 @@ namespace PredictionAlgo.Models.DataModel
                 prediction.BettingData.MatchDataReference = prediction.PredictionComparisonReference;
                 PredictedComparisonDataList.Add(prediction);
             }
+
             var predictionsWithoutDupes = PredictedComparisonDataList.GroupBy(x => x.PredictionComparisonReference)
                         .Select(x => x.First());
 
@@ -45,6 +47,7 @@ namespace PredictionAlgo.Models.DataModel
                     _db.PredictionComparisons.Add(prediction);
                 }
             }
+
             _db.SaveChanges();
         }
 
@@ -63,6 +66,29 @@ namespace PredictionAlgo.Models.DataModel
                     : prediction.HomeTeam;
             }
 
+            var distinctList = predictionComparisons.GroupBy(x => x.PredictionComparisonReference)
+                         .Select(g => g.First())
+                         .ToList();
+
+            foreach (var prediction in distinctList)
+            {
+                if (_db.PredictionComparisons.Any(
+                        x => x.PredictionComparisonReference == prediction.PredictionComparisonReference))
+                {
+                    var recordToEdit = _db.PredictionComparisons.FirstOrDefault(
+                            x => x.PredictionComparisonReference == prediction.PredictionComparisonReference);
+
+                    _db.PredictionComparisons.Remove(recordToEdit);
+                    _db.PredictionComparisons.Add(prediction);
+                }
+                else
+                {
+                    _db.PredictionComparisons.Add(prediction);
+                }
+            }
+
+            _db.SaveChanges();
+
             return predictionComparisons;
         }
         private static IEnumerable<FixtureAndBettingData> GetFixtureAndBettingDatas(PredictionAlgoContext context)
@@ -74,13 +100,10 @@ namespace PredictionAlgo.Models.DataModel
 
             foreach (var fixture in fixtures)
             {
-                foreach (var betting in bettingData)
-                {
-                    if (fixture.FixtureReference == betting.FixtureReference)
-                    {
-                        fixturesWithBettingData.Add(new FixtureAndBettingData(fixture, betting));
-                    }
-                }
+                fixturesWithBettingData.AddRange(
+                    from betting in bettingData
+                    where fixture.FixtureReference == betting.FixtureReference
+                    select new FixtureAndBettingData(fixture, betting));
             }
             return fixturesWithBettingData;
         }
@@ -93,6 +116,7 @@ namespace PredictionAlgo.Models.DataModel
                 ? PredictionOutcome.Success
                 : PredictionOutcome.Fail;
         }
+
         private PredictionOutcome CheckTeamToBackOutcome( MatchBettingData bettingData, double predictedScoreDelta)
         {
             var teamToBackBookDelta = _teamToBack == bettingData.AwayTeam ? bettingData.AwaySpread : bettingData.HomeSpread;
@@ -103,6 +127,7 @@ namespace PredictionAlgo.Models.DataModel
             }
             return teamToBackBookDelta > predictedScoreDelta ? PredictionOutcome.Success : PredictionOutcome.Fail;
         }
+
         private static PredictionOutcome CheckTheResult_ActualDeltaVsPredictedDelta(double actualScoreDelta, double predictedScoreDelta)
         {
             if(actualScoreDelta > 0)
@@ -147,6 +172,7 @@ namespace PredictionAlgo.Models.DataModel
             _teamToBack = predictedVsBookScoreSpread < 0 ? homeTeam : awayTeam;
             _swerveTeam = _teamToBack == homeTeam ? awayTeam : homeTeam;
         }
+
         public double GetTotalPreditionSuccess
         {
             get
@@ -167,6 +193,7 @@ namespace PredictionAlgo.Models.DataModel
             _db.SaveChanges();
         }
     }
+
     internal class FixtureAndBettingData
     {
         public Fixture Fixture;

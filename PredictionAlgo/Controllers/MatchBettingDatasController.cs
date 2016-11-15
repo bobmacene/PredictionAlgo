@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.DataModel;
+using PredictionAlgo.Models.ViewModel;
 
 namespace PredictionAlgo.Controllers
 {
@@ -14,6 +15,20 @@ namespace PredictionAlgo.Controllers
         // GET: MatchBettingDatas
         public ActionResult Index()
         {
+            foreach (var bet in _db.MatchBettingDatas)
+            {
+                var recordToEdit = _db.MatchBettingDatas.Find(bet.MatchDataReference);
+                _db.MatchBettingDatas.Remove(recordToEdit);
+
+                bet.FixtureReference =  bet.MatchDataReference = WebScraper.GetFixtureReference(bet.HomeTeam, bet.FixtureDate);
+
+                if (!_db.MatchBettingDatas.Any(x => x.FixtureReference == bet.FixtureReference))
+                {
+                    _db.MatchBettingDatas.Add(bet);
+                }
+            }
+            _db.SaveChanges();
+
             var bettingData = new BettingData();
             var pro12Data = bettingData.GetMatchBettingData;
 

@@ -25,30 +25,7 @@ namespace PredictionAlgo.Controllers
 
         public ActionResult AllPreviousComparisons()
         {
-            var allPredictionComparisons = _predictCompare.GetAllPredictionComparisons(_db);
-            var distinctList = allPredictionComparisons.GroupBy(x => x.PredictionComparisonReference)
-                         .Select(g => g.First())
-                         .ToList();
-
-            foreach (var prediction in distinctList)
-            {
-                if (_db.PredictionComparisons.Any(
-                        x => x.PredictionComparisonReference == prediction.PredictionComparisonReference))
-                {
-                    var recordToEdit = _db.PredictionComparisons.FirstOrDefault(
-                            x => x.PredictionComparisonReference == prediction.PredictionComparisonReference);
-
-                    _db.PredictionComparisons.Remove(recordToEdit);
-                    _db.PredictionComparisons.Add(prediction);
-                }
-                else
-                {
-                    _db.PredictionComparisons.Add(prediction);
-                }
-            }
-
-
-            _db.SaveChanges();
+           
 
             ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
             return View(_db.PredictionComparisons.ToList().OrderByDescending(x => x.FixtureDate));
@@ -60,7 +37,7 @@ namespace PredictionAlgo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PredictionComparison predictionComparison = _db.PredictionComparisons.Find(id);
+            var predictionComparison = _db.PredictionComparisons.Find(id);
             if (predictionComparison == null)
             {
                 return HttpNotFound();
