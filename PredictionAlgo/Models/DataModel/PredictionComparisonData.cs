@@ -34,7 +34,6 @@ namespace PredictionAlgo.Models.DataModel
 
             foreach (var prediction in predictionsWithoutDupes)
             {
-
                 if(_db.PredictionComparisons.Find(prediction.PredictionComparisonReference) != null)
                 {
                     var predictionToEdit = _db.PredictionComparisons.Find(prediction.PredictionComparisonReference);
@@ -45,7 +44,6 @@ namespace PredictionAlgo.Models.DataModel
                 {
                     _db.PredictionComparisons.Add(prediction);
                 }
-
             }
             _db.SaveChanges();
         }
@@ -104,11 +102,12 @@ namespace PredictionAlgo.Models.DataModel
             return -1000;
         }
 
-        private void GetTeamToBack(Team? homeTeam, Team? awayTeam, double predictedScoreSpread, double bookScoreSpread)
+        public Team? GetTeamToBack(Team? homeTeam, Team? awayTeam, double predictedScoreSpread, double bookScoreSpread)
         {
             var predictedVsBookScoreSpread = predictedScoreSpread - bookScoreSpread;
             _teamToBack = predictedVsBookScoreSpread < 0 ? homeTeam : awayTeam;
             _swerveTeam = _teamToBack == homeTeam ? awayTeam : homeTeam;
+            return _teamToBack;
         }
         public double GetTotalPreditionSuccess
         {

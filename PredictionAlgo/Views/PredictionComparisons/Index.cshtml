@@ -9,7 +9,7 @@
     <h4>Algorthym Overall Prediction Success Rate: @ViewData["SuccessRate"]</h4>
 
 <div>
-    <input type="button" class="btn btn-info" value="Get All Previous Comparisons" onclick="@("window.location.href='" + @Url.Action("Index", "Fixtures") + "'");" />
+    <input type="button" class="btn btn-info" value="Get All Previous Comparisons" onclick="@("window.location.href='" + @Url.Action("AllPreviousComparisons", "Predictioncomparisons") + "'");" />
 </div>
 
 <br />
