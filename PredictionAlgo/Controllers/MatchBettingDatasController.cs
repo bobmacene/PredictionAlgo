@@ -15,19 +15,21 @@ namespace PredictionAlgo.Controllers
         // GET: MatchBettingDatas
         public ActionResult Index()
         {
-            foreach (var bet in _db.MatchBettingDatas)
-            {
-                var recordToEdit = _db.MatchBettingDatas.Find(bet.MatchDataReference);
-                _db.MatchBettingDatas.Remove(recordToEdit);
+            //foreach (var bet in _db.MatchBettingDatas)
+            //{
+            //    var recordToEdit = _db.MatchBettingDatas.Find(bet.MatchDataReference);
+            //    _db.MatchBettingDatas.Remove(recordToEdit);
+            //    _db.SaveChangesAsync();
 
-                bet.FixtureReference =  bet.MatchDataReference = WebScraper.GetFixtureReference(bet.HomeTeam, bet.FixtureDate);
+            //    recordToEdit.FixtureReference  = WebScraper.GetFixtureReference(recordToEdit.HomeTeam, recordToEdit.FixtureDate);
 
-                if (!_db.MatchBettingDatas.Any(x => x.FixtureReference == bet.FixtureReference))
-                {
-                    _db.MatchBettingDatas.Add(bet);
-                }
-            }
-            _db.SaveChanges();
+            //    if (_db.MatchBettingDatas.Any(x => x.MatchDataReference != recordToEdit.MatchDataReference))
+            //    {
+            //        _db.MatchBettingDatas.Add(recordToEdit);
+            //        _db.SaveChangesAsync();
+            //    }
+            //}
+            //_db.SaveChanges();
 
             var bettingData = new BettingData();
             var pro12Data = bettingData.GetMatchBettingData;

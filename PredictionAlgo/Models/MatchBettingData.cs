@@ -33,6 +33,7 @@ namespace PredictionAlgo.Models
 
         public MatchBettingData(WebScraper.OddsSpreads oddsSpreads)
         {
+            MatchDataReference = oddsSpreads.HomeTeam + oddsSpreads.Date;
             HomeTeam = (Team)Enum.Parse(typeof(Team), oddsSpreads.HomeTeam);
             HomeSpread = Convert.ToDouble(oddsSpreads.HomeSpread);
             HomeTeamOdds = Convert.ToDecimal(oddsSpreads.HomeTeamDecimalOdds);
@@ -40,10 +41,12 @@ namespace PredictionAlgo.Models
             AwaySpread = Convert.ToDouble(oddsSpreads.AwaySpread);
             AwayTeamOdds = Convert.ToDecimal(oddsSpreads.AwayTeamDecimalOdds);
             FixtureDate = oddsSpreads.Date;
+            FixtureReference = oddsSpreads.HomeTeam + oddsSpreads.Date;
             TimeStamp = DateTime.Now;
         }
         public MatchBettingData()
         {
+            MatchDataReference = string.Empty;
             HomeTeam = Team.None;
             HomeSpread = 0;
             HomeTeamOdds = 0;
