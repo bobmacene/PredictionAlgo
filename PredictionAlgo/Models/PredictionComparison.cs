@@ -13,13 +13,13 @@ namespace PredictionAlgo.Models
         [DataType(DataType.Date)]
         [DisplayName("Fixture Date ")]
         public DateTime? FixtureDate { get; set; }
-        [DisplayName("Predicted Score Delta ")]
+        [DisplayName("Predicted Delta ")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double AlgoScoreSpreadPrediction { get; set; }
         [DisplayName("Book v Predicted")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double BookVsPrediction { get; set; }
-        [DisplayName("Actual Score Delta")]
+        [DisplayName("Actual Delta")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double ActualScoreDelta { get; set; }
         [DisplayName("Backed Team ")]
@@ -30,11 +30,11 @@ namespace PredictionAlgo.Models
         public Team? AwayTeam { get; set; }
         public double HomeSpread { get; set; }
         public double AwaySpread { get; set; }
-
         public MatchBettingData BettingData { get; }
 
         public PredictionComparison() { }  
-        public PredictionComparison(MatchBettingData bettingData, Team? teamToBack, Team? swerveTeam, double algoScoreSpreadPrediction)
+        public PredictionComparison(
+            MatchBettingData bettingData, Team? teamToBack, Team? swerveTeam, double algoScoreSpreadPrediction)
         {
             FixtureDate = bettingData.FixtureDate;
             HomeTeam = bettingData.HomeTeam;
@@ -61,19 +61,19 @@ namespace PredictionAlgo.Models
             TeamToBack = GetTeamToBack(fixture.HomeTeam, fixture.AwayTeam, fixture.PredictedDelta, betting.HomeSpread);
             AlgoScoreSpreadPrediction = fixture.PredictedDelta;
             BookVsPrediction = GetBookVsPrediction(fixture.PredictedDelta, betting.HomeSpread);
+            ActualScoreDelta = fixture.ScoreDelta;
             TimeStamp = DateTime.Now;
         }
 
-        private double GetBookVsPrediction(double predictionDelta, double bookSpread)
+        private static double GetBookVsPrediction(double predictionDelta, double bookSpread)
         {
-            return predictionDelta - bookSpread;
+            return predictionDelta + bookSpread;
         }
 
-        private static Team? GetTeamToBack(Team? homeTeam, Team? awayTeam, double predictedScoreSpread, double bookScoreSpread)
+        private static Team? GetTeamToBack(Team? homeTeam, Team? awayTeam, double predictedDelta, double bookScoreSpread)
         {
-            var predictedVsBookScoreSpread = predictedScoreSpread - bookScoreSpread;
-            return  predictedVsBookScoreSpread < 0 ? homeTeam : awayTeam;
+            return predictedDelta - bookScoreSpread > 0 ? homeTeam : awayTeam;
         }
+
     }
-
 }

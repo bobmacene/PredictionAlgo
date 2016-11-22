@@ -74,6 +74,6 @@ namespace PredictionAlgo.Models
                 return result.PredictedScoreDelta;
             }
         }
-        public string GetFixtureReference => WebScraper.GetFixtureReference(SelectHomeTeam, SelectDate);
+        //public string GetFixtureReference => WebScraper.GetFixtureReference(SelectHomeTeam, SelectDate);
     }
 }

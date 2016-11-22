@@ -6,17 +6,17 @@ namespace PredictionAlgo.Models.DataModel
 {
     public class BettingData
     {
-        private const string HCapCouponPath = @"http://www.paddypower.com/bet/rugby-union/rugby-hcap-coupon";
-        //private const string HCapCouponPath = "file:///C:/Users/bob/Documents/ITT Project/BettingHtml/Rugby H'Cap Betting from Paddy Power_20160922.html";
-        private readonly string _uriHCapCoupon = new Uri(HCapCouponPath).AbsoluteUri;
+        //private const string HCapCouponPath = @"http://www.paddypower.com/bet/rugby-union/rugby-hcap-coupon";
+        private const string HCapCouponPath = "file://C:/Users/bob/Documents/" + "ITT Project/BettingHtml/Rugby H'Cap Betting from Paddy Power_20160922.html";
+        private readonly string _uriHCapCoupon = new Uri(HCapCouponPath).LocalPath;
         public ICollection<MatchBettingData> MatchBettingDataList { get; set; }
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
-        public ICollection<MatchBettingData> GetMatchBettingData
+        public ICollection<MatchBettingData> GetCurrentBettingData
         {
             get
             {
                 var webScraper = new WebScraper();
-                MatchBettingDataList = webScraper.GetMatchBettingData(webScraper.GetSpreadsAndOdds(_uriHCapCoupon ));
+                MatchBettingDataList = webScraper.GetMatchBettingData(webScraper.GetSpreadsAndOdds(_uriHCapCoupon));
                 foreach (var bettingData in MatchBettingDataList)
                 {
                     bettingData.FixtureReference = WebScraper.GetFixtureReference(bettingData.HomeTeam, bettingData.FixtureDate);
@@ -39,6 +39,7 @@ namespace PredictionAlgo.Models.DataModel
                 return MatchBettingDataList;
             }
         }
+
     }
 }
 #region FilePaths
@@ -52,4 +53,18 @@ namespace PredictionAlgo.Models.DataModel
 //"file:///C:/Users/rip/Documents/ITT/Project/BettingHtml&Excel/2016.08.16_French Top 14 Betting " 
 #endregion
 
-   
+//foreach (var bet in _db.MatchBettingDatas)
+//{
+//    var recordToEdit = _db.MatchBettingDatas.Find(bet.MatchDataReference);
+//    _db.MatchBettingDatas.Remove(recordToEdit);
+//    _db.SaveChangesAsync();
+
+//    recordToEdit.FixtureReference  = WebScraper.GetFixtureReference(recordToEdit.HomeTeam, recordToEdit.FixtureDate);
+
+//    if (_db.MatchBettingDatas.Any(x => x.MatchDataReference != recordToEdit.MatchDataReference))
+//    {
+//        _db.MatchBettingDatas.Add(recordToEdit);
+//        _db.SaveChangesAsync();
+//    }
+//}
+//_db.SaveChanges();

@@ -45,10 +45,7 @@ namespace PredictionAlgo.Models.ViewModel
 
         public float GetAverageHomeScoreLastFiveHomeGames(Team? team, DateTime? date, PredictionAlgoContext context)
         {
-            if (team == null || date == null)
-            {
-                return 0;
-            }
+            if (team == null || date == null) return 0;
 
             var homeResults = GetHomeTeamResults(context);
 
@@ -64,8 +61,7 @@ namespace PredictionAlgo.Models.ViewModel
             }
             else
             {
-                averageHomeScore = (float)
-                homeResults[team].Where(X => X.FixtureDate <= date)
+                averageHomeScore = (float)homeResults[team].Where(X => X.FixtureDate <= date)
                 .Take(5)
                 .Select(x => x.HomeScore)
                 .Average();
@@ -76,14 +72,11 @@ namespace PredictionAlgo.Models.ViewModel
 
         public float GetAverageScoreDeltaLastFiveHomeGames(Team? team, DateTime? date, PredictionAlgoContext context)
         {
-            if (team == null || date == null)
-            {
-                return 0;
-            }
+            if (team == null || date == null) return 0;
+
             var homeResults = GetHomeTeamResults(context);
 
-            return (float)
-                homeResults[team].Where(X => X.FixtureDate <= date)
+            return (float) homeResults[team].Where(X => X.FixtureDate <= date)
                 .Take(5)
                 .Select(x => x.ScoreDelta)
                 .Average();
@@ -91,14 +84,11 @@ namespace PredictionAlgo.Models.ViewModel
 
         public float GetAverageAwayScoreLastFiveAwayGames(Team? team, DateTime? date, PredictionAlgoContext context)
         {
-            if (team == null || date == null)
-            {
-                return 0;
-            }
+            if (team == null || date == null) return 0;
+
             var awayResults = GetAwayTeamResults(context);
 
-            return (float)
-                awayResults[team].Where(X => X.FixtureDate <= date)
+            return (float) awayResults[team].Where(X => X.FixtureDate <= date)
                 .Take(5)
                 .Select(x => x.AwayScore)
                 .Average();
@@ -106,24 +96,19 @@ namespace PredictionAlgo.Models.ViewModel
 
         public float GetAverageScoreDeltaLastFiveAwayGames(Team? team, DateTime? date, PredictionAlgoContext context)
         {
-            if (team == null || date == null)
-            {
-                return 0;
-            }
+            if (team == null || date == null) return 0;
+
             var awayResults = GetAwayTeamResults(context);
 
-            return (float)
-                awayResults[team].Where(X => X.FixtureDate <= date)
+            return (float) awayResults[team].Where(X => X.FixtureDate <= date)
                 .Take(5)
                 .Select(x => x.ScoreDelta)
                 .Average();
         }
         public float GetAverageScoreDeltaOfLastTwoResultsBetweenTeams(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
         {
-            if (homeTeam == null || awayTeam == null || date == null)
-            {
-                return 0;
-            }
+            if (homeTeam == null || awayTeam == null || date == null) return 0;
+
             var homeResults = GetHomeTeamResults(context);
             var awayResults = GetAwayTeamResults(context);
 
@@ -182,7 +167,8 @@ namespace PredictionAlgo.Models.ViewModel
                 AverageAwayScoreLastFiveAwayGames = scoreDeltalastFiveHomeResults,
                 AverageScoreDeltaLastFiveAwayGames = scoreDeltalastFiveAwayResults,
                 AverageScoreDeltaOfLastTwoResultsBetweenTeams = lastTwoResultsBtwnTeams,
-                PredictedScoreDelta = ApplySpreadChangeForDate(predictedDelta, (DateTime)date)
+                PredictedScoreDelta =  predictedDelta
+                //PredictedScoreDelta = ApplySpreadChangeForDate(predictedDelta, (DateTime)date)
             };
         }
 

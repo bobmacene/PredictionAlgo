@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "ResultsSeason2016_2017";
 }
-<div style="background-color:darkgoldenrod">            
+<div style="background-color:azure">            
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li>@Html.ActionLink("Results 2015/2016", "ResultsSeason2015_2016", "Fixtures")
@@ -103,9 +103,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PredictionOutcome)
                 </td>
-                <td>
-                        @Html.ActionLink("Details", "Details", new { id=item.FixtureReference })
-                    </td>
+                @*<td asp:Label ID="SuccessColor">
+                    @Html.DisplayFor(modelItem => item.PredictionOutcome)
+                    if(item.PredictionOutcome == Prediction.Success)
+                    {
+                        Label SuccessColor= (Label)item.FindControl("SuccessColor");
+                        lbl.Attributes.Add("style", "background-color:Green;");
+                    }
+                </td>*@
             </tr>
         }
 

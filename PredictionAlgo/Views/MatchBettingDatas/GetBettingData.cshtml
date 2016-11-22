@@ -4,19 +4,11 @@
     ViewBag.Title = "Index";
 }
 <div>
-    <h2>View current online betting information by clicking below button:</h2>
+    <h2>Current Match Betting Data</h2>
+    <h6>as at:  @DateTime.Now</h6>
 </div>
 
-
-<div>
-    <input type="button" class="btn btn-info" value="Get Current Online Betting Data" 
-           onclick="@("window.location.href='" + @Url.Action("GetBettingData", "MatchBettingDatas") + "'");" />
-</div>
-<br/>
-
-<div>
-    <h2>Previous betting data:</h2>
-</div>
+<h3 style="color:red"> @ViewData["NoData"]</h3>
 
 <table class="table">
     <tr>

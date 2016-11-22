@@ -226,7 +226,6 @@
     <Compile Include="Models\PredictionComparison.cs" />
     <Compile Include="Models\ResultStatistics.cs" />
     <Compile Include="Models\DataModel\BettingData.cs" />
-    <Compile Include="Models\TeamsToBack.cs" />
     <Compile Include="Models\ViewModel\FixtureIcalParser.cs" />
     <Compile Include="Models\ViewModel\FixtureRanges.cs" />
     <Compile Include="Models\ViewModel\PredictedResult.cs" />
@@ -301,6 +300,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\PredictionComparisons\AllPreviousComparisons.cshtml" />
+    <Content Include="Views\MatchBettingDatas\GetBettingData.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

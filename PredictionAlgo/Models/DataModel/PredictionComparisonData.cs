@@ -89,7 +89,7 @@ namespace PredictionAlgo.Models.DataModel
 
             _db.SaveChanges();
 
-            return predictionComparisons;
+            return distinctList;
         }
         private static IEnumerable<FixtureAndBettingData> GetFixtureAndBettingDatas(PredictionAlgoContext context)
         {
@@ -100,10 +100,13 @@ namespace PredictionAlgo.Models.DataModel
 
             foreach (var fixture in fixtures)
             {
-                fixturesWithBettingData.AddRange(
-                    from betting in bettingData
-                    where fixture.FixtureReference == betting.FixtureReference
-                    select new FixtureAndBettingData(fixture, betting));
+                foreach (var betData in bettingData)
+                {
+                    if (fixture.FixtureReference == betData.FixtureReference)
+                    {
+                        fixturesWithBettingData.Add(new FixtureAndBettingData(fixture, betData));
+                    }
+                }
             }
             return fixturesWithBettingData;
         }
@@ -111,7 +114,7 @@ namespace PredictionAlgo.Models.DataModel
         private PredictionOutcome GetPredictionOutcome( MatchBettingData bettingData, double predictedScoreDelta, double actualScoreDelta)
         {
             var checkTeamToBackOutcome = CheckTeamToBackOutcome(bettingData, predictedScoreDelta);
-            var backedTeamOutcome = CheckTheResult_ActualDeltaVsPredictedDelta(actualScoreDelta, predictedScoreDelta);
+            var backedTeamOutcome = CheckResultAgainstActualDeltaVsPredictedDelta(actualScoreDelta, predictedScoreDelta);
             return checkTeamToBackOutcome == PredictionOutcome.Success && backedTeamOutcome == PredictionOutcome.Success
                 ? PredictionOutcome.Success
                 : PredictionOutcome.Fail;
@@ -128,7 +131,7 @@ namespace PredictionAlgo.Models.DataModel
             return teamToBackBookDelta > predictedScoreDelta ? PredictionOutcome.Success : PredictionOutcome.Fail;
         }
 
-        private static PredictionOutcome CheckTheResult_ActualDeltaVsPredictedDelta(double actualScoreDelta, double predictedScoreDelta)
+        private static PredictionOutcome CheckResultAgainstActualDeltaVsPredictedDelta(double actualScoreDelta, double predictedScoreDelta)
         {
             if(actualScoreDelta > 0)
             {
@@ -152,8 +155,8 @@ namespace PredictionAlgo.Models.DataModel
                                                     + scoreDeltalastFiveAwayResults
                                                     + lastTwoResultsBtwnTeams)
                                                     / 4;
-
-            return _predictedResult.ApplySpreadChangeForDate(result, date);
+            return result;
+            //return _predictedResult.ApplySpreadChangeForDate(result, date);
         }
 
         private static double GetActualScoreDelta(string fixtureReference, IEnumerable<Fixture> fixtures)
@@ -205,6 +208,5 @@ namespace PredictionAlgo.Models.DataModel
             BettingData = betting;
         }
 
-        public FixtureAndBettingData() { }
     }
 }

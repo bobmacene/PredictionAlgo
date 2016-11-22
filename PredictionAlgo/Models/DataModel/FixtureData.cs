@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 using PredictionAlgo.Models.ViewModel;
 
 namespace PredictionAlgo.Models.DataModel
@@ -66,7 +64,7 @@ namespace PredictionAlgo.Models.DataModel
             }
         }
 
-        private Fixture GetFutureFixture(PredictedResult predictedResult, PredictionAlgoContext context, string fixture)
+        private static Fixture GetFutureFixture(PredictedResult predictedResult, PredictionAlgoContext context, string fixture)
         {
             var regex = new Regex("UID:(?<date>[0-9]+)T\\d+Z(?<homeTeam>[a-zA-Z ]+) v  (?<awayTeam>[a-zA-Z ]+)");
             var match = regex.Match(fixture);
@@ -93,7 +91,7 @@ namespace PredictionAlgo.Models.DataModel
             };
         }
 
-        private Fixture GetResult(PredictedResult predictedResult, PredictionAlgoContext context, string fixture)
+        private static Fixture GetResult(PredictedResult predictedResult, PredictionAlgoContext context, string fixture)
         {
             var regex = new Regex("UID:(?<date>[0-9]+)T\\d+Z(?<homeTeam>[a-zA-Z ]+) (?<homeScore>[0-9]+) - (?<awayScore>[0-9]+) (?<awayTeam>[a-zA-Z ]+)");
             var match = regex.Match(fixture);
@@ -124,7 +122,7 @@ namespace PredictionAlgo.Models.DataModel
             };
         }
 
-        private PredictionOutcome GetPredictionOutcome(float predictedDelta, int actualDelta)
+        private static PredictionOutcome GetPredictionOutcome(float predictedDelta, int actualDelta)
         {
             return predictedDelta < actualDelta ? PredictionOutcome.Success : PredictionOutcome.Fail;
         }

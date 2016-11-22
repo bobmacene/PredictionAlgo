@@ -25,10 +25,11 @@ namespace PredictionAlgo.Controllers
 
         public ActionResult AllPreviousComparisons()
         {
-           
+            var predict = new PredictionComparisonData();
 
             ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
-            return View(_db.PredictionComparisons.ToList().OrderByDescending(x => x.FixtureDate));
+
+            return View(predict.GetAllPredictionComparisons(_db).OrderByDescending(x => x.FixtureDate));
         }
         // GET: PredictionComparisons/Details/5
         public ActionResult Details(string id)

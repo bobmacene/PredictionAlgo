@@ -4,7 +4,6 @@ using System.Net;
 using System.Web.Mvc;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.DataModel;
-using PredictionAlgo.Models.ViewModel;
 
 namespace PredictionAlgo.Controllers
 {
@@ -15,29 +14,16 @@ namespace PredictionAlgo.Controllers
         // GET: MatchBettingDatas
         public ActionResult Index()
         {
-            //foreach (var bet in _db.MatchBettingDatas)
-            //{
-            //    var recordToEdit = _db.MatchBettingDatas.Find(bet.MatchDataReference);
-            //    _db.MatchBettingDatas.Remove(recordToEdit);
-            //    _db.SaveChangesAsync();
-
-            //    recordToEdit.FixtureReference  = WebScraper.GetFixtureReference(recordToEdit.HomeTeam, recordToEdit.FixtureDate);
-
-            //    if (_db.MatchBettingDatas.Any(x => x.MatchDataReference != recordToEdit.MatchDataReference))
-            //    {
-            //        _db.MatchBettingDatas.Add(recordToEdit);
-            //        _db.SaveChangesAsync();
-            //    }
-            //}
-            //_db.SaveChanges();
-
+            return View(_db.MatchBettingDatas.ToList().OrderByDescending(x=>x.FixtureDate));
+        }
+        public ActionResult GetBettingData()
+        {
             var bettingData = new BettingData();
-            var pro12Data = bettingData.GetMatchBettingData;
+            var pro12Data = bettingData.GetCurrentBettingData;
 
             if (pro12Data.Count == 0) ViewData["NoData"] = "No currently betting odds available online";
             return View(pro12Data.ToList());
         }
-
         // GET: MatchBettingDatas/Details/5
         public ActionResult Details(string id)
         {
