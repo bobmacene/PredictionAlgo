@@ -22,42 +22,42 @@ namespace PredictionAlgo.Controllers
         {
             var results = new ResultsSeason2010_2011();
 
-            return View(results.GetSeasonResults(_db).ToList());
+            return View(results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate));
         }
 
         public ActionResult ResultsSeason2011_2012()
         {
             var results = new ResultsSeason2011_2012();
 
-            return View(results.GetSeasonResults(_db).ToList());
+            return View(results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate));
         }
 
         public ActionResult ResultsSeason2012_2013()
         {
             var results = new ResultsSeason2012_2013();
 
-            return View( results.GetSeasonResults(_db).ToList());
+            return View( results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate));
         }
         public ActionResult ResultsSeason2013_2014()
         {
             var results = new ResultsSeason2013_2014();
-            return View(results.GetSeasonResults(_db).ToList());
+            return View(results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate));
         }
 
         public ActionResult ResultsSeason2014_2015()
         {
             var results = new ResultsSeason2014_2015 ();
-            return View(results.GetSeasonResults(_db).ToList());
+            return View(results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate));
         }
         public ActionResult ResultsSeason2015_2016()
         {
             var results = new ResultsSeason2015_2016();
-            return View(results.GetSeasonResults(_db).ToList());
+            return View(results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate));
         }
         public ActionResult ResultsSeason2016_2017()
         {
             var results = new ResultsSeason2016_2017();
-            return View(results.GetSeasonResults(_db).ToList());
+            return View(results.GetSeasonResults(_db).ToList().OrderByDescending(x=>x.FixtureDate));
         }
         // GET: Fixtures
         public ActionResult Index()
@@ -67,7 +67,7 @@ namespace PredictionAlgo.Controllers
             //var scrapedFixtures = fixtures.GetIcalFixturesAndResults;
             //var currentSeasonResults = new ResultsSeason2016_2017().GetSeasonResults(_db);
 
-            return View(scrapedFixtures.ToList());
+            return View(scrapedFixtures.ToList().OrderByDescending(x=>x.FixtureDate));
         }
 
         // GET: Fixtures/Details/5

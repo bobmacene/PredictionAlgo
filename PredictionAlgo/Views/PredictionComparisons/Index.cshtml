@@ -6,7 +6,9 @@
 }
 
 <h2>Prediction Comparison</h2>
-    <h4>Algorthym Overall Prediction Success Rate: @ViewData["SuccessRate"]</h4>
+<h3>Recommended Teams To Back on Upcoming Fixtures</h3>
+<br/>
+<h4 style="color:red">@ViewData["UpcomingFixtureAvailability"]</h4>
 
 <div>
     <input type="button" class="btn btn-info" value="Get All Previous Comparisons" 
@@ -38,15 +40,8 @@
             @Html.DisplayNameFor(model => model.BookVsPrediction)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ActualScoreDelta)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.TeamToBack)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PredictionResult)
-        </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -73,13 +68,7 @@
             @Html.DisplayFor(modelItem => item.BookVsPrediction)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ActualScoreDelta)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.TeamToBack)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PredictionResult)
         </td>
     </tr>
 }

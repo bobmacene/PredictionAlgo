@@ -11,9 +11,9 @@ namespace PredictionAlgo.Models
         public DateTime TimeStamp { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy MM dd}")]
         [DataType(DataType.Date)]
-        [DisplayName("Fixture Date ")]
+        [DisplayName("Fixture Date")]
         public DateTime? FixtureDate { get; set; }
-        [DisplayName("Predicted Delta ")]
+        [DisplayName("Predicted Delta")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double AlgoScoreSpreadPrediction { get; set; }
         [DisplayName("Book v Predicted")]
@@ -22,7 +22,7 @@ namespace PredictionAlgo.Models
         [DisplayName("Actual Delta")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double ActualScoreDelta { get; set; }
-        [DisplayName("Backed Team ")]
+        [DisplayName("Team To Back ")]
         public Team? TeamToBack { get; set; }
         public Team? SwerveTeam { get; set; }
         public PredictionOutcome PredictionResult { get; set; }

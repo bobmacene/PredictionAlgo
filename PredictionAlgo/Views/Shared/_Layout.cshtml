@@ -19,10 +19,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Match Betting Data", "Index", "MatchBettingDatas")</li>
-                    <li>@Html.ActionLink("Prediction Comparisons", "Index", "PredictionComparisons")</li>
-                    <li>@Html.ActionLink("Predict Result", "PredictResult", "ResultStatistics")</li>
-                    <li>@Html.ActionLink("Results", "ResultsSeason2016_2017", "Fixtures")</li>
+                    <li>@Html.ActionLink("Match Betting Data", "Index", "MatchBettingDatas", null, new { title = "Get betting info for upcoming/historical fixtures" })</li>
+                    <li>@Html.ActionLink("Prediction Comparisons", "Index", "PredictionComparisons", null, new { title = "Get the teams to back on upcoming fixtures and see historical prediction comparisons" })</li>
+                    <li>@Html.ActionLink("Predict Result", "PredictResult", "ResultStatistics", null, new { title = "Get next fixture score prediction btwn 2 teams or see their historical stats for a given date" })</li>
+                    <li>@Html.ActionLink("Results", "ResultsSeason2016_2017", "Fixtures", null, new {title= "See results from previous seasons" })</li>
                 </ul>
             </div>
         </div>

@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -15,14 +16,18 @@ namespace PredictionAlgo.Controllers
         // GET: PredictionComparisons
         public ActionResult Index()
         {
-            _predictCompare.AddPredictionComparisonsToFile(_db.MatchBettingDatas.ToList());
+            var upcomingFixturesWithBettingData = _db.MatchBettingDatas.Where(x => x.FixtureDate > DateTime.Now);
 
-            ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
+            ViewData["UpcomingFixtureAvailability"] = upcomingFixturesWithBettingData.Any() 
+                ? string.Empty
+                : "Currently no fixtures are available";
 
-           // ViewData["DataAvailable"] = 
-            return View(_db.PredictionComparisons.ToList().OrderByDescending(x=>x.FixtureDate));
+            if(upcomingFixturesWithBettingData.Any())
+                _predictCompare.AddPredictionComparisonsToFile(upcomingFixturesWithBettingData);
+          
+            return View(_db.PredictionComparisons.Where(x=>x.FixtureDate >= DateTime.Now).OrderBy(x=>x.FixtureDate).ToList());
         }
-
+        
         public ActionResult AllPreviousComparisons()
         {
             var predict = new PredictionComparisonData();

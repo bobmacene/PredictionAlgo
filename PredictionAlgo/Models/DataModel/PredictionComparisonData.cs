@@ -21,11 +21,11 @@ namespace PredictionAlgo.Models.DataModel
             foreach (var betData in bettingData)
             {
                 var predictedScoreDelta = GetPredictedScoreSpread(betData.HomeTeam, betData.AwayTeam, betData.FixtureDate, _db);
-                GetTeamToBack(betData.HomeTeam, betData.AwayTeam, predictedScoreDelta, betData.HomeSpread);
+                GetTeamToBack(betData, predictedScoreDelta);
 
                 var prediction = new PredictionComparison(betData, _teamToBack, _swerveTeam, predictedScoreDelta);
                 prediction.ActualScoreDelta = GetActualScoreDelta(prediction.BettingData.FixtureReference, fixtures);
-                prediction.PredictionResult = GetPredictionOutcome(betData,  predictedScoreDelta, prediction.ActualScoreDelta);
+               
                 prediction.PredictionComparisonReference = WebScraper.GetFixtureReference(prediction.HomeTeam, prediction.BettingData.FixtureDate);
                 prediction.BettingData.MatchDataReference = prediction.PredictionComparisonReference;
                 PredictedComparisonDataList.Add(prediction);
@@ -64,6 +64,9 @@ namespace PredictionAlgo.Models.DataModel
                 prediction.SwerveTeam = prediction.TeamToBack == prediction.HomeTeam
                     ? prediction.AwayTeam
                     : prediction.HomeTeam;
+
+                prediction.PredictionResult = prediction.PredictionResult = 
+                    GetPredictionOutcome(prediction.BettingData, prediction.AlgoScoreSpreadPrediction, prediction.ActualScoreDelta);
             }
 
             var distinctList = predictionComparisons.GroupBy(x => x.PredictionComparisonReference)
@@ -169,11 +172,21 @@ namespace PredictionAlgo.Models.DataModel
             return -1000;
         }
 
-        private void GetTeamToBack(Team? homeTeam, Team? awayTeam, double predictedScoreSpread, double bookScoreSpread)
+        private void GetTeamToBack(MatchBettingData betData, double predictedScoreSpread)
         {
-            var predictedVsBookScoreSpread = predictedScoreSpread - bookScoreSpread;
-            _teamToBack = predictedVsBookScoreSpread < 0 ? homeTeam : awayTeam;
-            _swerveTeam = _teamToBack == homeTeam ? awayTeam : homeTeam;
+            double predictedVsBookScoreSpread = 0;
+            
+            if (predictedScoreSpread > 0 && betData.HomeSpread > 0)
+                predictedVsBookScoreSpread = predictedScoreSpread - betData .HomeSpread;
+            else if(predictedScoreSpread > 0 && betData.HomeSpread < 0)
+                predictedVsBookScoreSpread = predictedScoreSpread + betData.HomeSpread;
+            else if (predictedScoreSpread < 0 && betData.HomeSpread > 0)
+                predictedVsBookScoreSpread = predictedScoreSpread + betData.HomeSpread;
+            else if (predictedScoreSpread < 0 && betData.HomeSpread < 0)
+                predictedVsBookScoreSpread = predictedScoreSpread - betData.HomeSpread;
+
+            _teamToBack = predictedVsBookScoreSpread > 0 ? betData.HomeTeam : betData.AwayTeam;
+            _swerveTeam = _teamToBack == betData.HomeTeam ? betData .AwayTeam : betData.HomeTeam;
         }
 
         public double GetTotalPreditionSuccess

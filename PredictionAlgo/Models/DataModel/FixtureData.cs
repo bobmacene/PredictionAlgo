@@ -23,8 +23,16 @@ namespace PredictionAlgo.Models.DataModel
 
                 foreach (var fixture in scrapedFixturesAndResultsList)
                 {
-                    if (existingFixtureReferences.Contains(fixture.FixtureReference)) continue;
-                    _db.Fixtures.Add(fixture);
+                    if (existingFixtureReferences.Contains(fixture.FixtureReference))
+                    {
+                        var fixtureToEdit = _db.Fixtures.FirstOrDefault(x => x.FixtureReference == fixture.FixtureReference);
+                        _db.Fixtures.Remove(fixtureToEdit);
+                        _db.Fixtures.Add(fixture);
+                    }
+                    else
+                    {
+                        _db.Fixtures.Add(fixture);
+                    }
                 }
                 _db.SaveChanges();
                 return scrapedFixturesAndResultsList;
