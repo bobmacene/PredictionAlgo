@@ -61,9 +61,9 @@ namespace PredictionAlgo.Models.DataModel
 
             foreach (var prediction in predictionComparisons)
             {
-                prediction.SwerveTeam = prediction.TeamToBack == prediction.HomeTeam
-                    ? prediction.AwayTeam
-                    : prediction.HomeTeam;
+                prediction.TeamToBack = GetTeamToBack(prediction.BettingData, prediction.AlgoScoreSpreadPrediction);
+
+                prediction.SwerveTeam = prediction.TeamToBack == prediction.HomeTeam ? prediction.AwayTeam : prediction.HomeTeam;
 
                 prediction.PredictionResult = prediction.PredictionResult = 
                     GetPredictionOutcome(prediction.BettingData, prediction.AlgoScoreSpreadPrediction, prediction.ActualScoreDelta);
@@ -172,7 +172,7 @@ namespace PredictionAlgo.Models.DataModel
             return -1000;
         }
 
-        private void GetTeamToBack(MatchBettingData betData, double predictedScoreSpread)
+        private Team? GetTeamToBack(MatchBettingData betData, double predictedScoreSpread)
         {
             double predictedVsBookScoreSpread = 0;
             
@@ -185,8 +185,9 @@ namespace PredictionAlgo.Models.DataModel
             else if (predictedScoreSpread < 0 && betData.HomeSpread < 0)
                 predictedVsBookScoreSpread = predictedScoreSpread - betData.HomeSpread;
 
-            _teamToBack = predictedVsBookScoreSpread > 0 ? betData.HomeTeam : betData.AwayTeam;
-            _swerveTeam = _teamToBack == betData.HomeTeam ? betData .AwayTeam : betData.HomeTeam;
+            _swerveTeam = _teamToBack == betData.HomeTeam ? betData.AwayTeam : betData.HomeTeam;
+
+            return _teamToBack = predictedVsBookScoreSpread > 0 ? betData.HomeTeam : betData.AwayTeam;    
         }
 
         public double GetTotalPreditionSuccess
@@ -200,6 +201,7 @@ namespace PredictionAlgo.Models.DataModel
                 return numberOfSuccessPredictions / totalPredictionCount;
             }
         }
+
         private void UpdateMatchBettingDataReferences() // used initially to update references
         {
             foreach (var bettingData in _db.MatchBettingDatas.ToList())

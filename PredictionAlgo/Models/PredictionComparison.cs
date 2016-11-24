@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using PredictionAlgo.Models.DataModel;
 
 namespace PredictionAlgo.Models
 {
@@ -49,6 +50,7 @@ namespace PredictionAlgo.Models
             TimeStamp = DateTime.Now;
         }
     
+        private PredictionComparisonData predictData = new PredictionComparisonData();
         public PredictionComparison(Fixture fixture, MatchBettingData betting)
         {
             PredictionComparisonReference = fixture.FixtureReference;
@@ -58,7 +60,6 @@ namespace PredictionAlgo.Models
             AwayTeam = fixture.AwayTeam;
             AwaySpread = betting.AwaySpread;
             BettingData = betting;
-            TeamToBack = GetTeamToBack(fixture.HomeTeam, fixture.AwayTeam, fixture.PredictedDelta, betting.HomeSpread);
             AlgoScoreSpreadPrediction = fixture.PredictedDelta;
             BookVsPrediction = GetBookVsPrediction(fixture.PredictedDelta, betting.HomeSpread);
             ActualScoreDelta = fixture.ScoreDelta;
@@ -68,11 +69,6 @@ namespace PredictionAlgo.Models
         private static double GetBookVsPrediction(double predictionDelta, double bookSpread)
         {
             return predictionDelta + bookSpread;
-        }
-
-        private static Team? GetTeamToBack(Team? homeTeam, Team? awayTeam, double predictedDelta, double bookScoreSpread)
-        {
-            return predictedDelta - bookScoreSpread > 0 ? homeTeam : awayTeam;
         }
 
     }
