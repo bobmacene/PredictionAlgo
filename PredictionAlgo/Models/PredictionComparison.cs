@@ -46,11 +46,10 @@ namespace PredictionAlgo.Models
             TeamToBack = teamToBack;
             SwerveTeam = swerveTeam;
             AlgoScoreSpreadPrediction = algoScoreSpreadPrediction;
-            BookVsPrediction = GetBookVsPrediction(algoScoreSpreadPrediction, bettingData.HomeSpread);
+            BookVsPrediction = algoScoreSpreadPrediction + bettingData.HomeSpread;
             TimeStamp = DateTime.Now;
         }
     
-        private PredictionComparisonData predictData = new PredictionComparisonData();
         public PredictionComparison(Fixture fixture, MatchBettingData betting)
         {
             PredictionComparisonReference = fixture.FixtureReference;
@@ -61,14 +60,9 @@ namespace PredictionAlgo.Models
             AwaySpread = betting.AwaySpread;
             BettingData = betting;
             AlgoScoreSpreadPrediction = fixture.PredictedDelta;
-            BookVsPrediction = GetBookVsPrediction(fixture.PredictedDelta, betting.HomeSpread);
+            BookVsPrediction = fixture.PredictedDelta + betting.HomeSpread;
             ActualScoreDelta = fixture.ScoreDelta;
             TimeStamp = DateTime.Now;
-        }
-
-        private static double GetBookVsPrediction(double predictionDelta, double bookSpread)
-        {
-            return predictionDelta + bookSpread;
         }
 
     }

@@ -316,10 +316,16 @@ namespace PredictionAlgo.Models.ViewModel
                 AwaySpread = new StringBuilder(awaySpread).Replace("(", string.Empty).Replace(")", string.Empty).Replace("+", string.Empty).ToString();
 
                 var oddsHomeTeamSplit = HomeTeamOdds.Split('/');
-                HomeTeamDecimalOdds = Convert.ToDecimal(oddsHomeTeamSplit[0]) / Convert.ToDecimal(oddsHomeTeamSplit[1]);
+                if (oddsHomeTeamSplit[0] == "evens")
+                    HomeTeamDecimalOdds = 1;
+                else
+                    HomeTeamDecimalOdds = Convert.ToDecimal(oddsHomeTeamSplit[0]) / Convert.ToDecimal(oddsHomeTeamSplit[1]);
 
                 var oddsAwayTeamSplit = awayTeamOdds.Split('/');
-                AwayTeamDecimalOdds = Convert.ToDecimal(oddsAwayTeamSplit[0]) / Convert.ToDecimal(oddsAwayTeamSplit[1]);
+                if (oddsAwayTeamSplit[0] == "evens")
+                    AwayTeamDecimalOdds = 1;
+                else
+                    AwayTeamDecimalOdds = Convert.ToDecimal(oddsAwayTeamSplit[0]) / Convert.ToDecimal(oddsAwayTeamSplit[1]);
             }
         }
     }

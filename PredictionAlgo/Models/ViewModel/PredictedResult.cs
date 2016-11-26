@@ -152,7 +152,7 @@ namespace PredictionAlgo.Models.ViewModel
 
             var lastTwoResultsBtwnTeams = GetAverageScoreDeltaOfLastTwoResultsBetweenTeams(homeTeam, awayTeam, date, context);
 
-            var predictedDelta = (aveHomeScoreLastFiveHomeResults - aveAwayScoreLastFiveAwayResults
+            var predictedDelta = (aveHomeScoreLastFiveHomeResults + aveAwayScoreLastFiveAwayResults
                                                     + scoreDeltalastFiveHomeResults
                                                     + scoreDeltalastFiveAwayResults
                                                     + lastTwoResultsBtwnTeams)
@@ -167,7 +167,7 @@ namespace PredictionAlgo.Models.ViewModel
                 AverageAwayScoreLastFiveAwayGames = scoreDeltalastFiveHomeResults,
                 AverageScoreDeltaLastFiveAwayGames = scoreDeltalastFiveAwayResults,
                 AverageScoreDeltaOfLastTwoResultsBetweenTeams = lastTwoResultsBtwnTeams,
-                PredictedScoreDelta =  predictedDelta
+                PredictedScoreDelta =  (float)predictedDelta
                 //PredictedScoreDelta = ApplySpreadChangeForDate(predictedDelta, (DateTime)date)
             };
         }

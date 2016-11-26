@@ -16,7 +16,7 @@ namespace PredictionAlgo.Controllers
         // GET: PredictionComparisons
         public ActionResult Index()
         {
-            var upcomingFixturesWithBettingData = _db.MatchBettingDatas.Where(x => x.FixtureDate > DateTime.Now);
+            var upcomingFixturesWithBettingData = _db.MatchBettingDatas.Where(x => x.FixtureDate >= DateTime.Now);
 
             ViewData["UpcomingFixtureAvailability"] = upcomingFixturesWithBettingData.Any() 
                 ? string.Empty
