@@ -152,7 +152,7 @@ namespace PredictionAlgo.Models.ViewModel
 
             var lastTwoResultsBtwnTeams = GetAverageScoreDeltaOfLastTwoResultsBetweenTeams(homeTeam, awayTeam, date, context);
 
-            var predictedDelta = (aveHomeScoreLastFiveHomeResults + aveAwayScoreLastFiveAwayResults
+            var predictedDelta = (aveHomeScoreLastFiveHomeResults - aveAwayScoreLastFiveAwayResults
                                                     + scoreDeltalastFiveHomeResults
                                                     + scoreDeltalastFiveAwayResults
                                                     + lastTwoResultsBtwnTeams)

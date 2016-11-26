@@ -1,11 +1,13 @@
-﻿@model IEnumerable<PredictionAlgo.Models.PredictionComparison>
+﻿@using System.Diagnostics.Eventing.Reader
+@using PredictionAlgo.Models
+@model IEnumerable<PredictionAlgo.Models.PredictionComparison>
 
         
 @{
     ViewBag.Title = "All Previous Comparisons";
 }
 
-<div style="background-color:azure">
+<div>
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li>@Html.ActionLink("Go to predictions comparisons for upcoming fixtures", "Index", "PredictionComparisons")
@@ -81,10 +83,18 @@
         <td>
             @Html.DisplayFor(modelItem => item.TeamToBack)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PredictionResult)
-        </td>
-      
+        @if (item.PredictionResult == PredictionOutcome.Success)
+        {
+            <td style="background-color:lightgreen">
+                @Html.DisplayFor(modelItem => item.PredictionResult)
+            </td>
+        }
+        else
+        {
+            <td style="background-color:lightcoral">
+                @Html.DisplayFor(modelItem => item.PredictionResult)
+            </td>
+        }
     </tr>
 }
 
