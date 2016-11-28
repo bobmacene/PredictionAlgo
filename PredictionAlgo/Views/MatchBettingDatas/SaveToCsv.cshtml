@@ -25,9 +25,9 @@
     <h2>Previous betting data:</h2>
 </div>
 <div align="right">
-    <h4 style="color: red">
+    <div style="color: red">
         @ViewData["CsvExport"];
-    </h4>
+    </div>
     <h4>
         @Html.ActionLink("Export betting data to csv", "SaveToCsv", "MatchBettingDatas", null,
         new { title = "Csv exports to C:\\Users\\TEMP\\PredictionAlgo.csv" });    
