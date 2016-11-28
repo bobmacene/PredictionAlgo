@@ -91,7 +91,7 @@ namespace PredictionAlgo.Models.DataModel
                 AwayScore = 0,
                 result = null,
                 ScoreDelta = 0,
-                PredictedDelta = predictedData.PredictedScoreDelta,
+                PredictedDelta = predictedResult.ApplySpreadChangeForDate(predictedData.PredictedScoreDelta, DateTime.Now),
                 ActualVersusPredictedDelta = 0 - predictedData.PredictedScoreDelta,
                 PredictedResult = predictedData.PredictedScoreDelta > 0 ? Result.HomeWin : Result.HomeLoss,
                 PredictionOutcome = null,
@@ -111,6 +111,7 @@ namespace PredictionAlgo.Models.DataModel
             var delta = homeScore - awayScore;
             var actualResult = delta < 0 ? Result.HomeLoss : delta == 0 ? Result.Draw : Result.HomeWin;
             var predictedData = predictedResult.GetPredictedResult(homeTeam, awayTeam, date, context);
+            var resultPrediction= delta > 0 ? Result.HomeWin : Result.HomeLoss;
 
             return new Fixture
             {
@@ -122,17 +123,17 @@ namespace PredictionAlgo.Models.DataModel
                 AwayScore = awayScore,
                 result = actualResult,
                 ScoreDelta = delta,
-                PredictedDelta = predictedData.PredictedScoreDelta,
+                PredictedDelta = predictedResult.ApplySpreadChangeForDate(predictedData.PredictedScoreDelta, DateTime.Now),
                 ActualVersusPredictedDelta = delta - predictedData.PredictedScoreDelta,
-                PredictedResult = delta > 0 ? Result.HomeWin : Result.HomeLoss,
-                PredictionOutcome = GetPredictionOutcome(predictedData.PredictedScoreDelta, delta),
+                PredictedResult = resultPrediction,
+                PredictionOutcome = GetPredictionOutcome(actualResult, resultPrediction),
                 Competition = Competition.Pro12
             };
         }
 
-        private static PredictionOutcome GetPredictionOutcome(float predictedDelta, int actualDelta)
+        private static PredictionOutcome GetPredictionOutcome(Result result, Result predictedResult)
         {
-            return predictedDelta < actualDelta ? PredictionOutcome.Success : PredictionOutcome.Fail;
+            return result == predictedResult ? PredictionOutcome.Success : PredictionOutcome.Fail;
         }
 
         private static DateTime GetDate(string date)
@@ -145,5 +146,20 @@ namespace PredictionAlgo.Models.DataModel
                 Convert.ToInt16(match.Groups["day"].Value));
         }
 
+        public double GetResultsWithoutSpreadsPredictionSuccessRate
+        {
+            get
+            {
+                double numberOfSuccessPredictions = _db.Fixtures.Count(
+                    x => x.PredictionOutcome == PredictionOutcome.Success);
+
+                double totalPredictionCount = _db.Fixtures
+                    .Where(x => x.ScoreDelta != 0)
+                    .GroupBy(x => x.FixtureReference)
+                    .Count();
+
+                return Math.Round(numberOfSuccessPredictions / totalPredictionCount * 100, 1);
+            }
+        }
     }
 }

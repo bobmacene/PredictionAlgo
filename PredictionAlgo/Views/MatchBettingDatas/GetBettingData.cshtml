@@ -11,7 +11,7 @@
 <h3 style="color: red"> @ViewData["NoData"]</h3>
 
 <div>
-    @if((string)@ViewData["NoData"] != "Currently no betting odds available online")
+    @if((string)@ViewData["NoData"] != "Currently no betting odds/spreads available online")
     {
         <input type="button" class="btn btn-info" value="Get teams to back for these fixtures"
            onclick="@("window.location.href='" + @Url.Action("Index", "PredictionComparisons") + "'");" />

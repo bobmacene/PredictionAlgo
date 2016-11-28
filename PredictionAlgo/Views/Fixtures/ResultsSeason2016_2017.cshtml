@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PredictionAlgo.Models.Fixture>
+﻿@using PredictionAlgo.Models
+@model IEnumerable<Fixture>
 
 @{
     ViewBag.Title = "ResultsSeason2016_2017";
@@ -22,9 +23,13 @@
     </div>
 </div>
 
-    <h2>Season 2016/2017</h2>
+<h2>Season 2016/2017</h2>
+<h5>Predictions on this page do not incorporate a spread. To see predictions that include online bookmaker spreads see Prediction Comparisons page.</h5>
 
-    <div >
+<h4>Result Prediction Success Rate: @ViewData["ResultsWithoutSpreadSuccessRate"] %</h4>
+
+
+<div >
         <input type="button" class="btn btn-info" value="Get Recent Results" onclick="@("window.location.href='" + @Url.Action("Index", "Fixtures") + "'");" />
     </div>
 
@@ -100,17 +105,18 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PredictedResult)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PredictionOutcome)
-                </td>
-                @*<td asp:Label ID="SuccessColor">
-                    @Html.DisplayFor(modelItem => item.PredictionOutcome)
-                    if(item.PredictionOutcome == Prediction.Success)
-                    {
-                        Label SuccessColor= (Label)item.FindControl("SuccessColor");
-                        lbl.Attributes.Add("style", "background-color:Green;");
-                    }
-                </td>*@
+                @if (item.PredictionOutcome == PredictionOutcome.Success)
+                {
+                    <td style="background-color: #dcf2de">
+                        @Html.DisplayFor(modelItem => item.PredictionOutcome)
+                    </td>
+                }
+                else
+                {
+                    <td style="background-color: #eacccd">
+                        @Html.DisplayFor(modelItem => item.PredictionOutcome)
+                    </td>
+                }
             </tr>
         }
 

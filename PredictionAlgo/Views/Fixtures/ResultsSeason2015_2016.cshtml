@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PredictionAlgo.Models.Fixture>
+﻿@using PredictionAlgo.Models
+@model IEnumerable<Fixture>
 
 @{
     ViewBag.Title = "ResultsSeason2015_2016";
@@ -23,7 +24,9 @@
     </div>
 </div>
     <h2>Season 2015/2016</h2>
+<h5>Predictions on this page do not incorporate a spread. To see predictions that include online bookmaker spreads see Prediction Comparisons page.</h5>
 
+<h4>Result Prediction Success Rate: @ViewData["ResultsWithoutSpreadSuccessRate"] %</h4>
     <table class="table-striped">
         <tr>
             <th>
@@ -95,12 +98,19 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PredictedResult)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PredictionOutcome)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.FixtureReference })
-                </td>
+
+                    @if (item.PredictionOutcome == PredictionOutcome.Success)
+                    {
+                    <td style="background-color: #dcf2de">
+                        @Html.DisplayFor(modelItem => item.PredictionOutcome)
+                    </td>
+                    }
+                    else
+                    {
+                        <td style="background-color: #eacccd">
+                            @Html.DisplayFor(modelItem => item.PredictionOutcome)
+                        </td>
+                    }
             </tr>
         }
 

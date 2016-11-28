@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PredictionAlgo.Models.Fixture>
+﻿@using PredictionAlgo.Models
+@model IEnumerable<Fixture>
 
 @{
     ViewBag.Title = "ResultsSeason2012_2013";
@@ -23,7 +24,9 @@
     </div>
 </div>
     <h2>Results Season 2012/2013</h2>
+<h5>Predictions on this page do not incorporate a spread. To see predictions that include online bookmaker spreads see Prediction Comparisons page.</h5>
 
+<h4>Result Prediction Success Rate: @ViewData["ResultsWithoutSpreadSuccessRate"] %</h4>
     <table class="table-striped">
         <tr>
             <th>
@@ -95,17 +98,20 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PredictedResult)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PredictionOutcome)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.FixtureReference })
-                </td>
+
+                    @if (item.PredictionOutcome == PredictionOutcome.Success)
+                    {
+                    <td style="background-color: #dcf2de">
+                        @Html.DisplayFor(modelItem => item.PredictionOutcome)
+                    </td>
+                    }
+                    else
+                    {
+                        <td style="background-color: #eacccd">
+                            @Html.DisplayFor(modelItem => item.PredictionOutcome)
+                        </td>
+                    }
             </tr>
         }
 
     </table>
-
-    @*@Html.ActionLink("Edit", "Edit", new { id = item.FixtureReference }) |
-        @Html.ActionLink("Details", "Details", new { id = item.FixtureReference }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.FixtureReference })*@

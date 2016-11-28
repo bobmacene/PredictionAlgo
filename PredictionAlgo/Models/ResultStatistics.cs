@@ -55,7 +55,7 @@ namespace PredictionAlgo.Models
             _predictedResult.GetAverageHomeScoreLastFiveHomeGames(SelectHomeTeam, SelectDate, _db);
 
         public float GetAverageScoreDeltaLastFiveHomeGames => 
-            _predictedResult.GetAverageScoreDeltaLastFiveHomeGames(SelectHomeTeam, SelectDate, _db);
+            _predictedResult.GetAverageHomeScoreLastFiveHomeGames(SelectHomeTeam, SelectDate, _db);
 
         public float GetAverageAwayScoreLastFiveAwayGames => 
             _predictedResult.GetAverageAwayScoreLastFiveAwayGames(SelectAwayTeam, SelectDate, _db);
@@ -74,6 +74,6 @@ namespace PredictionAlgo.Models
                 return result.PredictedScoreDelta;
             }
         }
-        //public string GetFixtureReference => WebScraper.GetFixtureReference(SelectHomeTeam, SelectDate);
+ 
     }
 }

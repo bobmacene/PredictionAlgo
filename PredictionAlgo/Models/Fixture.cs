@@ -44,20 +44,20 @@ namespace PredictionAlgo.Models
         [DataType(DataType.Date)]
         public DateTime? SelectDate { get; set; }
 
-        public Fixture NullFixture => new Fixture
-        {
-            FixtureDate = null,
-            result = null,
-            HomeTeam = null,
-            HomeScore = 0,
-            AwayTeam = null,
-            AwayScore = 0,
-            PredictedDelta = 0,
-            ActualVersusPredictedDelta = 0,
-            PredictedResult = null,
-            PredictionOutcome = null,
-            Competition = null
-        };
+        //public Fixture NullFixture => new Fixture
+        //{
+        //    FixtureDate = null,
+        //    result = null,
+        //    HomeTeam = null,
+        //    HomeScore = 0,
+        //    AwayTeam = null,
+        //    AwayScore = 0,
+        //    PredictedDelta = 0,
+        //    ActualVersusPredictedDelta = 0,
+        //    PredictedResult = null,
+        //    PredictionOutcome = null,
+        //    Competition = null
+        //};
     }
     public enum Result { HomeWin = 1, Draw = 0, HomeLoss = -1, NoPrectiction = -2 }
     public enum PredictionOutcome { Success = 1, Fail = 0 }

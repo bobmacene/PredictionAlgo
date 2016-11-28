@@ -1,6 +1,5 @@
-﻿@using System.Diagnostics.Eventing.Reader
-@using PredictionAlgo.Models
-@model IEnumerable<PredictionAlgo.Models.PredictionComparison>
+﻿@using PredictionAlgo.Models
+@model IEnumerable<PredictionComparison>
 
         
 @{
@@ -85,13 +84,13 @@
         </td>
         @if (item.PredictionResult == PredictionOutcome.Success)
         {
-            <td style="background-color:lightgreen">
+            <td style="background-color:#dcf2de">
                 @Html.DisplayFor(modelItem => item.PredictionResult)
             </td>
         }
         else
         {
-            <td style="background-color:lightcoral">
+            <td style="background-color:#eacccd">
                 @Html.DisplayFor(modelItem => item.PredictionResult)
             </td>
         }
