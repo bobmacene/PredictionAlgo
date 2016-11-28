@@ -11,7 +11,7 @@ namespace PredictionAlgo.Models.DataModel
     {
         private const string HCapCouponPath = @"http://www.paddypower.com/bet/rugby-union/rugby-hcap-coupon";
         //private const string HCapCouponPath = "file://C:/Users/bob/Documents/" + "ITT Project/BettingHtml/2016.10.07_Rugby H'Cap Betting from Paddy Power.html";
-        private readonly string _uriHCapCoupon = new Uri(HCapCouponPath).AbsolutePath;
+        private readonly string _uriHCapCoupon = new Uri(HCapCouponPath).AbsoluteUri;
         public ICollection<MatchBettingData> MatchBettingDataList { get; set; }
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
         public ICollection<MatchBettingData> GetCurrentBettingData
