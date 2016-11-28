@@ -24,6 +24,19 @@ namespace PredictionAlgo.Controllers
             if (pro12Data.Count == 0) ViewData["NoData"] = "Currently no betting odds available online";
             return View(pro12Data.ToList());
         }
+
+        public ActionResult SaveToCsv()
+        {
+            var bettingData = new BettingData();
+            var betDatas = _db.MatchBettingDatas.OrderByDescending(x => x.FixtureDate).ToList();
+
+            bettingData.SaveCsv(betDatas);
+
+            ViewData["CsvExport"] = "Betting data saved to C:\\Users\\TEMP";
+
+            return View(betDatas);
+        }
+
         // GET: MatchBettingDatas/Details/5
         public ActionResult Details(string id)
         {

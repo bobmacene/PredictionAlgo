@@ -56,6 +56,10 @@ namespace PredictionAlgo.Models
             FixtureDate = null;
             TimeStamp = DateTime.Now;
         }
+
+        //public MatchBettingData()
+        //{
+        //} // CsvHelper
     }
 }
 #region Top14

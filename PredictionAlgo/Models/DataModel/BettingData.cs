@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using CsvHelper;
 using PredictionAlgo.Models.ViewModel;
 
 namespace PredictionAlgo.Models.DataModel
@@ -40,6 +43,23 @@ namespace PredictionAlgo.Models.DataModel
             }
         }
 
+        public void SaveCsv(IEnumerable records)
+        {
+            var time = DateTime.Now.ToString("yyyyMMdd_hmmss");
+            const string directoryPath = @"C:\\Users\\TEMP";
+
+            var path = string.Format(@"C:\\Users\\TEMP\\BetData_{0}.csv", time);
+
+            if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+
+            using (var csv = new CsvWriter(new StreamWriter(path)))
+            {
+                foreach (var record in records)
+                {
+                    csv.WriteRecord(record as MatchBettingData);
+                }
+            }  
+        }
     }
 }
 #region FilePaths

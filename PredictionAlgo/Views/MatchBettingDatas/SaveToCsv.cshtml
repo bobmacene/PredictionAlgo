@@ -17,19 +17,23 @@
         <input type="button" class="btn btn-info" value="Get Current Online Betting Data"
                onclick="@("window.location.href='" + @Url.Action("GetBettingData", "MatchBettingDatas") + "'"); " />
     </div>
- 
+  
+
 <br/>
 
 <div>
     <h2>Previous betting data:</h2>
 </div>
 <div align="right">
+    <h4 style="color: red">
+        @ViewData["CsvExport"];
+    </h4>
     <h4>
         @Html.ActionLink("Export betting data to csv", "SaveToCsv", "MatchBettingDatas", null,
-        new { title = "Csv exports to C:\\Users\\TEMP\\PredictionAlgo.csv" });
-
+        new { title = "Csv exports to C:\\Users\\TEMP\\PredictionAlgo.csv" });    
     </h4>
- </div>
+    
+</div>
 <table class="table">
     <tr>
         <th>
