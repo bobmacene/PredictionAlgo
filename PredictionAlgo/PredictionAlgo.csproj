@@ -302,6 +302,8 @@
     <Content Include="Views\PredictionComparisons\AllPreviousComparisons.cshtml" />
     <Content Include="Views\MatchBettingDatas\GetBettingData.cshtml" />
     <Content Include="Views\MatchBettingDatas\SaveToCsv.cshtml" />
+    <Content Include="Views\Shared\_PartialPageCsvExport.cshtml" />
+    <Content Include="Views\Fixtures\_PartialPageCsvExport.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

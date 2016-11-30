@@ -57,9 +57,6 @@ namespace PredictionAlgo.Models
             TimeStamp = DateTime.Now;
         }
 
-        //public MatchBettingData()
-        //{
-        //} // CsvHelper
     }
 }
 #region Top14

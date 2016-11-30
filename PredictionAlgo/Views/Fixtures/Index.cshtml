@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PredictionAlgo.Models.Fixture>
+﻿@using PredictionAlgo.Models
+@model IEnumerable<PredictionAlgo.Models.Fixture>
 
 @{
     ViewBag.Title = "Index";
@@ -96,9 +97,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PredictedResult)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PredictionOutcome)
-            </td>
+            @if (item.PredictionOutcome == PredictionOutcome.Success)
+                {
+                <td style="background-color: #dcf2de">
+                    @Html.DisplayFor(modelItem => item.PredictionOutcome)
+                </td>
+            }
+            else
+            {
+                <td style="background-color: #eacccd">
+                    @Html.DisplayFor(modelItem => item.PredictionOutcome)
+                </td>
+            }
          
         </tr>
     }

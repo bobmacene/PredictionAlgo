@@ -75,15 +75,24 @@ namespace PredictionAlgo.Controllers
 
             return View(orderedResults);
         }
-        public ActionResult ResultsSeason2016_2017()
+
+        public ActionResult ResultsSeason2016_2017(string id)
         {
             var results = new ResultsSeason2016_2017();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
+            if (id == null) return View(orderedResults);
+
+            @ViewData["CsvExport"] = "Fixtures has been saved to C:\\Users\\TEMP";
+
+            var bet = new BettingData();
+            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
+
             return View(orderedResults);
         }
+
         // GET: Fixtures
         public ActionResult Index()
         {

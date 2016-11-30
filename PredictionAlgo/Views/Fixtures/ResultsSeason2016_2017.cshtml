@@ -28,11 +28,31 @@
 
 <h4>Result Prediction Success Rate: @ViewData["ResultsWithoutSpreadSuccessRate"] %</h4>
 
-
 <div >
-        <input type="button" class="btn btn-info" value="Get Recent Results" onclick="@("window.location.href='" + @Url.Action("Index", "Fixtures") + "'");" />
-    </div>
+    <input type="button" class="btn btn-info" value="Get Recent Results" onclick="@("window.location.href='" + @Url.Action("Index", "Fixtures") + "'"); "/>
+</div>
 
+@if ((string)ViewData["CsvExport"] == string.Empty)
+{
+<div align="right">
+    <h4>
+        @Html.ActionLink("Export fixtures to csv", "ResultsSeason2016_2017", 
+       new { id = "id", title = "Csv exports to C:\\Users\\TEMP"})
+    </h4>
+</div>
+}
+else
+{
+<div align="right">
+    <div style="color: red">
+        @ViewData["CsvExport"]
+    </div>
+    <h4>
+        @Html.ActionLink("Export fixtures to csv", "ResultsSeason2016_2017", 
+            new {id="id", title = "Csv exports to C:\\Users\\TEMP" })
+    </h4>
+</div>
+}
 <br />
     <table class="table-striped">
         <tr>

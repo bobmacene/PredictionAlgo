@@ -30,7 +30,7 @@ namespace PredictionAlgo.Controllers
             var bettingData = new BettingData();
             var betDatas = _db.MatchBettingDatas.OrderByDescending(x => x.FixtureDate).ToList();
 
-            bettingData.SaveCsv(betDatas);
+            bettingData.SaveCsv<MatchBettingData>(betDatas, "BetData");
 
             ViewData["CsvExport"] = "Betting data saved to C:\\Users\\TEMP";
 

@@ -43,12 +43,12 @@ namespace PredictionAlgo.Models.DataModel
             }
         }
 
-        public void SaveCsv(IEnumerable records)
+        public void SaveCsv<T>(IEnumerable records, string fileName)
         {
             var time = DateTime.Now.ToString("yyyyMMdd_hmmss");
             const string directoryPath = @"C:\\Users\\TEMP";
 
-            var path = string.Format(@"C:\\Users\\TEMP\\BetData_{0}.csv", time);
+            var path = string.Format(@"C:\\Users\\TEMP\\{0}_{1}.csv", fileName, time);
 
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
@@ -56,7 +56,7 @@ namespace PredictionAlgo.Models.DataModel
             {
                 foreach (var record in records)
                 {
-                    csv.WriteRecord(record as MatchBettingData);
+                    csv.WriteRecord((T)record);
                 }
             }  
         }
