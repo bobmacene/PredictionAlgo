@@ -214,7 +214,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FixturesController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\__HomeController.cs" />
     <Compile Include="Controllers\MatchBettingDatasController.cs" />
     <Compile Include="Controllers\PredictionComparisonsController.cs" />
     <Compile Include="Controllers\ResultStatisticsController.cs" />
@@ -268,10 +268,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Fixtures\Create.cshtml" />
-    <Content Include="Views\Fixtures\Delete.cshtml" />
-    <Content Include="Views\Fixtures\Details.cshtml" />
-    <Content Include="Views\Fixtures\Edit.cshtml" />
     <Content Include="Views\Fixtures\Index.cshtml" />
     <Content Include="Views\Fixtures\ResultsSeason2011_2012.cshtml" />
     <Content Include="Views\Fixtures\ResultsSeason2010_2011.cshtml" />
@@ -289,10 +285,6 @@
     <Content Include="Views\ToBeDeleted\Details.cshtml" />
     <Content Include="Views\ToBeDeleted\Edit.cshtml" />
     <Content Include="Views\MatchBettingDatas\Index.cshtml" />
-    <Content Include="Views\PredictionComparisons\Create.cshtml" />
-    <Content Include="Views\PredictionComparisons\Delete.cshtml" />
-    <Content Include="Views\PredictionComparisons\Details.cshtml" />
-    <Content Include="Views\PredictionComparisons\Edit.cshtml" />
     <Content Include="Views\PredictionComparisons\Index.cshtml" />
     <Content Include="Views\Fixtures\ResultsSeason2015_2016.cshtml" />
     <Content Include="Views\Fixtures\ResultsSeason2016_2017.cshtml" />
@@ -301,9 +293,6 @@
     </Content>
     <Content Include="Views\PredictionComparisons\AllPreviousComparisons.cshtml" />
     <Content Include="Views\MatchBettingDatas\GetBettingData.cshtml" />
-    <Content Include="Views\MatchBettingDatas\SaveToCsv.cshtml" />
-    <Content Include="Views\Shared\_PartialPageCsvExport.cshtml" />
-    <Content Include="Views\Fixtures\_PartialPageCsvExport.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

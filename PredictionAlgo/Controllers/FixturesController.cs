@@ -1,6 +1,4 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Linq;
 using System.Web.Mvc;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.ViewModel;
@@ -18,60 +16,102 @@ namespace PredictionAlgo.Controllers
             var previousFiveResults = new FixtureRanges();
             return PartialView(previousFiveResults.GetLastFiveFixturesByTeam(_db, team, date));
         }
-        public ActionResult ResultsSeason2010_2011()
+        public ActionResult ResultsSeason2010_2011(string id)
         {
             var results = new ResultsSeason2010_2011();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
+            if (id == null) return View(orderedResults);
+
+            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+
+            var bet = new BettingData();
+            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
+
             return View(orderedResults);
         }
 
-        public ActionResult ResultsSeason2011_2012()
+        public ActionResult ResultsSeason2011_2012(string id)
         {
             var results = new ResultsSeason2011_2012();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
+            if (id == null) return View(orderedResults);
+
+            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+
+            var bet = new BettingData();
+            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
+
             return View(orderedResults);
         }
 
-        public ActionResult ResultsSeason2012_2013()
+        public ActionResult ResultsSeason2012_2013(string id)
         {
             var results = new ResultsSeason2012_2013();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
+            if (id == null) return View(orderedResults);
+
+            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+
+            var bet = new BettingData();
+            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
+
             return View(orderedResults);
         }
-        public ActionResult ResultsSeason2013_2014()
+        public ActionResult ResultsSeason2013_2014(string id)
         {
             var results = new ResultsSeason2013_2014();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
+            if (id == null) return View(orderedResults);
+
+            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+
+            var bet = new BettingData();
+            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
+
             return View(orderedResults);
         }
 
-        public ActionResult ResultsSeason2014_2015()
+        public ActionResult ResultsSeason2014_2015(string id)
         {
             var results = new ResultsSeason2014_2015 ();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
+            if (id == null) return View(orderedResults);
+
+            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+
+            var bet = new BettingData();
+            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
+
             return View(orderedResults);
         }
-        public ActionResult ResultsSeason2015_2016()
+        public ActionResult ResultsSeason2015_2016(string id)
         {
             var results = new ResultsSeason2015_2016();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
+
+            if (id == null) return View(orderedResults);
+
+            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+
+            var bet = new BettingData();
+            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
 
             return View(orderedResults);
         }
@@ -85,7 +125,7 @@ namespace PredictionAlgo.Controllers
 
             if (id == null) return View(orderedResults);
 
-            @ViewData["CsvExport"] = "Fixtures has been saved to C:\\Users\\TEMP";
+            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
             var bet = new BettingData();
             bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
@@ -102,101 +142,6 @@ namespace PredictionAlgo.Controllers
             //var currentSeasonResults = new ResultsSeason2016_2017().GetSeasonResults(_db);
 
             return View(scrapedFixtures.ToList().OrderByDescending(x=>x.FixtureDate));
-        }
-
-        // GET: Fixtures/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Fixture fixture = _db.Fixtures.Find(id);
-            if (fixture == null)
-            {
-                return HttpNotFound();
-            }
-            return View(fixture);
-        }
-
-        // GET: Fixtures/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Fixtures/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FixtureReference,FixtureDate,result,HomeTeam,HomeScore,AwayTeam,AwayScore,ScoreDelta,Attendance,Venue,PredictedDelta,ActualVersusPredictedDelta,PredictedResult,PredictionSuccess")] Fixture fixture)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Fixtures.Add(fixture);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(fixture);
-        }
-
-        // GET: Fixtures/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Fixture fixture = _db.Fixtures.Find(id);
-            if (fixture == null)
-            {
-                return HttpNotFound();
-            }
-            return View(fixture);
-        }
-
-        // POST: Fixtures/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FixtureReference,FixtureDate,result,HomeTeam,HomeScore,AwayTeam,AwayScore,ScoreDelta,Attendance,Venue,PredictedDelta,ActualVersusPredictedDelta,PredictedResult,PredictionSuccess")] Fixture fixture)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Entry(fixture).State = EntityState.Modified;
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(fixture);
-        }
-
-        // GET: Fixtures/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Fixture fixture = _db.Fixtures.Find(id);
-            if (fixture == null)
-            {
-                return HttpNotFound();
-            }
-            return View(fixture);
-        }
-
-        // POST: Fixtures/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            Fixture fixture = _db.Fixtures.Find(id);
-            _db.Fixtures.Remove(fixture);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

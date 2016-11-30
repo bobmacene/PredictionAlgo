@@ -28,6 +28,8 @@
 
 <h4>Result Prediction Success Rate: @ViewData["ResultsWithoutSpreadSuccessRate"] %</h4>
 
+<h3>Click the below button to check for updated results: </h3>
+
 <div >
     <input type="button" class="btn btn-info" value="Get Recent Results" onclick="@("window.location.href='" + @Url.Action("Index", "Fixtures") + "'"); "/>
 </div>
@@ -53,7 +55,7 @@ else
     </h4>
 </div>
 }
-<br />
+
     <table class="table-striped">
         <tr>
             <th>

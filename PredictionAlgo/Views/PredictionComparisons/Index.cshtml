@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<PredictionAlgo.Models.PredictionComparison>
-
         
 @{
     ViewBag.Title = "Index";
@@ -7,15 +6,33 @@
 
 <h2>Prediction Comparison</h2>
 <h3>Recommended Teams To Back on Upcoming Fixtures</h3>
-<br/>
+
 <h4 style="color:red">@ViewData["UpcomingFixtureAvailability"]</h4>
 
-<div>
-    <input type="button" class="btn btn-info" value="Get All Previous Comparisons" 
-           onclick="@("window.location.href='" + @Url.Action("AllPreviousComparisons", "Predictioncomparisons") + "'");" />
-</div>
 
-<br />
+@if ((string)ViewData["CsvExport"] == string.Empty)
+{
+    <div align="right">
+        <h4>
+            @Html.ActionLink("Export fixtures to csv", "Index",
+       new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
+        </h4>
+    </div>
+}
+else
+{
+    <div align="right">
+        <div style="color: red">
+            @ViewData["CsvExport"]
+        </div>
+        <h4>
+            @Html.ActionLink("Export fixtures to csv", "Index",
+            new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
+        </h4>
+    </div>
+}
+
+
 <table class="table">
     <tr>
         <th>
@@ -74,3 +91,9 @@
 }
 
 </table>
+
+<div align="right">
+    <h3>Click below button to see all previous Predictions (including bookmaker) spreads</h3>
+    <input type="button" class="btn btn-info" value="Get All Previous Comparisons"
+           onclick="@("window.location.href='" + @Url.Action("AllPreviousComparisons", "Predictioncomparisons") + "'"); "/>
+</div>

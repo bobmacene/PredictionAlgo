@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Index";
 }
+
 <div>
     <h2>Current Match Betting Data</h2>
     <h6>as at:  @DateTime.Now</h6>
@@ -10,13 +11,29 @@
 
 <h3 style="color: red"> @ViewData["NoData"]</h3>
 
-<div>
-    @if((string)@ViewData["NoData"] != "Currently no betting odds/spreads available online")
-    {
-        <input type="button" class="btn btn-info" value="Get teams to back for these fixtures"
-           onclick="@("window.location.href='" + @Url.Action("Index", "PredictionComparisons") + "'");" />
-    }
-</div>
+
+@if ((string)ViewData["CsvExport"] == string.Empty)
+{
+    <div align="right">
+        <h4>
+            @Html.ActionLink("Export fixtures to csv", "GetBettingData",
+       new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
+        </h4>
+    </div>
+}
+else
+{
+    <div align="right">
+        <div style="color: red">
+            @ViewData["CsvExport"]
+        </div>
+        <h4>
+            @Html.ActionLink("Export fixtures to csv", "GetBettingData",
+            new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
+        </h4>
+    </div>
+}
+
 
 <table class="table">
     <tr>
@@ -71,5 +88,15 @@
     }
 </table>
 
+<div align="right">
 
+    @if ((string)@ViewData["NoData"] != "Currently no betting odds/spreads available online")
+    {
+        <h3>Click below button for recommendations on which team to back:</h3>
+
+        <input type="button" class="btn btn-info" value="Get teams to back for these fixtures"
+               onclick="@("window.location.href='" + @Url.Action("Index", "PredictionComparisons") + "'"); "/>
+    }
+
+</div>
 

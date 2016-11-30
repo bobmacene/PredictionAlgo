@@ -23,12 +23,29 @@
     <h2>Previous betting data:</h2>
 </div>
 
-<div align="right">
-    <h4>
-        @Html.ActionLink("Export betting data to csv", "SaveToCsv", "MatchBettingDatas", null,
-            new {title = "Csv exports to C:\\Users\\TEMP\\PredictionAlgo.csv"})
-    </h4>
-</div>
+
+@if ((string)ViewData["CsvExport"] == string.Empty)
+{
+    <div align="right">
+        <h4>
+            @Html.ActionLink("Export fixtures to csv", "Index",
+       new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
+        </h4>
+    </div>
+}
+else
+{
+    <div align="right">
+        <div style="color: red">
+            @ViewData["CsvExport"]
+        </div>
+        <h4>
+            @Html.ActionLink("Export fixtures to csv", "Index",
+            new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
+        </h4>
+    </div>
+}
+
 
 <table class="table">
     <tr>
