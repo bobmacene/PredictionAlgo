@@ -21,6 +21,8 @@ namespace PredictionAlgo.Controllers
             var results = new ResultsSeason2010_2011();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
+            _db.SaveChanges();
+
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
             if (id == null) return View(orderedResults);
@@ -37,6 +39,8 @@ namespace PredictionAlgo.Controllers
         {
             var results = new ResultsSeason2011_2012();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
+
+            _db.SaveChanges();
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
@@ -55,6 +59,8 @@ namespace PredictionAlgo.Controllers
             var results = new ResultsSeason2012_2013();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
+            _db.SaveChanges();
+
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
             if (id == null) return View(orderedResults);
@@ -70,6 +76,8 @@ namespace PredictionAlgo.Controllers
         {
             var results = new ResultsSeason2013_2014();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
+
+            _db.SaveChanges();
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
@@ -88,6 +96,8 @@ namespace PredictionAlgo.Controllers
             var results = new ResultsSeason2014_2015 ();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
+            _db.SaveChanges();
+
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
             if (id == null) return View(orderedResults);
@@ -103,6 +113,8 @@ namespace PredictionAlgo.Controllers
         {
             var results = new ResultsSeason2015_2016();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
+
+            _db.SaveChanges();
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
@@ -120,6 +132,8 @@ namespace PredictionAlgo.Controllers
         {
             var results = new ResultsSeason2016_2017();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
+
+            _db.SaveChanges();
 
             @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 

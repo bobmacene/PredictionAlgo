@@ -126,16 +126,11 @@ namespace PredictionAlgo.Models.DataModel
                 PredictedDelta = predictedResult.ApplySpreadChangeForDate(predictedData.PredictedScoreDelta, DateTime.Now),
                 ActualVersusPredictedDelta = delta - predictedData.PredictedScoreDelta,
                 PredictedResult = resultPrediction,
-                PredictionOutcome = GetPredictionOutcome(actualResult, resultPrediction),
+                PredictionOutcome = actualResult == resultPrediction ? PredictionOutcome.Success : PredictionOutcome.Fail,
                 Competition = Competition.Pro12
             };
         }
-
-        private static PredictionOutcome GetPredictionOutcome(Result result, Result predictedResult)
-        {
-            return result == predictedResult ? PredictionOutcome.Success : PredictionOutcome.Fail;
-        }
-
+        
         private static DateTime GetDate(string date)
         {
             var regex = new Regex("(?<year>\\d{4})(?<month>\\d{2})(?<day>\\d{2})");

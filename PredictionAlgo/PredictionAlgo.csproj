@@ -214,7 +214,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FixturesController.cs" />
-    <Compile Include="Controllers\__HomeController.cs" />
+    <Compile Include="Views\ToBeDeleted\__HomeController.cs" />
     <Compile Include="Controllers\MatchBettingDatasController.cs" />
     <Compile Include="Controllers\PredictionComparisonsController.cs" />
     <Compile Include="Controllers\ResultStatisticsController.cs" />
@@ -223,7 +223,6 @@
     </Compile>
     <Compile Include="Models\DataModel\FixtureData.cs" />
     <Compile Include="Models\DataModel\PredictionComparisonData.cs" />
-    <Compile Include="Models\DataModel\ResultsData.cs" />
     <Compile Include="Models\Fixture.cs" />
     <Compile Include="Models\MatchBettingData.cs" />
     <Compile Include="Models\PredictionAlgoContext.cs" />
