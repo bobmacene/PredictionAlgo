@@ -15,7 +15,7 @@ namespace PredictionAlgo.Controllers
         public ActionResult Index(string id)
         {
             var upcomingFixturesWithBettingData = _db.MatchBettingDatas
-                .Where(x => x.FixtureDate >= DateTime.Now)
+                .Where(x => x.FixtureDate >= DateTime.Today)
                 .OrderBy(x => x.FixtureDate)
                 .ToList();
 
@@ -28,7 +28,7 @@ namespace PredictionAlgo.Controllers
                 _predictCompare.AddPredictionComparisonsToFile(upcomingFixturesWithBettingData);
 
             var predictions = _db.PredictionComparisons
-                .Where(x => x.FixtureDate >= DateTime.Now)
+                .Where(x => x.FixtureDate >= DateTime.Today)
                 .OrderBy(x => x.FixtureDate)
                 .ToList();
 
