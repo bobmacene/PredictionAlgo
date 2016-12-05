@@ -274,10 +274,7 @@
     <Content Include="Views\Fixtures\ResultsSeason2012_2013.cshtml" />
     <Content Include="Views\Fixtures\ResultsSeason2014_2015.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\ResultStatistics\Create.cshtml" />
-    <Content Include="Views\ResultStatistics\Delete.cshtml" />
     <Content Include="Views\ResultStatistics\PredictResult.cshtml" />
-    <Content Include="Views\ResultStatistics\Edit.cshtml" />
     <Content Include="Views\Fixtures\_PartialPageLastFiveFixtures.cshtml" />
     <Content Include="Views\ToBeDeleted\Create.cshtml" />
     <Content Include="Views\ToBeDeleted\Delete.cshtml" />

@@ -626,6 +626,7 @@ dd {
   .dl-horizontal dd:after {
     display: table;
     content: " ";
+    white-space:nowrap;
   }
   .dl-horizontal dd:after {
     clear: both;
@@ -634,9 +635,11 @@ dd {
   .dl-horizontal dd:after {
     display: table;
     content: "  ";
+    white-space:nowrap;
   }
   .dl-horizontal dd:after {
     clear: both;
+    white-space:nowrap;
   }
 }
 
