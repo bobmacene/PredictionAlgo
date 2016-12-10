@@ -214,7 +214,6 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FixturesController.cs" />
-    <Compile Include="Models\Utility.cs" />
     <Compile Include="Views\ToBeDeleted\__HomeController.cs" />
     <Compile Include="Controllers\MatchBettingDatasController.cs" />
     <Compile Include="Controllers\PredictionComparisonsController.cs" />
@@ -287,8 +286,8 @@
     </Content>
     <Content Include="Views\PredictionComparisons\AllPreviousComparisons.cshtml" />
     <Content Include="Views\MatchBettingDatas\GetBettingData.cshtml" />
-    <Content Include="Views\PredictionComparisons\TestData.cshtml" />
-    <Content Include="Views\MatchBettingDatas\TestData.cshtml" />
+    <Content Include="Views\PredictionComparisons\TestDataComparisons.cshtml" />
+    <Content Include="Views\MatchBettingDatas\TestDataBetData.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

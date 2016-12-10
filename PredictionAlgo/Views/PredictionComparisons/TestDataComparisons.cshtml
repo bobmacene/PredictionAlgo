@@ -1,0 +1,143 @@
+﻿@model IEnumerable<PredictionAlgo.Models.PredictionComparison>
+        
+@{
+    ViewBag.Title = "TEST DATA";
+}
+
+<h2>Prediction Comparison - TEST DATA</h2>
+<h3>Recommended Teams To Back on Upcoming Fixtures</h3>
+
+
+@if ((string)ViewData["CsvExport"] == string.Empty)
+{
+    <div align="right">
+        <h4>
+            @Html.ActionLink("Export predictions to csv", "Index",
+       new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
+        </h4>
+    </div>
+}
+else
+{
+    <div align="right">
+        <div style="color: red">
+            @ViewData["CsvExport"]
+        </div>
+        <h4>
+            @Html.ActionLink("Export predictions to csv", "Index",
+            new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
+        </h4>
+    </div>
+}
+
+@{
+    var rowCount = 1;
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FixtureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeSpread)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwayTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwaySpread)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PredictionDelta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookVsPrediction)
+            </th>
+            <th style="background-color: azure">
+                @Html.DisplayNameFor(model => model.TeamToBack)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            rowCount = rowCount == 1 ? 0 : 1;
+
+            if (rowCount == 0)
+            {
+                <tr style="background-color: #f9f9f9">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FixtureDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeSpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwayTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwaySpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PredictionDelta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookVsPrediction)
+                    </td>
+                    <td style="background-color: azure">
+                        @Html.DisplayFor(modelItem => item.TeamToBack)
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FixtureDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeSpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwayTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwaySpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PredictionDelta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookVsPrediction)
+                    </td>
+                    <td style="background-color: azure">
+                        @Html.DisplayFor(modelItem => item.TeamToBack)
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+}
+
+
+<div align="right">
+    <h3>Click below button to see all previous Predictions (including bookmaker) spreads</h3>
+    <input type="button" class="btn btn-info" value="Get All Previous Comparisons"
+           onclick="@("window.location.href='" + @Url.Action("AllPreviousComparisons", "Predictioncomparisons") + "'"); "/>
+</div>
+
+
+<div align="right" style="background-color: #ededed">
+    <h3>To leave test data page click below button:</h3>
+    <input type="button" class="btn btn-info" value="Return To Realtime Prediction Comparisons"
+           onclick="@("window.location.href='" + @Url.Action("Index") + "'"); " />
+</div>
