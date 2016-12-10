@@ -5,6 +5,7 @@ using System.IO;
 using CsvHelper;
 using PredictionAlgo.Models.ViewModel;
 
+
 namespace PredictionAlgo.Models.DataModel
 {
     public class BettingData
@@ -13,8 +14,12 @@ namespace PredictionAlgo.Models.DataModel
         //private const string HCapCouponPath = "file://C:/Users/bob/Documents/" + "ITT Project/BettingHtml/2016.10.25_HCapCoupon - Paddy Power.html";
         //private const string HCapCouponPath = @"file://C:/Users/rip/Documents/ITT/Project/BettingHtml&Excel/2016.10.25_HCapCoupon" +" - Paddy Power.html";
         private readonly string _uriHCapCoupon = new Uri(HCapCouponPath).AbsoluteUri;
+
+
         public IEnumerable<MatchBettingData> MatchBettingDataList { get; set; }
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
+
+
         public IEnumerable<MatchBettingData> GetCurrentBettingData
         {
             get
@@ -45,6 +50,7 @@ namespace PredictionAlgo.Models.DataModel
             }
         }
 
+
         public void SaveCsv<T>(IEnumerable records, string fileName)
         {
             var time = DateTime.Now.ToString("yyyyMMdd_hmmss");
@@ -62,8 +68,12 @@ namespace PredictionAlgo.Models.DataModel
                 }
             }  
         }
+
+
     }
 }
+
+
 #region FilePaths
 //private const string Pro12Url = @"http://www.paddypower.com/bet/rugby-union/guinness-pro-12?ev_oc_grp_ids=30998";
 // private const string Top14Url = @"http://www.paddypower.com/bet/rugby-union/french-top-14?ev_oc_grp_ids=31127";

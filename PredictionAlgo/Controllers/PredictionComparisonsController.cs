@@ -19,6 +19,7 @@ namespace PredictionAlgo.Controllers
                 .OrderBy(x => x.FixtureDate)
                 .ToList();
 
+
             ViewData["UpcomingFixtureAvailability"] = upcomingFixturesWithBettingData.Any() 
                 ? string.Empty
                 : "Currently no fixtures are available online";
@@ -30,12 +31,15 @@ namespace PredictionAlgo.Controllers
                 _predictCompare.UpdateDatabase();
             }
 
+
             var predictions = _db.PredictionComparisons
                 .Where(x => x.FixtureDate >= DateTime.Today)
                 .OrderBy(x => x.FixtureDate)
                 .ToList();
 
+
             if (id == null) return View(predictions);
+
 
             ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
@@ -47,7 +51,7 @@ namespace PredictionAlgo.Controllers
         }
 
 
-        public ActionResult TestData(string id)
+        public ActionResult TestDataComparisons(string id)
         {
             var upcomingFixturesWithBettingData = _db.MatchBettingDatas
                 .Where(x => x.FixtureDate > new DateTime(2016,10,27) && x.FixtureDate < new DateTime(2016, 10, 30))
