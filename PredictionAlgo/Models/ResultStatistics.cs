@@ -5,12 +5,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PredictionAlgo.Models
 {
-    public class ResultStatistics
-    {     
-        [Key] 
+    public class ResultStatistics : IDisposable
+    {
+        [Key]
         public int StatisticReference { get; set; }
         [DisplayName("Home Team")]
-        public Team? HomeTeam { get;set; }
+        public Team? HomeTeam { get; set; }
         [DisplayName("Away Team")]
         public Team? AwayTeam { get; set; }
         [DisplayName("Stats At This Date")]
@@ -19,21 +19,21 @@ namespace PredictionAlgo.Models
         public DateTime? Date { get; set; }
         [DisplayName("Average Home Score Last Five Home Games")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
-        public float AverageHomeScoreLastFiveHomeGames { get; set; }
+        public double AveHomeScoreLast5HomeGames { get; set; }
         [DisplayName("Average Delta Last Five Home Games")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
-        public float AverageScoreDeltaLastFiveHomeGames { get; set; }
+        public double AveDeltaLast5HomeGames { get; set; }
         [DisplayName("Average Away Score Last Five Away Games")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
-        public float AverageAwayScoreLastFiveAwayGames { get; set; }
+        public double AveAwayScoreLast5AwayGames { get; set; }
         [DisplayName("Average Delta Last Five Away Games")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
-        public float AverageScoreDeltaLastFiveAwayGames { get; set; }
+        public double AveDeltaLast5AwayGames { get; set; }
         [DisplayName("Average Delta Of Last Two Results Btwn Teams")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
-        public float AverageScoreDeltaOfLastTwoResultsBetweenTeams { get; set; }
+        public double AveDeltaLast2ResultsBtwnTeams { get; set; }
         [DisplayName("Predicted Delta")]
-        public float PredictedScoreDelta { get; set; }
+        public double PredictedDelta { get; set; }
         [DisplayName("Home Team")]
         [Required(ErrorMessage = "Required Field")]
         public Team? SelectHomeTeam { get; set; }
@@ -51,29 +51,34 @@ namespace PredictionAlgo.Models
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
         private readonly PredictedResult _predictedResult = new PredictedResult();
 
-        public float GetAverageHomeScoreLastFiveHomeGames =>
-            _predictedResult.GetAverageHomeScoreLastFiveHomeGames(SelectHomeTeam, SelectDate, _db);
+        public double GetAverageHomeScoreLastFiveHomeGames =>
+            _predictedResult.GetAveHomeScoreLast5HomeGames(SelectHomeTeam, SelectDate, _db);
 
-        public float GetAverageScoreDeltaLastFiveHomeGames => 
-            _predictedResult.GetAverageHomeScoreLastFiveHomeGames(SelectHomeTeam, SelectDate, _db);
+        public double GetAverageScoreDeltaLastFiveHomeGames =>
+            _predictedResult.GetAveHomeScoreLast5HomeGames(SelectHomeTeam, SelectDate, _db);
 
-        public float GetAverageAwayScoreLastFiveAwayGames => 
-            _predictedResult.GetAverageAwayScoreLastFiveAwayGames(SelectAwayTeam, SelectDate, _db);
+        public double GetAverageAwayScoreLastFiveAwayGames =>
+            _predictedResult.GetAveAwayScoreLast5AwayGames(SelectAwayTeam, SelectDate, _db);
 
-        public float GetAverageScoreDeltaLastFiveAwayGames => 
-            _predictedResult.GetAverageScoreDeltaLastFiveAwayGames(SelectAwayTeam, SelectDate, _db);
+        public double GetAverageScoreDeltaLastFiveAwayGames =>
+            _predictedResult.GetAveDeltaLast5AwayGames(SelectAwayTeam, SelectDate, _db);
 
-        public float GetAverageScoreDeltaOfLastTwoResultsBetweenTeams => 
-            _predictedResult.GetAverageScoreDeltaOfLastTwoResultsBetweenTeams(SelectHomeTeam, SelectAwayTeam, SelectDate, _db);
+        public double GetAverageScoreDeltaOfLastTwoResultsBetweenTeams =>
+            _predictedResult.GetAveDeltaLast2ResultsBtwnTeams(SelectHomeTeam, SelectAwayTeam, SelectDate, _db);
 
-        public float GetPredictedScoreDelta
+        public double GetPredictedScoreDelta
         {
             get
             {
                 var result = _predictedResult.GetPredictedResult(SelectHomeTeam, SelectAwayTeam, SelectDate, _db);
-                return result.PredictedScoreDelta;
+                return result.PredictedDelta;
             }
         }
- 
+
+        public void Dispose()
+        {
+            _db.Dispose();
+            GC.SuppressFinalize(this);
+        }
     }
 }

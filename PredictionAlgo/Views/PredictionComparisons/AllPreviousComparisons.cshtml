@@ -1,7 +1,7 @@
 ﻿@using PredictionAlgo.Models
 @model IEnumerable<PredictionComparison>
 
-        
+
 @{
     ViewBag.Title = "All Previous Comparisons";
 }
@@ -41,84 +41,131 @@ else
     </div>
 }
 
+@{
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FixtureDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HomeTeam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HomeSpread)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AwayTeam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AwaySpread)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AlgoScoreSpreadPrediction)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BookVsPrediction)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ActualScoreDelta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TeamToBack)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PredictionResult)
-        </th>
-        <th></th>
-    </tr>
+    var rowCount = 1;
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FixtureDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HomeTeam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HomeSpread)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AwayTeam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AwaySpread)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AlgoScoreSpreadPrediction)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BookVsPrediction)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActualScoreDelta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TeamToBack)
-        </td>
-        @if (item.PredictionResult == PredictionOutcome.Success)
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FixtureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeSpread)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwayTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwaySpread)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PredictionDelta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualScoreDelta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamToBack)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PredictionResult)
+            </th>
+            <th></th>
+        </tr>
+
+
+
+        @foreach (var item in Model)
         {
-            <td style="background-color:#dcf2de">
-                @Html.DisplayFor(modelItem => item.PredictionResult)
-            </td>
+            rowCount = rowCount == 1 ? 0 : 1;
+
+            if (rowCount == 0)
+            {
+                <tr style="background-color: #f9f9f9">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FixtureDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeSpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwayTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwaySpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PredictionDelta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualScoreDelta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TeamToBack)
+                    </td>
+                    @if (item.PredictionResult == PredictionOutcome.Success)
+                    {
+                        <td style="background-color: #dcf2de">
+                            @Html.DisplayFor(modelItem => item.PredictionResult)
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="background-color: #eacccd">
+                            @Html.DisplayFor(modelItem => item.PredictionResult)
+                        </td>
+                    }
+                    </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FixtureDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeSpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwayTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwaySpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PredictionDelta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualScoreDelta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TeamToBack)
+                    </td>
+                    @if (item.PredictionResult == PredictionOutcome.Success)
+                    {
+                        <td style="background-color: #dcf2de">
+                            @Html.DisplayFor(modelItem => item.PredictionResult)
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="background-color: #eacccd">
+                            @Html.DisplayFor(modelItem => item.PredictionResult)
+                        </td>
+                    }
+                </tr>
+            }
         }
-        else
-        {
-            <td style="background-color:#eacccd">
-                @Html.DisplayFor(modelItem => item.PredictionResult)
-            </td>
-        }
-    </tr>
+
+    </table>
 }
-
-</table>

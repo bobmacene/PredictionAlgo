@@ -9,6 +9,15 @@
 
 <h4 style="color:red">@ViewData["UpcomingFixtureAvailability"]</h4>
 
+@if ((string)ViewData["UpcomingFixtureAvailability"] != string.Empty)
+{
+    <div align="left" style="background-color: #ededed">
+        <h3>If no realtime data available click below button to view test data as an example:</h3>
+        <input type="button" class="btn btn-info" value="Get Test Prediction Comparisons"
+               onclick="@("window.location.href='" + @Url.Action("TestData") + "'"); " />
+    </div>
+}
+
 
 @if ((string)ViewData["CsvExport"] == string.Empty)
 {
@@ -32,68 +41,109 @@ else
     </div>
 }
 
+@{
+    var rowCount = 1;
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FixtureDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HomeTeam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HomeSpread)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AwayTeam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AwaySpread)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AlgoScoreSpreadPrediction)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BookVsPrediction)
-        </th>
-        <th style="background-color: azure">
-            @Html.DisplayNameFor(model => model.TeamToBack)
-        </th>
-    </tr>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FixtureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeSpread)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwayTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwaySpread)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PredictionDelta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookVsPrediction)
+            </th>
+            <th style="background-color: azure">
+                @Html.DisplayNameFor(model => model.TeamToBack)
+            </th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FixtureDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HomeTeam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HomeSpread)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AwayTeam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AwaySpread)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AlgoScoreSpreadPrediction)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BookVsPrediction)
-        </td>
-        <td style="background-color: azure">
-            @Html.DisplayFor(modelItem => item.TeamToBack)
-        </td>
-    </tr>
+        @foreach (var item in Model)
+        {
+            rowCount = rowCount == 1 ? 0 : 1;
+
+            if (rowCount == 0)
+            {
+                <tr style="background-color: #f9f9f9">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FixtureDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeSpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwayTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwaySpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PredictionDelta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookVsPrediction)
+                    </td>
+                    <td style="background-color: azure">
+                        @Html.DisplayFor(modelItem => item.TeamToBack)
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FixtureDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HomeSpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwayTeam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AwaySpread)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PredictionDelta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookVsPrediction)
+                    </td>
+                    <td style="background-color: azure">
+                        @Html.DisplayFor(modelItem => item.TeamToBack)
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
 }
 
-</table>
 
 <div align="right">
     <h3>Click below button to see all previous Predictions (including bookmaker) spreads</h3>
     <input type="button" class="btn btn-info" value="Get All Previous Comparisons"
-           onclick="@("window.location.href='" + @Url.Action("AllPreviousComparisons", "Predictioncomparisons") + "'"); "/>
+           onclick="@("window.location.href='" + @Url.Action("AllPreviousComparisons") + "'"); "/>
 </div>
+
+

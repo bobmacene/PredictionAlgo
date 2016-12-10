@@ -21,21 +21,23 @@ namespace PredictionAlgo.Controllers
 
             ViewData["UpcomingFixtureAvailability"] = upcomingFixturesWithBettingData.Any() 
                 ? string.Empty
-                : "Currently no fixtures are available";
+                : "Currently no fixtures are available online";
 
 
             if (upcomingFixturesWithBettingData.Any())
-                _predictCompare.AddPredictionComparisonsToFile(upcomingFixturesWithBettingData);
+            {
+                _predictCompare.GetPredictionComparisons(upcomingFixturesWithBettingData);
+                _predictCompare.UpdateDatabase();
+            }
 
             var predictions = _db.PredictionComparisons
                 .Where(x => x.FixtureDate >= DateTime.Today)
                 .OrderBy(x => x.FixtureDate)
                 .ToList();
 
-
             if (id == null) return View(predictions);
 
-            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
 
             var bet = new BettingData();
@@ -43,24 +45,46 @@ namespace PredictionAlgo.Controllers
 
             return View(predictions);
         }
-        
-        public ActionResult AllPreviousComparisons(string id)
+
+
+        public ActionResult TestData(string id)
         {
-            var predict = new PredictionComparisonData();
-            var allPredictions = predict.GetAllPredictionComparisons(_db).OrderByDescending(x => x.FixtureDate);
+            var upcomingFixturesWithBettingData = _db.MatchBettingDatas
+                .Where(x => x.FixtureDate > new DateTime(2016,10,27) && x.FixtureDate < new DateTime(2016, 10, 30))
+                .OrderBy(x => x.FixtureDate)
+                .ToList();
 
-            ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
+            var predictions =  _predictCompare.GetPredictionComparisons(upcomingFixturesWithBettingData);
 
-            if (id == null) return View(allPredictions);
+            if (id == null) return View(predictions);
 
-            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
             var bet = new BettingData();
-            bet.SaveCsv<PredictionComparison>(allPredictions, "PreviousBettingData");
+            bet.SaveCsv<PredictionComparison>(predictions, "PreviousBettingData");
 
-            return View(allPredictions);
+            return View(predictions);
         }
-       
+
+        public ActionResult AllPreviousComparisons(string id)
+        {
+            using (var predict = new PredictionComparisonData())
+            {
+                var allPredictions = predict.GetAllPredictionComparisons(_db).OrderByDescending(x => x.FixtureDate);
+
+                ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
+
+                if (id == null) return View(allPredictions);
+
+                ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+
+                var bet = new BettingData();
+                bet.SaveCsv<PredictionComparison>(allPredictions, "PreviousBettingData");
+
+                return View(allPredictions);
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -68,6 +92,7 @@ namespace PredictionAlgo.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
+            _db.Dispose();
         }
     }
 }

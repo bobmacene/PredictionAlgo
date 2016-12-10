@@ -9,17 +9,19 @@ namespace PredictionAlgo.Models.DataModel
 {
     public class BettingData
     {
-        private const string HCapCouponPath = @"http://www.paddypower.com/bet/rugby-union/rugby-hcap-coupon";
-        //private const string HCapCouponPath = "file://C:/Users/bob/Documents/" + "ITT Project/BettingHtml/2016.10.07_Rugby H'Cap Betting from Paddy Power.html";
-        private readonly string _uriHCapCoupon = new Uri(HCapCouponPath).AbsoluteUri;
-        public ICollection<MatchBettingData> MatchBettingDataList { get; set; }
+        //private const string HCapCouponPath = @"http://www.paddypower.com/bet/rugby-union/rugby-hcap-coupon";
+        //private const string HCapCouponPath = "file://C:/Users/bob/Documents/" + "ITT Project/BettingHtml/2016.10.25_HCapCoupon - Paddy Power.html";
+        private const string HCapCouponPath = @"file://C:/Users/rip/Documents/ITT/Project/BettingHtml&Excel/2016.10.25_HCapCoupon" +" - Paddy Power.html";
+        private readonly string _uriHCapCoupon = new Uri(HCapCouponPath).LocalPath;
+        public IEnumerable<MatchBettingData> MatchBettingDataList { get; set; }
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
-        public ICollection<MatchBettingData> GetCurrentBettingData
+        public IEnumerable<MatchBettingData> GetCurrentBettingData
         {
             get
             {
                 var webScraper = new WebScraper();
                 MatchBettingDataList = webScraper.GetMatchBettingData(webScraper.GetSpreadsAndOdds(_uriHCapCoupon));
+
                 foreach (var bettingData in MatchBettingDataList)
                 {
                     bettingData.FixtureReference = WebScraper.GetFixtureReference(bettingData.HomeTeam, bettingData.FixtureDate);
@@ -48,7 +50,7 @@ namespace PredictionAlgo.Models.DataModel
             var time = DateTime.Now.ToString("yyyyMMdd_hmmss");
             const string directoryPath = @"C:\\Users\\TEMP";
 
-            var path = string.Format(@"C:\\Users\\TEMP\\{0}_{1}.csv", fileName, time);
+            var path = $@"C:\\Users\\TEMP\\{fileName}_{time}.csv";
 
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
@@ -72,19 +74,3 @@ namespace PredictionAlgo.Models.DataModel
 //private string localPathTop14 = new Uri(TestTop14).LocalPath;
 //"file:///C:/Users/rip/Documents/ITT/Project/BettingHtml&Excel/2016.08.16_French Top 14 Betting " 
 #endregion
-
-//foreach (var bet in _db.MatchBettingDatas)
-//{
-//    var recordToEdit = _db.MatchBettingDatas.Find(bet.MatchDataReference);
-//    _db.MatchBettingDatas.Remove(recordToEdit);
-//    _db.SaveChangesAsync();
-
-//    recordToEdit.FixtureReference  = WebScraper.GetFixtureReference(recordToEdit.HomeTeam, recordToEdit.FixtureDate);
-
-//    if (_db.MatchBettingDatas.Any(x => x.MatchDataReference != recordToEdit.MatchDataReference))
-//    {
-//        _db.MatchBettingDatas.Add(recordToEdit);
-//        _db.SaveChangesAsync();
-//    }
-//}
-//_db.SaveChanges();

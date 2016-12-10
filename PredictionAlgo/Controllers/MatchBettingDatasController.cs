@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.DataModel;
@@ -28,7 +29,7 @@ namespace PredictionAlgo.Controllers
             var bettingData = new BettingData();
             var pro12Data = bettingData.GetCurrentBettingData;
 
-            if (pro12Data.Count == 0) ViewData["NoData"] = "Currently no betting odds available online";
+            if (!pro12Data.Any()) @ViewData["NoData"] = "Currently no betting odds available online";
 
             if (id == null) return View(pro12Data.ToList());
 
@@ -40,6 +41,24 @@ namespace PredictionAlgo.Controllers
             return View(pro12Data.ToList());
         }
 
+        public ActionResult TestData(string id)
+        {
+            var pro12Data = _db.MatchBettingDatas
+                 .Where(x => x.FixtureDate > new DateTime(2016, 10, 27) && x.FixtureDate < new DateTime(2016, 10, 30))
+                 .OrderBy(x => x.FixtureDate)
+                 .ToList();
+
+            if (id == null) return @View(pro12Data.ToList());
+
+            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+
+            var bet = new BettingData();
+            bet.SaveCsv<MatchBettingData>(pro12Data, "FutureBettingData");
+
+            return View(pro12Data.ToList());
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -47,6 +66,7 @@ namespace PredictionAlgo.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
+            _db.Dispose();
         }
     }
 }

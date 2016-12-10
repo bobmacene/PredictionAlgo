@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using PredictionAlgo.Models.DataModel;
 
 namespace PredictionAlgo.Models
 {
@@ -16,7 +15,7 @@ namespace PredictionAlgo.Models
         public DateTime? FixtureDate { get; set; }
         [DisplayName("Predicted Delta")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
-        public double AlgoScoreSpreadPrediction { get; set; }
+        public double PredictionDelta { get; set; }
         [DisplayName("Book v Predicted")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double BookVsPrediction { get; set; }
@@ -35,7 +34,7 @@ namespace PredictionAlgo.Models
 
         public PredictionComparison() { }  
         public PredictionComparison(
-            MatchBettingData bettingData, Team? teamToBack, Team? swerveTeam, double algoScoreSpreadPrediction)
+            MatchBettingData bettingData, Team? teamToBack, Team? swerveTeam, double predictionDelta)
         {
             FixtureDate = bettingData.FixtureDate;
             HomeTeam = bettingData.HomeTeam;
@@ -45,8 +44,8 @@ namespace PredictionAlgo.Models
             BettingData = bettingData;
             TeamToBack = teamToBack;
             SwerveTeam = swerveTeam;
-            AlgoScoreSpreadPrediction = algoScoreSpreadPrediction;
-            BookVsPrediction = algoScoreSpreadPrediction + bettingData.HomeSpread;
+            PredictionDelta = predictionDelta;
+            BookVsPrediction = predictionDelta + bettingData.HomeSpread;
             TimeStamp = DateTime.Now;
         }
     
@@ -59,7 +58,7 @@ namespace PredictionAlgo.Models
             AwayTeam = fixture.AwayTeam;
             AwaySpread = betting.AwaySpread;
             BettingData = betting;
-            AlgoScoreSpreadPrediction = fixture.PredictedDelta;
+            PredictionDelta = fixture.PredictedDelta;
             BookVsPrediction = fixture.PredictedDelta + betting.HomeSpread;
             ActualScoreDelta = fixture.ScoreDelta;
             TimeStamp = DateTime.Now;

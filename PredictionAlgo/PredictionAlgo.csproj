@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>PredictionAlgo.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,6 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>PredictionAlgo.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
@@ -214,6 +216,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FixturesController.cs" />
+    <Compile Include="Models\Utility.cs" />
     <Compile Include="Views\ToBeDeleted\__HomeController.cs" />
     <Compile Include="Controllers\MatchBettingDatasController.cs" />
     <Compile Include="Controllers\PredictionComparisonsController.cs" />
@@ -229,8 +232,6 @@
     <Compile Include="Models\PredictionComparison.cs" />
     <Compile Include="Models\ResultStatistics.cs" />
     <Compile Include="Models\DataModel\BettingData.cs" />
-    <Compile Include="Models\ViewModel\FixtureIcalParser.cs" />
-    <Compile Include="Models\ViewModel\FixtureRanges.cs" />
     <Compile Include="Models\ViewModel\PredictedResult.cs" />
     <Compile Include="Models\ViewModel\ResultsBySeason.cs" />
     <Compile Include="Models\ViewModel\WebScraper.cs" />
@@ -251,6 +252,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\bettingData_2016.10.28" />
+    <Content Include="PredictionAlgo.ruleset" />
     <None Include="Properties\PublishProfiles\PredictionAlgoWebApp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -267,7 +269,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Fixtures\Index.cshtml" />
     <Content Include="Views\Fixtures\ResultsSeason2011_2012.cshtml" />
     <Content Include="Views\Fixtures\ResultsSeason2010_2011.cshtml" />
     <Content Include="Views\Fixtures\ResultsSeason2013_2014.cshtml" />
@@ -275,7 +276,6 @@
     <Content Include="Views\Fixtures\ResultsSeason2014_2015.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\ResultStatistics\PredictResult.cshtml" />
-    <Content Include="Views\Fixtures\_PartialPageLastFiveFixtures.cshtml" />
     <Content Include="Views\ToBeDeleted\Create.cshtml" />
     <Content Include="Views\ToBeDeleted\Delete.cshtml" />
     <Content Include="Views\ToBeDeleted\Details.cshtml" />
@@ -289,6 +289,8 @@
     </Content>
     <Content Include="Views\PredictionComparisons\AllPreviousComparisons.cshtml" />
     <Content Include="Views\MatchBettingDatas\GetBettingData.cshtml" />
+    <Content Include="Views\PredictionComparisons\TestData.cshtml" />
+    <Content Include="Views\MatchBettingDatas\TestData.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

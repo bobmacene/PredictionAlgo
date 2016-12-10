@@ -14,7 +14,7 @@ namespace PredictionAlgo.Models
         [DisplayName("Fixture Date ")]
         public DateTime? FixtureDate { get; set; }
         [DisplayName("Result ")]
-        public Result? result { get; set; }
+        public Result? Result { get; set; }
         [DisplayName("Home Team ")]
         public Team? HomeTeam { get; set; }
         [DisplayName("Home Score ")]
@@ -28,9 +28,6 @@ namespace PredictionAlgo.Models
         [DisplayName("Predicted Delta ")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double PredictedDelta { get; set; }
-        [DisplayName("Actual v Predicted Delta ")]
-        [DisplayFormat(DataFormatString = "{0:#.##}")]
-        public double ActualVersusPredictedDelta { get; set; }
         [DisplayName("Predicted Result ")]
         public Result? PredictedResult { get; set; }
         [DisplayName("Prediction Outcome ")]

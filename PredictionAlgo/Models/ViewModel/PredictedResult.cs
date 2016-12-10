@@ -43,62 +43,64 @@ namespace PredictionAlgo.Models.ViewModel
             return teamResults;
         }
 
-        public float GetAverageHomeScoreLastFiveHomeGames(Team? team, DateTime? date, PredictionAlgoContext context)
+        public double GetAveHomeScoreLast5HomeGames(Team? team, DateTime? date, PredictionAlgoContext context)
         {
             if (team == null || date == null) return 0;
 
             var homeResults = GetHomeTeamResults(context);
 
-            return (float)homeResults[team].Where(X => X.FixtureDate <= date)
-                .Take(7)
+            return homeResults[team].Where(x => x.FixtureDate <= date)
+                .Take(5)
                 .Select(x => x.HomeScore)
-                .Average(); ;
+                .Average(); 
         }
 
-        public float GetAverageScoreDeltaLastFiveHomeGames(Team? team, DateTime? date, PredictionAlgoContext context)
+        public double GetAveDeltaLast5HomeGames(Team? team, DateTime? date, PredictionAlgoContext context)
         {
             if (team == null || date == null) return 0;
 
             var homeResults = GetHomeTeamResults(context);
 
-            return (float)homeResults[team].Where(X => X.FixtureDate <= date)
-                .Take(7)
+            return homeResults[team].Where(x => x.FixtureDate <= date)
+                .Take(5)
                 .Select(x => x.ScoreDelta)
                 .Average();
         }
 
-        public float GetAverageAwayScoreLastFiveAwayGames(Team? team, DateTime? date, PredictionAlgoContext context)
+        public double GetAveAwayScoreLast5AwayGames(Team? team, DateTime? date, PredictionAlgoContext context)
         {
             if (team == null || date == null) return 0;
 
             var awayResults = GetAwayTeamResults(context);
 
-            return (float) awayResults[team].Where(X => X.FixtureDate <= date)
-                .Take(7)
+            return awayResults[team].Where(x => x.FixtureDate <= date)
+                .Take(5)
                 .Select(x => x.AwayScore)
                 .Average();
         }
 
-        public float GetAverageScoreDeltaLastFiveAwayGames(Team? team, DateTime? date, PredictionAlgoContext context)
+        public double GetAveDeltaLast5AwayGames(Team? team, DateTime? date, PredictionAlgoContext context)
         {
             if (team == null || date == null) return 0;
 
             var awayResults = GetAwayTeamResults(context);
 
-            return (float)awayResults[team].Where(X => X.FixtureDate <= date)
-                .Take(7)
+            return awayResults[team].Where(x => x.FixtureDate <= date)
+                .Take(5)
                 .Select(x => x.ScoreDelta)
                 .Average();
         }
-        public float GetAverageScoreDeltaOfLastTwoResultsBetweenTeams(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
+
+
+        public double GetAveDeltaLast2ResultsBtwnTeams(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
         {
             if (homeTeam == null || awayTeam == null || date == null) return 0;
 
             var homeResults = GetHomeTeamResults(context);
             var awayResults = GetAwayTeamResults(context);
 
-            var lastHomeResultBtwnTeams = homeResults[homeTeam].Where(X => (X.AwayTeam == awayTeam
-               && X.FixtureDate <= date))
+            var lastHomeResultBtwnTeams = homeResults[homeTeam].Where(x => (x.AwayTeam == awayTeam
+               && x.FixtureDate <= date))
                .Take(1)
                .Select(x => x.ScoreDelta);
 
@@ -107,40 +109,55 @@ namespace PredictionAlgo.Models.ViewModel
                 .Select(x => x.ScoreDelta)
                 .Take(1);
 
-            return (float)lastHomeResultBtwnTeams.ElementAt(0) + lastAwayResultBtwnTeams.ElementAt(0) / 2;
+            return lastHomeResultBtwnTeams.ElementAt(0) + lastAwayResultBtwnTeams.ElementAt(0) / 2;
         }
+
 
         public ResultStatistics GetPredictedResult(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
         {
-            var aveHomeScoreLastFiveHomeResults = GetAverageHomeScoreLastFiveHomeGames(homeTeam, date, context);
-            var aveAwayScoreLastFiveAwayResults = GetAverageAwayScoreLastFiveAwayGames(awayTeam, date, context);
+            var predictedDelta = GetPredictedDelta(homeTeam, awayTeam, date, context);
 
-            var scoreDeltalastFiveHomeResults = GetAverageAwayScoreLastFiveAwayGames(homeTeam, date, context);
-            var scoreDeltalastFiveAwayResults = GetAverageScoreDeltaLastFiveAwayGames(awayTeam, date, context);
-
-            var lastTwoResultsBtwnTeams = GetAverageScoreDeltaOfLastTwoResultsBetweenTeams(homeTeam, awayTeam, date, context);
-
-            var predictedDelta = (aveHomeScoreLastFiveHomeResults - aveAwayScoreLastFiveAwayResults
-                                                    + scoreDeltalastFiveHomeResults
-                                                    + scoreDeltalastFiveAwayResults
-                                                    + lastTwoResultsBtwnTeams)
-                                                    / 4;
             return new ResultStatistics
             {
                 HomeTeam = homeTeam,
                 AwayTeam = awayTeam,
                 Date = date,
-                AverageHomeScoreLastFiveHomeGames = aveHomeScoreLastFiveHomeResults,
-                AverageScoreDeltaLastFiveHomeGames = aveAwayScoreLastFiveAwayResults,
-                AverageAwayScoreLastFiveAwayGames = scoreDeltalastFiveHomeResults,
-                AverageScoreDeltaLastFiveAwayGames = scoreDeltalastFiveAwayResults,
-                AverageScoreDeltaOfLastTwoResultsBetweenTeams = lastTwoResultsBtwnTeams,
-                PredictedScoreDelta =  (float)predictedDelta
-                //PredictedScoreDelta = ApplySpreadChangeForDate(predictedDelta, (DateTime)date)
+                AveHomeScoreLast5HomeGames = GetAveHomeScoreLast5HomeGames(homeTeam, date, context),
+                AveDeltaLast5HomeGames = GetAveDeltaLast5HomeGames(homeTeam, date, context),
+                AveAwayScoreLast5AwayGames = GetAveAwayScoreLast5AwayGames(awayTeam, date, context),
+                AveDeltaLast5AwayGames = GetAveDeltaLast5AwayGames(awayTeam, date, context),
+                AveDeltaLast2ResultsBtwnTeams = GetAveDeltaLast2ResultsBtwnTeams(homeTeam, awayTeam, date, context),
+                PredictedDelta =  predictedDelta
             };
         }
 
-        public float ApplySpreadChangeForDate(float prediction, DateTime? date)  //weather factor
+        public double GetPredictedDelta(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
+        {
+            var aveHomeScoreLast5HomeResults = GetAveHomeScoreLast5HomeGames(homeTeam, date, context);
+            var aveAwayScoreLast5AwayResults = GetAveAwayScoreLast5AwayGames(awayTeam, date, context);
+
+            var deltaLast5HomeResults = GetAveDeltaLast5HomeGames(homeTeam, date, context);
+            var deltaLast5AwayResults = GetAveDeltaLast5AwayGames(awayTeam, date, context);
+
+            var last2ResultsBtwnTeams = GetAveDeltaLast2ResultsBtwnTeams(homeTeam, awayTeam, date, context);
+
+            double predictedDelta;
+
+           // if (aveHomeScoreLast5HomeResults > 0 && deltaLast5HomeResults > 0)
+           // {
+                predictedDelta = (aveHomeScoreLast5HomeResults - aveAwayScoreLast5AwayResults
+                //+ deltaLast5HomeResults - deltaLast5AwayResults
+                + last2ResultsBtwnTeams)
+                / 2;
+           // }
+                
+
+           // var weatherResult = ApplySpreadChangeForDate(predictedDelta, date);
+            return predictedDelta;
+        }
+
+
+        public double ApplySpreadChangeForDate(double prediction, DateTime? date)  //weather factor
         {
             switch (date?.Month)
             {
@@ -161,45 +178,6 @@ namespace PredictionAlgo.Models.ViewModel
             }
             return prediction;
         }
-
-        #region FixtureRange
-        //public List<Fixture> GetRangeOfFixtures(PredictionAlgoContext context, DateTime startDate, DateTime endDate)
-        //{
-        //    return context.Fixtures.Where(fixture => fixture.FixtureDate >= startDate && fixture.FixtureDate <= endDate).ToList();
-        //}
-
-        //public List<ResultStatistics> GetPredictedResultList(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
-        //{
-        //    var aveHomeScoreLastFiveHomeResults = GetAverageHomeScoreLastFiveHomeGames(homeTeam, date, context);
-        //    var aveAwayScoreLastFiveAwayResults = GetAverageAwayScoreLastFiveAwayGames(awayTeam, date, context);
-
-        //    var scoreDeltalastFiveHomeResults = GetAverageAwayScoreLastFiveAwayGames(homeTeam, date, context);
-        //    var scoreDeltalastFiveAwayResults = GetAverageScoreDeltaLastFiveAwayGames(awayTeam, date, context);
-
-        //    var lastTwoResultsBtwnTeams = GetAverageScoreDeltaOfLastTwoResultsBetweenTeams(homeTeam, awayTeam, date, context);
-
-        //    var predictedDelta = (aveHomeScoreLastFiveHomeResults - aveAwayScoreLastFiveAwayResults
-        //                                            + scoreDeltalastFiveHomeResults
-        //                                            + scoreDeltalastFiveAwayResults
-        //                                            + lastTwoResultsBtwnTeams)
-        //                                            / 4;
-        //    return new List<ResultStatistics>
-        //    {
-        //        new ResultStatistics
-        //        {
-        //            HomeTeam = homeTeam,
-        //            AwayTeam = awayTeam,
-        //            Date = date,
-        //            AverageHomeScoreLastFiveHomeGames = aveHomeScoreLastFiveHomeResults,
-        //            AverageScoreDeltaLastFiveHomeGames = aveAwayScoreLastFiveAwayResults,
-        //            AverageAwayScoreLastFiveAwayGames = scoreDeltalastFiveHomeResults,
-        //            AverageScoreDeltaLastFiveAwayGames = scoreDeltalastFiveAwayResults,
-        //            AverageScoreDeltaOfLastTwoResultsBetweenTeams = lastTwoResultsBtwnTeams,
-        //            PredictedScoreDelta = predictedDelta
-        //        }
-        //    };
-        //} 
-        #endregion
 
     }
 }

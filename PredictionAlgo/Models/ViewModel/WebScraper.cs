@@ -71,12 +71,17 @@ namespace PredictionAlgo.Models.ViewModel
                 }
                
                 var predictedDelta = predictedResult.GetPredictedResult(homeTeam, awayTeam, fixtureDate, context);
-                var predictedFixtureResult = predictedDelta.PredictedScoreDelta < 0 ? Result.HomeLoss :Result.HomeWin;
+
+                var predictedFixtureResult = predictedDelta.PredictedDelta < 0 ? Result.HomeLoss :Result.HomeWin;
+
                 var scoreDelta = homeScore - awayScore;
+
                 var actualResult = scoreDelta < 0 ?  Result.HomeLoss : 
-                                       scoreDelta == 0 ? Result.Draw : Result.HomeWin;  
-                var predictionOutcome = predictedDelta.PredictedScoreDelta - scoreDelta > 0 ?
+                                       scoreDelta == 0 ? Result.Draw : Result.HomeWin;
+
+                var predictionOutcome = predictedDelta.PredictedDelta - scoreDelta > 0 ?
                                         PredictionOutcome.Fail : PredictionOutcome.Success;
+
                 var fixture = new Fixture
                 {
                     FixtureDate = fixtureDate,
@@ -85,11 +90,10 @@ namespace PredictionAlgo.Models.ViewModel
                     AwayTeam = awayTeam,
                     AwayScore = awayScore,
                     ScoreDelta = scoreDelta,
-                    PredictedDelta = predictedDelta.PredictedScoreDelta,
-                    ActualVersusPredictedDelta = scoreDelta - predictedDelta.PredictedScoreDelta,
+                    PredictedDelta = predictedDelta.PredictedDelta,
                     PredictedResult = predictedFixtureResult,
                     PredictionOutcome = predictionOutcome,
-                    result = actualResult,
+                    Result = actualResult,
                     Competition = Competition.Pro12,
                     FixtureReference = GetFixtureReference(homeTeam, fixtureDate)
                 };
@@ -214,35 +218,6 @@ namespace PredictionAlgo.Models.ViewModel
                         matchDataList[x + 7], matchDataList[x + 8]));
                 }
             }
-
-            #region TryCatch
-            //try
-            //{
-            //    var web = new HtmlWeb();
-            //    var page = web.Load(url);
-            //    var nodes = page.DocumentNode.SelectNodes(MatchXpath);
-            //    var innerTexts = nodes.Select(x => x.InnerText).ToList();
-
-            //    var matchDataList = innerTexts.SelectMany(s => s.Split('\n', '\t'))
-            //        .Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
-
-            //    for (var x = 0; x < matchDataList.Count; x += 9)
-            //    {
-            //        teamAndOddsList.Add(new OddsSpreads(
-            //        matchDataList[x], matchDataList[x + 1], matchDataList[x + 2], matchDataList[x + 6],
-            //        matchDataList[x + 7], matchDataList[x + 8]));
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    var noDataAvailable = new OddsSpreads()
-            //    {
-            //        NoOddsAvailableText = "No match data available online @: " + DateTime.Now.ToString(),
-            //        isMatchDataAvailable = false
-            //    };
-            //    teamAndOddsList.Add(noDataAvailable);
-            //} 
-            #endregion
 
             return teamAndOddsList;
         }

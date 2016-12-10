@@ -1,28 +1,17 @@
 ﻿@model IEnumerable<PredictionAlgo.Models.MatchBettingData>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "TEST DATA";
 }
 
 <div>
-    <h2>Current Match Betting Data</h2>
+    <h2>Current Match Betting Data - TEST DATA</h2>
     <h6>as at:  @DateTime.Now</h6>
 </div>
 
-<h3 style="color: red"> @ViewData["NoData"]</h3>
 
 
-@if ((string)@ViewData["NoData"] == "Currently no betting odds available online")
-{
-    <div align="left" style="background-color: #ededed">
-        <h3>If no realtime data available click below button to view test data:</h3>
-        <input type="button" class="btn btn-info" value="Get Test Betting Data"
-               onclick="@("window.location.href='" + @Url.Action("TestData") + "'"); " />
-    </div>
-}
-
-
-@if ((string)@ViewData["CsvExport"] == string.Empty)
+@if ((string)ViewData["CsvExport"] == string.Empty)
 {
     <div align="right">
         <h4>
@@ -133,14 +122,15 @@ else
 }
 
 
+<div align="right">
+    <h3>Click below button for recommendations on which team to back:</h3>
 
-@if ((string)@ViewData["NoData"] != "Currently no betting odds available online")
-{
-    <div align="right">
-        <h3>Click below button for recommendations on which team to back:</h3>
+    <input type="button" class="btn btn-info" value="Get teams to back for these fixtures"
+           onclick="@("window.location.href='" + Url.Action("Index", "PredictionComparisons") + "'"); " />
+</div>
 
-        <input type="button" class="btn btn-info" value="Get teams to back for these fixtures"
-               onclick="@("window.location.href='" + @Url.Action("Index", "PredictionComparisons") + "'"); "/>
-    </div>
-}
-
+<div align="right" style="background-color: #ededed">
+    <h3>To leave test data page click below button:</h3>
+    <input type="button" class="btn btn-info" value="Return To Realtime Betting Data"
+           onclick="@("window.location.href='" + Url.Action("Index") + "'"); " />
+</div>

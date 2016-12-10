@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.ViewModel;
-using System;
 using PredictionAlgo.Models.DataModel;
 
 namespace PredictionAlgo.Controllers
@@ -10,12 +11,8 @@ namespace PredictionAlgo.Controllers
     public class FixturesController : Controller
     {
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
-        [ChildActionOnly]
-        public ActionResult PartialPage_LastFiveFixtures(Team? team, DateTime? date)
-        {
-            var previousFiveResults = new FixtureRanges();
-            return PartialView(previousFiveResults.GetLastFiveFixturesByTeam(_db, team, date));
-        }
+       
+
         public ActionResult ResultsSeason2010_2011(string id)
         {
             var results = new ResultsSeason2010_2011();
@@ -23,11 +20,11 @@ namespace PredictionAlgo.Controllers
 
             _db.SaveChanges();
 
-            @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
+            ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
             if (id == null) return View(orderedResults);
 
-            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
             var bet = new BettingData();
             bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
@@ -42,11 +39,11 @@ namespace PredictionAlgo.Controllers
 
             _db.SaveChanges();
 
-            @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
+            ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
             if (id == null) return View(orderedResults);
 
-            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
             var bet = new BettingData();
             bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
@@ -61,11 +58,11 @@ namespace PredictionAlgo.Controllers
 
             _db.SaveChanges();
 
-            @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
+            ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
             if (id == null) return View(orderedResults);
 
-            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
             var bet = new BettingData();
             bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
@@ -79,11 +76,11 @@ namespace PredictionAlgo.Controllers
 
             _db.SaveChanges();
 
-            @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
+            ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
             if (id == null) return View(orderedResults);
 
-            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
             var bet = new BettingData();
             bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
@@ -98,11 +95,11 @@ namespace PredictionAlgo.Controllers
 
             _db.SaveChanges();
 
-            @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
+            ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
             if (id == null) return View(orderedResults);
 
-            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
             var bet = new BettingData();
             bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
@@ -116,11 +113,11 @@ namespace PredictionAlgo.Controllers
 
             _db.SaveChanges();
 
-            @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
+            ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
             if (id == null) return View(orderedResults);
 
-            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
+            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
             var bet = new BettingData();
             bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
@@ -130,33 +127,35 @@ namespace PredictionAlgo.Controllers
 
         public ActionResult ResultsSeason2016_2017(string id)
         {
+            var fixtureData = new FixtureData();
+
+            if (id == "updateFixtures") fixtureData.UpdateFixtureDataSet();
+
+            if (id == "getRecentResults")
+            {
+                var scrapedFixtures = fixtureData.GetFixturesAndResults;
+
+                ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
+
+                return View(scrapedFixtures.ToList().OrderByDescending(x => x.FixtureDate));
+            }
+
             var results = new ResultsSeason2016_2017();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
 
-            _db.SaveChanges();
+            ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
-            @ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
+            if (id == "id")
+            {
+                ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
 
-            if (id == null) return View(orderedResults);
-
-            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
+                var bet = new BettingData();
+                bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
+            }
 
             return View(orderedResults);
         }
 
-        // GET: Fixtures
-        public ActionResult Index()
-        {
-            var fixtures = new FixtureData();
-            var scrapedFixtures = fixtures.GetFixturesAndResults;
-            //var scrapedFixtures = fixtures.GetIcalFixturesAndResults;
-            //var currentSeasonResults = new ResultsSeason2016_2017().GetSeasonResults(_db);
-
-            return View(scrapedFixtures.ToList().OrderByDescending(x=>x.FixtureDate));
-        }
 
         protected override void Dispose(bool disposing)
         {
@@ -165,6 +164,7 @@ namespace PredictionAlgo.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
+            _db.Dispose();
         }
     }
 }
