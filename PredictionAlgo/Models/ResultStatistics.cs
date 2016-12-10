@@ -33,7 +33,7 @@ namespace PredictionAlgo.Models
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double AveDeltaLast2ResultsBtwnTeams { get; set; }
         [DisplayName("Predicted Delta")]
-        public double PredictedDelta { get; set; }
+        public double PredictedScoreDelta { get; set; }
         [DisplayName("Home Team")]
         [Required(ErrorMessage = "Required Field")]
         public Team? SelectHomeTeam { get; set; }
@@ -71,7 +71,7 @@ namespace PredictionAlgo.Models
             get
             {
                 var result = _predictedResult.GetPredictedResult(SelectHomeTeam, SelectAwayTeam, SelectDate, _db);
-                return result.PredictedDelta;
+                return result.PredictedScoreDelta;
             }
         }
 

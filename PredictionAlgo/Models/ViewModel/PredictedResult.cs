@@ -127,7 +127,7 @@ namespace PredictionAlgo.Models.ViewModel
                 AveAwayScoreLast5AwayGames = GetAveAwayScoreLast5AwayGames(awayTeam, date, context),
                 AveDeltaLast5AwayGames = GetAveDeltaLast5AwayGames(awayTeam, date, context),
                 AveDeltaLast2ResultsBtwnTeams = GetAveDeltaLast2ResultsBtwnTeams(homeTeam, awayTeam, date, context),
-                PredictedDelta =  predictedDelta
+                PredictedScoreDelta =  predictedDelta
             };
         }
 

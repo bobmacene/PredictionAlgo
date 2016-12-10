@@ -72,14 +72,14 @@ namespace PredictionAlgo.Models.ViewModel
                
                 var predictedDelta = predictedResult.GetPredictedResult(homeTeam, awayTeam, fixtureDate, context);
 
-                var predictedFixtureResult = predictedDelta.PredictedDelta < 0 ? Result.HomeLoss :Result.HomeWin;
+                var predictedFixtureResult = predictedDelta.PredictedScoreDelta < 0 ? Result.HomeLoss :Result.HomeWin;
 
                 var scoreDelta = homeScore - awayScore;
 
                 var actualResult = scoreDelta < 0 ?  Result.HomeLoss : 
                                        scoreDelta == 0 ? Result.Draw : Result.HomeWin;
 
-                var predictionOutcome = predictedDelta.PredictedDelta - scoreDelta > 0 ?
+                var predictionOutcome = predictedDelta.PredictedScoreDelta - scoreDelta > 0 ?
                                         PredictionOutcome.Fail : PredictionOutcome.Success;
 
                 var fixture = new Fixture
@@ -90,7 +90,7 @@ namespace PredictionAlgo.Models.ViewModel
                     AwayTeam = awayTeam,
                     AwayScore = awayScore,
                     ScoreDelta = scoreDelta,
-                    PredictedDelta = predictedDelta.PredictedDelta,
+                    PredictedDelta = predictedDelta.PredictedScoreDelta,
                     PredictedResult = predictedFixtureResult,
                     PredictionOutcome = predictionOutcome,
                     Result = actualResult,
