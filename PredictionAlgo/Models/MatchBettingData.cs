@@ -9,27 +9,38 @@ namespace PredictionAlgo.Models
     { 
         [Key]
         public string MatchDataReference { get; set; }
+
         [DisplayName("Home Team")]
         public Team HomeTeam { get; set; }
+
         [DisplayName("Home Spread")]
         public double HomeSpread { get; set; }
+
         [DisplayName("Home Team Odds")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public decimal HomeTeamOdds { get; set; }
+
         [DisplayName("Away Team")]
         public Team? AwayTeam { get; set; }
+
         [DisplayName("Away Spread")]
         public double AwaySpread { get; set; }
+
         [DisplayName("Away Team Odds")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public decimal AwayTeamOdds { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:yyyy MM dd}")]
         [DataType(DataType.Date)]
         [DisplayName("Fixture Date")]
         public DateTime? FixtureDate { get; set; }
-        public DateTime TimeStamp { get; set; }      
+
+        public DateTime TimeStamp { get; set; }
+
         public string FixtureReference { get; set; } //common reference
+
         public string NoOddsAvailableText { get; set; }
+
 
         public MatchBettingData(WebScraper.OddsSpreads oddsSpreads)
         {
@@ -44,6 +55,8 @@ namespace PredictionAlgo.Models
             FixtureReference = oddsSpreads.HomeTeam + oddsSpreads.Date;
             TimeStamp = DateTime.Now;
         }
+
+
         public MatchBettingData()
         {
             MatchDataReference = string.Empty;
@@ -55,6 +68,22 @@ namespace PredictionAlgo.Models
             AwayTeamOdds = 0;
             FixtureDate = null;
             TimeStamp = DateTime.Now;
+        }
+
+
+        public MatchBettingData(string reference, int home, int homeSpread, double homeOdds,
+            int away, int awaySpread, double awayOdds, string fixtureDate)
+        {
+            MatchDataReference = reference;
+            HomeTeam = (Team) home;
+            HomeSpread = homeSpread;
+            HomeTeamOdds = Convert.ToDecimal(homeOdds);
+            AwayTeam = (Team)away;
+            AwaySpread = awaySpread;
+            AwayTeamOdds = Convert.ToDecimal(awayOdds);
+            FixtureDate = Convert.ToDateTime(fixtureDate);
+            TimeStamp = DateTime.Now;
+            FixtureReference = reference;
         }
 
     }

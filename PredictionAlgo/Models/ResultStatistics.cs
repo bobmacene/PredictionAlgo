@@ -9,41 +9,54 @@ namespace PredictionAlgo.Models
     {
         [Key]
         public int StatisticReference { get; set; }
+
         [DisplayName("Home Team")]
         public Team? HomeTeam { get; set; }
+
         [DisplayName("Away Team")]
         public Team? AwayTeam { get; set; }
+
         [DisplayName("Stats At This Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy MM dd}")]
         [DataType(DataType.Date)]
         public DateTime? Date { get; set; }
-        [DisplayName("Average Home Score Last Five Home Games")]
+
+        [DisplayName("Ave Home Score Last 5 Home Games")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double AveHomeScoreLast5HomeGames { get; set; }
-        [DisplayName("Average Delta Last Five Home Games")]
+
+        [DisplayName("Ave Delta Last 5 Home Games")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double AveDeltaLast5HomeGames { get; set; }
-        [DisplayName("Average Away Score Last Five Away Games")]
+
+        [DisplayName("Ave Away Score Last 5 Away Games")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double AveAwayScoreLast5AwayGames { get; set; }
-        [DisplayName("Average Delta Last Five Away Games")]
+
+        [DisplayName("Ave Delta Last 5 Away Games")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double AveDeltaLast5AwayGames { get; set; }
-        [DisplayName("Average Delta Of Last Two Results Btwn Teams")]
+
+        [DisplayName("Ave Delta Last 2 Results Btwn Teams")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double AveDeltaLast2ResultsBtwnTeams { get; set; }
+
         [DisplayName("Predicted Delta")]
         public double PredictedScoreDelta { get; set; }
+
         [DisplayName("Home Team")]
         [Required(ErrorMessage = "Required Field")]
         public Team? SelectHomeTeam { get; set; }
+
         [DisplayName("Away Team")]
         [Required(ErrorMessage = "Required Field")]
         public Team? SelectAwayTeam { get; set; }
+
         [Required(ErrorMessage = "Required Field")]
         [DisplayName("Stats At This Date")]
         [DataType(DataType.Date)]
         public DateTime? SelectDate { get; set; }
+
         public string FixtureReference { get; set; } //common reference
 
         public ResultStatistics FixturePredictedResult { get; set; }
