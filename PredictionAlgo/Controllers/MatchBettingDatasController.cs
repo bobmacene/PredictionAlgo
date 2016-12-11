@@ -13,7 +13,10 @@ namespace PredictionAlgo.Controllers
         // GET: MatchBettingDatas
         public ActionResult Index(string id)
         {
-            var bettingData = _db.MatchBettingDatas.ToList().OrderByDescending(x => x.FixtureDate);
+            var bettingData = _db.MatchBettingDatas
+                .GroupBy(x => x.FixtureReference)
+                .Select(x=>x.First())
+                .OrderByDescending(x => x.FixtureDate);
 
             if (id == null) return View(bettingData);
 
