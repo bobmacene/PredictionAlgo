@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.DataModel;
 
@@ -14,8 +15,7 @@ namespace PredictionAlgo.Controllers
         public ActionResult Index(string id)
         {
             var bettingData = _db.MatchBettingDatas
-                .GroupBy(x => x.FixtureReference)
-                .Select(x=>x.First())
+                .DistinctBy(x => x.FixtureReference)
                 .OrderByDescending(x => x.FixtureDate);
 
             if (id == null) return View(bettingData);
