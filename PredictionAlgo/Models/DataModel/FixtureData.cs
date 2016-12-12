@@ -64,28 +64,5 @@ namespace PredictionAlgo.Models.DataModel
             }
         }
 
-        public void UpdateFixtureDataSet()
-        {
-            var predict = new PredictedResult();
-
-            foreach (var fixture in _db.Fixtures)
-            {
-                var updatedFixture = _db.Fixtures.FirstOrDefault(x => x.FixtureReference == fixture.FixtureReference);
-
-                if (updatedFixture == null) continue;
-
-                updatedFixture.PredictedDelta = predict.GetPredictedDelta(fixture.HomeTeam, fixture.AwayTeam, fixture.FixtureDate, _db);
-
-                updatedFixture.PredictedResult = updatedFixture.PredictedDelta > 0 ? Result.HomeWin : Result.HomeLoss;
-
-                updatedFixture.PredictionOutcome = updatedFixture.PredictedResult == fixture.Result
-                    ? PredictionOutcome.Success
-                    : PredictionOutcome.Fail;
-
-            }
-
-            _db.SaveChanges();
-
-        }
     }
 }

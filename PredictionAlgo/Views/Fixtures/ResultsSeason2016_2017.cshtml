@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "ResultsSeason2016_2017";
 }
+
 <div style="background-color:azure">            
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
@@ -21,12 +22,6 @@
             <li>
         </ul>
     </div>
-</div>
-
-<div align="right">
-    <h4>Click the below button to update fixture data set if algorithm has changed, update will take some time: </h4>
-    <input type="button" name="updateFixtures" class="btn btn-info" value="Update All Fixtures" 
-           onclick="@("window.location.href='" + @Url.Action("ResultsSeason2016_2017", new {id= "updateFixtures"}) + "'" ); " />
 </div>
 
 

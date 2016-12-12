@@ -127,8 +127,6 @@ namespace PredictionAlgo.Controllers
         {
             var fixtureData = new FixtureData();
 
-            if (id == "updateFixtures") fixtureData.UpdateFixtureDataSet();
-
             if (id == "getRecentResults")
             {
                 var scrapedFixtures = fixtureData.GetFixturesAndResults;

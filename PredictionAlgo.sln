@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PredictionAlgo", "Predictio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PredictionAlgo.Tests", "PredictionAlgo.Tests\PredictionAlgo.Tests.csproj", "{5F4F7DC9-C404-4F82-9847-7DE28A305F0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PredictionAlgoDataUpdater", "..\PredictionAlgoDataUpdater\PredictionAlgoDataUpdater\PredictionAlgoDataUpdater.csproj", "{0B0DE99C-2562-49C4-AF2E-342ADF904F53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5F4F7DC9-C404-4F82-9847-7DE28A305F0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F4F7DC9-C404-4F82-9847-7DE28A305F0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F4F7DC9-C404-4F82-9847-7DE28A305F0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B0DE99C-2562-49C4-AF2E-342ADF904F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B0DE99C-2562-49C4-AF2E-342ADF904F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B0DE99C-2562-49C4-AF2E-342ADF904F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B0DE99C-2562-49C4-AF2E-342ADF904F53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

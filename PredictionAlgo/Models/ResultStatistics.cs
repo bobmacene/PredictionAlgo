@@ -1,4 +1,4 @@
-﻿ using PredictionAlgo.Models.ViewModel;
+﻿using PredictionAlgo.Models.ViewModel;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -39,7 +39,7 @@ namespace PredictionAlgo.Models
 
         [DisplayName("Ave Delta Last 2 Results Btwn Teams")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
-        public double AveDeltaLast2ResultsBtwnTeams { get; set; }
+        public double SameFixturePreviousResult { get; set; }
 
         [DisplayName("Predicted Delta")]
         public double PredictedScoreDelta { get; set; }
@@ -77,7 +77,7 @@ namespace PredictionAlgo.Models
             _predictedResult.GetAveDeltaLast5AwayGames(SelectAwayTeam, SelectDate, _db);
 
         public double GetAverageScoreDeltaOfLastTwoResultsBetweenTeams =>
-            _predictedResult.GetAveDeltaLast2ResultsBtwnTeams(SelectHomeTeam, SelectAwayTeam, SelectDate, _db);
+            _predictedResult.GetSameFixturePreviousResult(SelectHomeTeam, SelectAwayTeam, SelectDate, _db);
 
         public double GetPredictedScoreDelta
         {

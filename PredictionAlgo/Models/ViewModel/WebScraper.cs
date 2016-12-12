@@ -7,7 +7,7 @@ using HtmlAgilityPack;
 
 namespace PredictionAlgo.Models.ViewModel
 {
-    public class WebScraper
+    public class WebScraper : CommonFunctions
     {
           #region XPaths
         //private const string DateXpath = "//*[@id=\"main\"]//div//div//div//span";
@@ -112,17 +112,14 @@ namespace PredictionAlgo.Models.ViewModel
             return teamName;
         }
 
+
         private static bool CheckDayOfWeek(string day)
         {
             return day == "Monday" || day == "Tuesday" || day == "Wednesday" || day ==
                    "Thursday" || day == "Friday" || day == "Saturday" || day == "Sunday";
         }
-        public static string GetFixtureReference(Team? homeTeam, DateTime? date)
-        {
-            var shortDate = date ?? DateTime.Today;
-            var dateString = shortDate.ToShortDateString();
-            return homeTeam + dateString;
-        }
+
+
         private static int GetScores(string str, int index)
         {
             var split =  str.Split('-');
@@ -176,6 +173,7 @@ namespace PredictionAlgo.Models.ViewModel
             return matchBettingDataList;
         }
         #endregion
+
         public ICollection<OddsSpreads> GetSpreadsAndOdds(string url)
         {
             var teamAndOddsList = new List<OddsSpreads>(100);
@@ -305,107 +303,5 @@ namespace PredictionAlgo.Models.ViewModel
         }
     }
 }
-
-#region GetMatchDate
-
-//public class MatchDateData
-//{
-//    public DateTime Date { get; set; }
-//    public string HomeTeam { get; set; }
-//    public string AwayTeam { get; set; }
-//    public string NoOddsAvailableText { get; set; }
-//    public bool IsMatchDataAvailable = true;
-//}
-
-//    private const string DateXpath = "//*[@id=\"main\"]//table//tr//td//strong";
-
-//public MatchDateData() { } // req when no betting data found online
-//public MatchDateData(string teams, string date)
-//{
-//    var dateSplit = date.Split(' ');
-//    var day = dateSplit[1].Substring(0, dateSplit[1].Length - 2);
-//    var year = dateSplit[4].Substring(0, dateSplit[4].Length - 1);
-//    int monthInDigit = DateTime.ParseExact(dateSplit[3], "MMMM", CultureInfo.InvariantCulture).Month;
-
-//    var timeSplit = dateSplit[5].Split(':');
-
-//    Date = new DateTime(Convert.ToInt16(year), monthInDigit, Convert.ToInt16(day), Convert.ToInt16(timeSplit[0]),
-//        Convert.ToInt16(timeSplit[1]), 0);
-
-//    var teamSplit = teams.Split(new string[] { " v " }, StringSplitOptions.None);
-
-//    HomeTeam = teamSplit[0].Replace("&nbsp", string.Empty).Replace("\n", string.Empty).Replace("\t", string.Empty).Replace(";", string.Empty).Trim();
-//    AwayTeam = teamSplit[1].Replace("&nbsp", string.Empty).Replace("\n", string.Empty).Replace("\t", string.Empty).Replace(";", string.Empty).Trim();
-//} 
-
-//public List<MatchDateData> GetMatchDates(string url, Competition comp)
-//{
-//    var html = new HtmlWeb();
-//    var page = html.Load(url);
-//    var matchDateData = new List<MatchDateData>(100);
-//    var nodes = page.DocumentNode.SelectNodes(DateXpath);
-//    var innerTexts = nodes.Select(x => x.InnerText).ToList();
-
-//    var matchDateDataList = innerTexts.SelectMany(s => s.Split('\n', '\t'))
-//        .Where(s => !string.IsNullOrWhiteSpace(s))
-//     .Where(s => s != "&nbsp;").ToList();
-
-//    #region DateParse
-//    //if (comp == Competition.Pro12)
-//    //{
-//    //    for (var x = 1; x < matchDateDataList.Count(); x += 5)
-//    //    {
-//    //        matchDateData.Add(new MatchDateData(innerTexts[x], innerTexts[x + 1]));
-//    //    }
-//    //}
-//    //else
-//    //{
-//    //for (var x = 2; x < matchDateDataList.Count(); x += 5)
-//    //{
-//    //    matchDateData.Add(new MatchDateData(innerTexts[x], innerTexts[x + 1]));
-//    //}
-//    //} 
-//    #endregion
-
-//    #region TryCatch
-//    //try
-//    //{
-//    //    var nodes = page.DocumentNode.SelectNodes(DateXpath);
-//    //    var innerTexts = nodes.Select(x => x.InnerText).ToList();
-
-//    //    var matchDateDataList = innerTexts.SelectMany(s => s.Split('\n', '\t'))
-//    //        .Where(s => !string.IsNullOrWhiteSpace(s))
-//    //     .Where(s => s != "&nbsp;").ToList();
-
-//    //    if (comp == Competition.Top14)
-//    //    {
-//    //        for (var x = 1; x < matchDateDataList.Count(); x += 5)
-//    //        {
-//    //            matchDateData.Add(new MatchDateData(innerTexts[x], innerTexts[x + 1]));
-//    //        }
-//    //    }
-//    //    else
-//    //    {
-//    //        for (var x = 2; x < matchDateDataList.Count(); x += 5)
-//    //        {
-//    //            matchDateData.Add(new MatchDateData(innerTexts[x], innerTexts[x + 1]));
-//    //        }
-//    //    }
-//    //}
-//    //catch(Exception)
-//    //{
-//    //    var noDataAvailable = new MatchDateData()
-//    //    {
-//    //        NoOddsAvailableText = "No match data available online @: " + DateTime.Now.ToString(),
-//    //        isMatchDataAvailable = false
-//    //    };
-//    //    matchDateData.Add(noDataAvailable);
-//    //} 
-//    #endregion
-//    return matchDateData;
-//}
-
-
-#endregion
 
 

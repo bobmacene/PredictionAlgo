@@ -9,15 +9,6 @@
 
 <h4 style="color:red">@ViewData["UpcomingFixtureAvailability"]</h4>
 
-@if ((string)ViewData["UpcomingFixtureAvailability"] != string.Empty)
-{
-    <div align="left" style="background-color: #ededed">
-        <h3>If no realtime data available click below button to view test data as an example:</h3>
-        <input type="button" class="btn btn-info" value="Get Test Prediction Comparisons"
-               onclick="@("window.location.href='" + @Url.Action("TestDataComparisons") + "'"); " />
-    </div>
-}
-
 
 @if ((string)ViewData["CsvExport"] == string.Empty)
 {
@@ -141,9 +132,18 @@ else
 
 
 <div align="right">
-    <h3>Click below button to see all previous Predictions (including bookmaker) spreads</h3>
+    <h3>Click below button to see all previous Predictions (including bookmaker spreads)</h3>
     <input type="button" class="btn btn-info" value="Get All Previous Comparisons"
            onclick="@("window.location.href='" + @Url.Action("AllPreviousComparisons") + "'"); "/>
 </div>
 
 
+
+@if ((string)ViewData["UpcomingFixtureAvailability"] != string.Empty)
+{
+    <div align="left" style="background-color: #ededed">
+        <h3>If no realtime data available click below button to view test data as an example:</h3>
+        <input type="button" class="btn btn-info" value="Get Test Prediction Comparisons"
+               onclick="@("window.location.href='" + @Url.Action("TestDataComparisons") + "'"); " />
+    </div>
+}
