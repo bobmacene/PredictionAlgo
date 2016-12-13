@@ -5,6 +5,7 @@ using Microsoft.Ajax.Utilities;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.DataModel;
 
+
 namespace PredictionAlgo.Controllers
 {
     public class MatchBettingDatasController : Controller

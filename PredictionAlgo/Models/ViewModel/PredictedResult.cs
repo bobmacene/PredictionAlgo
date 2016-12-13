@@ -4,8 +4,9 @@ using System.Linq;
 
 namespace PredictionAlgo.Models.ViewModel
 {
-    public class PredictedResult
+    public class PredictedResult : CommonFunctions
     {
+
         private static IDictionary<Team?, ICollection<Fixture>> GetHomeTeamResults(PredictionAlgoContext context)
         {
             var teamResults = new Dictionary<Team?, ICollection<Fixture>>(context.Fixtures.Count() / Teams.Pro12Teams.Count());
@@ -43,13 +44,15 @@ namespace PredictionAlgo.Models.ViewModel
             return teamResults;
         }
 
+        private static readonly PredictionAlgoContext Context = new PredictionAlgoContext();
+        private static readonly IDictionary<Team?, ICollection<Fixture>> AllFixturesByHomeTeam = GetHomeTeamResults(Context);
+        private static readonly IDictionary<Team?, ICollection<Fixture>> AllFixturesByAwayTeam = GetAwayTeamResults(Context);
+
         public double GetAveHomeScoreLast5HomeGames(Team? team, DateTime? date, PredictionAlgoContext context)
         {
             if (team == null || date == null) return 0;
 
-            var homeResults = GetHomeTeamResults(context);
-
-            return homeResults[team].Where(x => x.FixtureDate <= date)
+            return AllFixturesByHomeTeam[team].Where(x => x.FixtureDate <= date)
                 .Take(5)
                 .Select(x => x.HomeScore)
                 .Average(); 
@@ -59,9 +62,7 @@ namespace PredictionAlgo.Models.ViewModel
         {
             if (team == null || date == null) return 0;
 
-            var homeResults = GetHomeTeamResults(context);
-
-            return homeResults[team].Where(x => x.FixtureDate <= date)
+            return AllFixturesByHomeTeam[team].Where(x => x.FixtureDate <= date)
                 .Take(5)
                 .Select(x => x.ScoreDelta)
                 .Average();
@@ -71,9 +72,7 @@ namespace PredictionAlgo.Models.ViewModel
         {
             if (team == null || date == null) return 0;
 
-            var awayResults = GetAwayTeamResults(context);
-
-            return awayResults[team].Where(x => x.FixtureDate <= date)
+            return AllFixturesByAwayTeam[team].Where(x => x.FixtureDate <= date)
                 .Take(5)
                 .Select(x => x.AwayScore)
                 .Average();
@@ -82,34 +81,23 @@ namespace PredictionAlgo.Models.ViewModel
         public double GetAveDeltaLast5AwayGames(Team? team, DateTime? date, PredictionAlgoContext context)
         {
             if (team == null || date == null) return 0;
-
-            var awayResults = GetAwayTeamResults(context);
-
-            return awayResults[team].Where(x => x.FixtureDate <= date)
+            
+            return AllFixturesByAwayTeam[team].Where(x => x.FixtureDate <= date)
                 .Take(5)
                 .Select(x => x.ScoreDelta)
                 .Average();
         }
 
-
-        public double GetAveDeltaLast2ResultsBtwnTeams(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
+        public double GetSameFixturePreviousResult(Team? homeTeam, Team? awayTeam, DateTime? date, PredictionAlgoContext context)
         {
             if (homeTeam == null || awayTeam == null || date == null) return 0;
 
-            var homeResults = GetHomeTeamResults(context);
-            var awayResults = GetAwayTeamResults(context);
-
-            var lastHomeResultBtwnTeams = homeResults[homeTeam].Where(x => (x.AwayTeam == awayTeam
+            var lastHomeResultBtwnTeams = AllFixturesByHomeTeam[homeTeam].Where(x => (x.AwayTeam == awayTeam
                && x.FixtureDate <= date))
                .Take(1)
                .Select(x => x.ScoreDelta);
 
-            var lastAwayResultBtwnTeams = awayResults[awayTeam].Where(x => (x.HomeTeam == homeTeam
-                && x.FixtureDate <= date))
-                .Select(x => x.ScoreDelta)
-                .Take(1);
-
-            return lastHomeResultBtwnTeams.ElementAt(0) + lastAwayResultBtwnTeams.ElementAt(0) / 2;
+            return lastHomeResultBtwnTeams.ElementAt(0);
         }
 
 
@@ -126,7 +114,7 @@ namespace PredictionAlgo.Models.ViewModel
                 AveDeltaLast5HomeGames = GetAveDeltaLast5HomeGames(homeTeam, date, context),
                 AveAwayScoreLast5AwayGames = GetAveAwayScoreLast5AwayGames(awayTeam, date, context),
                 AveDeltaLast5AwayGames = GetAveDeltaLast5AwayGames(awayTeam, date, context),
-                AveDeltaLast2ResultsBtwnTeams = GetAveDeltaLast2ResultsBtwnTeams(homeTeam, awayTeam, date, context),
+                SameFixturePreviousResult = GetSameFixturePreviousResult(homeTeam, awayTeam, date, context),
                 PredictedScoreDelta =  predictedDelta
             };
         }
@@ -139,44 +127,11 @@ namespace PredictionAlgo.Models.ViewModel
             var deltaLast5HomeResults = GetAveDeltaLast5HomeGames(homeTeam, date, context);
             var deltaLast5AwayResults = GetAveDeltaLast5AwayGames(awayTeam, date, context);
 
-            var last2ResultsBtwnTeams = GetAveDeltaLast2ResultsBtwnTeams(homeTeam, awayTeam, date, context);
+            var sameFixturePreviousResult = GetSameFixturePreviousResult(homeTeam, awayTeam, date, context);
 
-            double predictedDelta;
-
-           // if (aveHomeScoreLast5HomeResults > 0 && deltaLast5HomeResults > 0)
-           // {
-                predictedDelta = (aveHomeScoreLast5HomeResults - aveAwayScoreLast5AwayResults
-                //+ deltaLast5HomeResults - deltaLast5AwayResults
-                + last2ResultsBtwnTeams)
-                / 2;
-           // }
-                
-
-           // var weatherResult = ApplySpreadChangeForDate(predictedDelta, date);
-            return predictedDelta;
-        }
-
-
-        public double ApplySpreadChangeForDate(double prediction, DateTime? date)  //weather factor
-        {
-            switch (date?.Month)
-            {
-                case 9:
-                case 3:
-                case 4:
-                    return prediction * (float)0.35;
-                case 5:
-                case 6:
-                    return prediction * (float)0.45;
-                case 2:
-                case 11:
-                case 10:
-                    return prediction * (float)0.05;
-                case 1:
-                case 12:
-                    return prediction * (float)0.025;
-            }
-            return prediction;
+            return (aveHomeScoreLast5HomeResults + deltaLast5HomeResults
+                     - aveAwayScoreLast5AwayResults + deltaLast5AwayResults
+                     + sameFixturePreviousResult) / 2;
         }
 
     }

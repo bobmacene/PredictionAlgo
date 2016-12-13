@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.ViewModel;
@@ -128,8 +126,6 @@ namespace PredictionAlgo.Controllers
         public ActionResult ResultsSeason2016_2017(string id)
         {
             var fixtureData = new FixtureData();
-
-            if (id == "updateFixtures") fixtureData.UpdateFixtureDataSet();
 
             if (id == "getRecentResults")
             {

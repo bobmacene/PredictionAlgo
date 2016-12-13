@@ -8,12 +8,15 @@ using PredictionAlgo.Models.ViewModel;
 
 namespace PredictionAlgo.Models.DataModel
 {
-    public class BettingData
+    public class BettingData : CommonFunctions
     {
-        //private const string HCapCouponPath = @"http://www.paddypower.com/bet/rugby-union/rugby-hcap-coupon";
+        #region filepaths
         //private const string HCapCouponPath = "file://C:/Users/bob/Documents/" + "ITT Project/BettingHtml/2016.10.25_HCapCoupon - Paddy Power.html";
-        private const string HCapCouponPath = @"file://C:/Users/rip/Documents/ITT/Project/2016.10.07_Rugby H'Cap Betting from Paddy Power.html";
-        private readonly string _uriHCapCoupon = new Uri(HCapCouponPath).LocalPath;
+        //private const string HCapCouponPath = @"file://C:/Users/rip/Documents/ITT/Project/2016.10.07_Rugby H'Cap Betting from Paddy Power.html";
+        #endregion
+
+        private const string HCapCouponPath = @"http://www.paddypower.com/bet/rugby-union/rugby-hcap-coupon";
+        private readonly string _uriHCapCoupon = new Uri(HCapCouponPath).AbsoluteUri;
 
 
         public IEnumerable<MatchBettingData> MatchBettingDataList { get; set; }
@@ -29,8 +32,8 @@ namespace PredictionAlgo.Models.DataModel
 
                 foreach (var bettingData in MatchBettingDataList)
                 {
-                    bettingData.FixtureReference = WebScraper.GetFixtureReference(bettingData.HomeTeam, bettingData.FixtureDate);
-                    bettingData.MatchDataReference = WebScraper.GetFixtureReference(bettingData.HomeTeam, bettingData.FixtureDate);
+                    bettingData.FixtureReference = GetFixtureReference(bettingData.HomeTeam, bettingData.FixtureDate);
+                    bettingData.MatchDataReference = GetFixtureReference(bettingData.HomeTeam, bettingData.FixtureDate);
                     bettingData.TimeStamp = DateTime.Now;
                     bettingData.NoOddsAvailableText = string.Empty;
 
@@ -62,6 +65,8 @@ namespace PredictionAlgo.Models.DataModel
 
             using (var csv = new CsvWriter(new StreamWriter(path)))
             {
+                csv.WriteHeader<T>();
+
                 foreach (var record in records)
                 {
                     csv.WriteRecord((T)record);

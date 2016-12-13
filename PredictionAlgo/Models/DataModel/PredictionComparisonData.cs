@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PredictionAlgo.Models.DataModel
 {
-    public class PredictionComparisonData : IDisposable
+    public class PredictionComparisonData : CommonFunctions, IDisposable
     {
         public ICollection<PredictionComparison> PredictedComparisonDataList { get; set; } = new List<PredictionComparison>();
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
@@ -27,7 +27,7 @@ namespace PredictionAlgo.Models.DataModel
                 var prediction = new PredictionComparison(betData, _teamToBack, _swerveTeam, predictedScoreDelta);
                 prediction.ActualScoreDelta = GetActualScoreDelta(prediction.BettingData.FixtureReference, fixtures);
 
-                prediction.PredictionComparisonReference = WebScraper.GetFixtureReference(prediction.HomeTeam,
+                prediction.PredictionComparisonReference = GetFixtureReference(prediction.HomeTeam,
                     prediction.BettingData.FixtureDate);
 
                 prediction.BettingData.MatchDataReference = prediction.PredictionComparisonReference;
@@ -68,7 +68,7 @@ namespace PredictionAlgo.Models.DataModel
 
             var predictionComparisons = fixturesWithBettingData.Select(
                 fixtureWithBetting => new PredictionComparison(
-                fixtureWithBetting.Fixture, fixtureWithBetting.BettingData)).ToList();
+                fixtureWithBetting.Fixture, fixtureWithBetting.BettingData));
 
             var distinctList = predictionComparisons.OrderByDescending(x => x.TimeStamp)
                         .GroupBy(x => x.PredictionComparisonReference)
@@ -108,7 +108,7 @@ namespace PredictionAlgo.Models.DataModel
         }
 
 
-        private static IEnumerable<FixtureAndBettingData> GetFixtureBettingDatas(PredictionAlgoContext context)
+        public IEnumerable<FixtureAndBettingData> GetFixtureBettingDatas(PredictionAlgoContext context)
         {
             var fixturesWithBettingData = new List<FixtureAndBettingData>();
 
@@ -130,7 +130,7 @@ namespace PredictionAlgo.Models.DataModel
         }
 
 
-        private static PredictionOutcome GetPredictionOutcome(
+        public PredictionOutcome GetPredictionOutcome(
             MatchBettingData bettingData, BackedTeamData backedTeamData, double actualDelta)
         {
             var isHomeTeamTheBackedTeam = backedTeamData.BackedTeam == bettingData.HomeTeam;
@@ -184,7 +184,7 @@ namespace PredictionAlgo.Models.DataModel
         }
 
 
-        private BackedTeamData GetTeamToBack(MatchBettingData betData, double predictedScoreSpread)
+        public BackedTeamData GetTeamToBack(MatchBettingData betData, double predictedScoreSpread)
         {
             double predictedVsBookScoreSpread = 0;
 
@@ -229,7 +229,7 @@ namespace PredictionAlgo.Models.DataModel
 
     }
 
-    internal struct FixtureAndBettingData
+    public struct FixtureAndBettingData
     {
         public Fixture Fixture;
         public MatchBettingData BettingData;
@@ -241,7 +241,7 @@ namespace PredictionAlgo.Models.DataModel
         }
     }
 
-    internal struct BackedTeamData
+    public struct BackedTeamData
     {
         public Team? BackedTeam;
         public double PredictedDelta;
