@@ -15,10 +15,6 @@ namespace PredictionAlgo.Controllers
         // GET: MatchBettingDatas
         public ActionResult Index(string id)
         {
-            //new AzureData().UpdateAzure();   only required if updating Azure tables from C#_App
-
-            //new FixtureData().UpdateFixtureDataSet(); //only required if prediction algortihm has been updated
-            
             var bettingData = _db.MatchBettingDatas
                 .DistinctBy(x => x.FixtureReference)
                 .OrderByDescending(x => x.FixtureDate);

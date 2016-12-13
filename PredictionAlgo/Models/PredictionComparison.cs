@@ -45,7 +45,6 @@ namespace PredictionAlgo.Models
 
         public MatchBettingData BettingData { get; set; }
 
-
         public PredictionComparison() { } //CsvHelper serialization
 
 

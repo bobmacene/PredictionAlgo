@@ -8,6 +8,7 @@ namespace PredictionAlgo.Models
     {
         public PredictionAlgoContext() : base("name=PredictionAlgoContext")
         {
+           // Database.SetInitializer<PredictionAlgoContext>(null);  //unit tests fail if this not null, as model has changed
             #region Db
             //Database.SetInitializer(new CreateDatabaseIfNotExists<PredictionAlgoContext>());
             //try

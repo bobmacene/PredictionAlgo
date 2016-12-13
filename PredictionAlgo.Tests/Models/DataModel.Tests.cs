@@ -79,18 +79,6 @@ namespace PredictionAlgo.Tests.Models
 
 
         [Test]
-        public void GetAllComparisons_CountAllComparisons_True()
-        {
-            var totalPredictionComparison =  _predictedData.GetAllPredictionComparisons(_context).Count();
-
-            var dbPredictionComparisonCount =
-                _context.PredictionComparisons.GroupBy(x => x.PredictionComparisonReference).Count();
-
-            Assert.AreEqual(totalPredictionComparison, dbPredictionComparisonCount);
-        }
-
-
-        [Test]
         public void GetFixtures_CountDbFixtures_True()
         {
             var date = new DateTime(2016, 7, 1);
