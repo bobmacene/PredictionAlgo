@@ -26,8 +26,7 @@ namespace PredictionAlgo.Tests.Models
         public void Setup()
         {
             const string betDataFakePath =
-                @"C:\Users\rip\Documents\ITT\Project\Code\PredictionAlgo\PredictionAlgo\App_Data\2016.10.25_HCapCoupon - Paddy Power.html";
-
+                @"C:\Users\bob\Documents\ITT Project\BettingHtml\2016.10.25_HCapCoupon - Paddy Power.html";
             _uriHCapCouponFake = new Uri(betDataFakePath).LocalPath;
 
             _fakeWebscraper = new WebScraper();
