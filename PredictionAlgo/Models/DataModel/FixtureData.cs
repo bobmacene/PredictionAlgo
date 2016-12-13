@@ -42,15 +42,16 @@ namespace PredictionAlgo.Models.DataModel
 
                 _db.SaveChanges();
 
+
                 return scrapedFixturesAndResultsList;
             }
         }
-        
+
         public double GetResultsWithoutSpreadsPredictionSuccessRate
         {
             get
             {
-                double numberOfSuccessPredictions = 
+                double numberOfSuccessPredictions =
                     _db.Fixtures.Count(x => x.PredictionOutcome == PredictionOutcome.Success);
 
 

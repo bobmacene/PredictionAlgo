@@ -12,16 +12,6 @@
 <h3 style="color: red"> @ViewData["NoData"]</h3>
 
 
-@if ((string)@ViewData["NoData"] == "Currently no betting odds available online")
-{
-    <div align="left" style="background-color: #ededed">
-        <h3>If no realtime data available click below button to view test data:</h3>
-        <input type="button" class="btn btn-info" value="Get Test Betting Data"
-               onclick="@("window.location.href='" + @Url.Action("TestDataBetData") + "'"); " />
-    </div>
-}
-
-
 @if ((string)@ViewData["CsvExport"] == string.Empty)
 {
     <div align="right">
@@ -144,3 +134,12 @@ else
     </div>
 }
 
+
+@if ((string)@ViewData["NoData"] == "Currently no betting odds available online")
+{
+    <div align="left" style="background-color: #ededed">
+        <h3>If no realtime data available click below button to view test data:</h3>
+        <input type="button" class="btn btn-info" value="Get Test Betting Data"
+               onclick="@("window.location.href='" + @Url.Action("TestDataBetData") + "'"); " />
+    </div>
+}

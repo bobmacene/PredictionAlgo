@@ -79,8 +79,7 @@ namespace PredictionAlgo.Models.ViewModel
                 var actualResult = scoreDelta < 0 ?  Result.HomeLoss : 
                                        scoreDelta == 0 ? Result.Draw : Result.HomeWin;
 
-                var predictionOutcome = predictedDelta.PredictedScoreDelta - scoreDelta > 0 ?
-                                        PredictionOutcome.Fail : PredictionOutcome.Success;
+                var predictionOutcome = actualResult == predictedFixtureResult ? PredictionOutcome.Success : PredictionOutcome.Fail;
 
                 var fixture = new Fixture
                 {

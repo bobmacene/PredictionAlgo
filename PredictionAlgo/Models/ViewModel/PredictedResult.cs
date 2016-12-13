@@ -131,7 +131,7 @@ namespace PredictionAlgo.Models.ViewModel
 
             return (aveHomeScoreLast5HomeResults + deltaLast5HomeResults
                      - aveAwayScoreLast5AwayResults + deltaLast5AwayResults
-                     + sameFixturePreviousResult) / 2;
+                     + sameFixturePreviousResult) / .5;
         }
 
     }
