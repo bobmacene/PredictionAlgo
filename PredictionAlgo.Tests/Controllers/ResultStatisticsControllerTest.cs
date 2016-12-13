@@ -1,8 +1,7 @@
-﻿
-using System.Web.Mvc;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using PredictionAlgo.Controllers;
 using PredictionAlgo.Models;
+using System.Web.Mvc;
 
 namespace PredictionAlgo.Tests.Controllers
 {

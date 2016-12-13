@@ -96,7 +96,7 @@
                         @Html.DisplayNameFor(model => model.SameFixturePreviousResult)
                     </dt>
                     <dd style="text-align: left">
-                        @Html.DisplayFor(model => model.GetAverageScoreDeltaOfLastTwoResultsBetweenTeams)
+                        @Html.DisplayFor(model => model.GetSameFixturePreviousResult)
                     </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.PredictedScoreDelta)
@@ -108,7 +108,5 @@
             </div>
     </p>
         </div>
-    <p>
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+   
 }

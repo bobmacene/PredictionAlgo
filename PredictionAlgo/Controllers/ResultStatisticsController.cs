@@ -1,9 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using PredictionAlgo.Models;
 
 namespace PredictionAlgo.Controllers
 {
-    public class ResultStatisticsController : Controller
+    public class ResultStatisticsController : Controller, IDisposable
     {
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
 
@@ -40,5 +41,7 @@ namespace PredictionAlgo.Controllers
             _db.Dispose();
           
         }
+
+      
     }
 }

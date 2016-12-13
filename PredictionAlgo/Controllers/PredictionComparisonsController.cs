@@ -74,14 +74,6 @@ namespace PredictionAlgo.Controllers
         {
             using (var predict = new PredictionComparisonData())
             {
-
-                #region RequiredWhenMatchBettingDatasUpdatedWithHistoricalData
-
-                //    _predictCompare.GetPredictionComparisons(_db.MatchBettingDatas);
-                //    _predictCompare.UpdateDatabase();
-                
-                #endregion
-
                 var allPredictions = predict.GetAllPredictionComparisons(_db).OrderByDescending(x => x.FixtureDate);
 
                 ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
