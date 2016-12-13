@@ -27,86 +27,86 @@
             </div>
         </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.SelectDate, htmlAttributes: new {@class = "control-label col-md-2"})
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.SelectDate, new {htmlAttributes = new {@class = "form-control"}})
-            @Html.ValidationMessageFor(model => model.SelectDate, "", new {@class = "text-danger"})
-        </div>
-    </div>
-        </p>
-    <p>
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Get Predicted Score Delta" class="btn btn-info" />
-        </div>
-    </p>
-
-    <div>
-        <h4>Result Statistics</h4>
-
-        <br />
-        <p><h2>Predicted Score Delta and Related Statistics:</h2></p>
-
-        <p>
-            <div align="center">
-                <dl class="dl-horizontal" align="center">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.HomeTeam)
-                    </dt>
-                    <dd style="text-align: left">
-                        @Html.DisplayFor(model => model.SelectHomeTeam)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.AwayTeam)
-                    </dt>
-                    <dd style="text-align: left">
-                        @Html.DisplayFor(model => model.SelectAwayTeam)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Date)
-                    </dt>
-                    <dd style="text-align: left">
-                        @Html.DisplayFor(model => model.SelectDate)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.AveHomeScoreLast5HomeGames)
-                    </dt>
-                    <dd style="text-align: left">
-                        @Html.DisplayFor(model => model.GetAverageHomeScoreLastFiveHomeGames)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.AveDeltaLast5HomeGames)
-                    </dt>
-                    <dd style="text-align: left">
-                        @Html.DisplayFor(model => model.GetAverageScoreDeltaLastFiveHomeGames)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.AveAwayScoreLast5AwayGames)
-                    </dt>
-                    <dd style="text-align: left">
-                        @Html.DisplayFor(model => model.GetAverageAwayScoreLastFiveAwayGames)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.AveDeltaLast5AwayGames)
-                    </dt>
-                    <dd style="text-align: left">
-                        @Html.DisplayFor(model => model.GetAverageScoreDeltaLastFiveAwayGames)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.SameFixturePreviousResult)
-                    </dt>
-                    <dd style="text-align: left">
-                        @Html.DisplayFor(model => model.GetSameFixturePreviousResult)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.PredictedScoreDelta)
-                    </dt>
-                    <dd style="text-align: left">
-                        @Html.DisplayFor(model => model.GetPredictedScoreDelta)
-                    </dd>
-                </dl>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SelectDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SelectDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SelectDate, "", new { @class = "text-danger" })
             </div>
-    </p>
         </div>
-   
+    </p>
+        <p>
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Get Predicted Score Delta" class="btn btn-info" />
+            </div>
+        </p>
+
+        <div>
+            <h4>Result Statistics</h4>
+
+            <br />
+            <p><h2>Predicted Score Delta and Related Statistics:</h2></p>
+
+            <p>
+                <div align="center">
+                    <dl class="dl-horizontal" align="center">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.HomeTeam)
+                        </dt>
+                        <dd style="text-align: left">
+                            @Html.DisplayFor(model => model.SelectHomeTeam)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AwayTeam)
+                        </dt>
+                        <dd style="text-align: left">
+                            @Html.DisplayFor(model => model.SelectAwayTeam)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </dt>
+                        <dd style="text-align: left">
+                            @Html.DisplayFor(model => model.SelectDate)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AveHomeScoreLast5HomeGames)
+                        </dt>
+                        <dd style="text-align: left">
+                            @Html.DisplayFor(model => model.GetAverageHomeScoreLastFiveHomeGames)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AveDeltaLast5HomeGames)
+                        </dt>
+                        <dd style="text-align: left">
+                            @Html.DisplayFor(model => model.GetAverageScoreDeltaLastFiveHomeGames)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AveAwayScoreLast5AwayGames)
+                        </dt>
+                        <dd style="text-align: left">
+                            @Html.DisplayFor(model => model.GetAverageAwayScoreLastFiveAwayGames)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AveDeltaLast5AwayGames)
+                        </dt>
+                        <dd style="text-align: left">
+                            @Html.DisplayFor(model => model.GetAverageScoreDeltaLastFiveAwayGames)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.SameFixturePreviousResult)
+                        </dt>
+                        <dd style="text-align: left">
+                            @Html.DisplayFor(model => model.GetSameFixturePreviousResult)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PredictedScoreDelta)
+                        </dt>
+                        <dd style="text-align: left">
+                            @Html.DisplayFor(model => model.GetPredictedScoreDelta)
+                        </dd>
+                    </dl>
+                </div>
+            </p>
+        </div>
+
 }

@@ -121,7 +121,7 @@
     <Compile Include="Controllers\ResultStatisticsControllerTest.cs" />
     <Compile Include="Controllers\MatchBettingDatasControllerTest.cs" />
     <Compile Include="Controllers\FixturesControllerTest.cs" />
-    <Compile Include="Controllers\PredictionCompareControllerTest.cs" />
+    <Compile Include="Controllers\PredictionComparisonsControllerTest.cs" />
     <Compile Include="Models\DataModel.Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\ViewModelTest.cs" />

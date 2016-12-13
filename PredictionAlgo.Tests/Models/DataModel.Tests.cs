@@ -25,7 +25,7 @@ namespace PredictionAlgo.Tests.Models
         [SetUp]
         public void Setup()
         {
-            const string betDataFakePath = 
+            const string betDataFakePath =
                 @"C:\Users\rip\Documents\ITT\Project\Code\PredictionAlgo\PredictionAlgo\App_Data\2016.10.25_HCapCoupon - Paddy Power.html";
 
             _uriHCapCouponFake = new Uri(betDataFakePath).LocalPath;
@@ -33,8 +33,8 @@ namespace PredictionAlgo.Tests.Models
             _fakeWebscraper = new WebScraper();
             _matchBettingDataList = _fakeWebscraper.GetMatchBettingData(_fakeWebscraper.GetSpreadsAndOdds(_uriHCapCouponFake));
 
-             _predictedData = new PredictionComparisonData();
-             _predictionComparisons = _predictedData.GetPredictionComparisons(_matchBettingDataList);
+            _predictedData = new PredictionComparisonData();
+            _predictionComparisons = _predictedData.GetPredictionComparisons(_matchBettingDataList);
 
             _context = new PredictionAlgoContext();
 
@@ -50,10 +50,10 @@ namespace PredictionAlgo.Tests.Models
 
 
         [Test]
-        public void MatchBettingData_ObjectTypeCorrect_False() 
+        public void MatchBettingData_ObjectTypeCorrect_False()
         {
-            var typeIsCorrectList = 
-                _matchBettingDataList.Select(data => data.GetType() == typeof (MatchBettingData));
+            var typeIsCorrectList =
+                _matchBettingDataList.Select(data => data.GetType() == typeof(MatchBettingData));
             var allAreTypeMatchBettingData = typeIsCorrectList.Any(v => v == false);
 
             Assert.AreEqual(allAreTypeMatchBettingData, false);
@@ -79,6 +79,16 @@ namespace PredictionAlgo.Tests.Models
 
 
         [Test]
+        public void GetAllComparisons_CountAllComparisons_True()
+        {
+            var totalPredictionComparison = _predictedData.GetAllPredictionComparisons(_context).Count();
+
+            var dbPredictionComparisonCount = _context.PredictionComparisons.GroupBy(x => x.PredictionComparisonReference).Count();
+
+            Assert.AreEqual(totalPredictionComparison, dbPredictionComparisonCount);
+        }
+
+        [Test]
         public void GetFixtures_CountDbFixtures_True()
         {
             var date = new DateTime(2016, 7, 1);
@@ -101,6 +111,6 @@ namespace PredictionAlgo.Tests.Models
             _fakeWebscraper = null;
             _uriHCapCouponFake = null;
         }
-       
+
     }
 }
