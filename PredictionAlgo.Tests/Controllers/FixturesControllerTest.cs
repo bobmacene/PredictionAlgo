@@ -30,5 +30,61 @@ namespace PredictionAlgo.Tests.Controllers
                 Assert.IsNotNull(result);
             }
         }
+
+        [Test]
+        public void FixturesController_ResultsSeason2014_2015NotNull_True()
+        {
+            using (var controller = new FixturesController())
+            {
+                var result = controller.ResultsSeason2014_2015(string.Empty) as ViewResult;
+
+                Assert.IsNotNull(result);
+            }
+        }
+
+        [Test]
+        public void FixturesController_ResultsSeason2013_2014NotNull_True()
+        {
+            using (var controller = new FixturesController())
+            {
+                var result = controller.ResultsSeason2013_2014(string.Empty) as ViewResult;
+
+                Assert.IsNotNull(result);
+            }
+        }
+
+        [Test]
+        public void FixturesController_ResultsSeason2012_2013NotNull_True()
+        {
+            using (var controller = new FixturesController())
+            {
+                var result = controller.ResultsSeason2012_2013(string.Empty) as ViewResult;
+
+                Assert.IsNotNull(result);
+            }
+        }
+
+        [Test]
+        public void FixturesController_ResultsSeason2011_2012NotNull_True()
+        {
+            using (var controller = new FixturesController())
+            {
+                var result = controller.ResultsSeason2011_2012(string.Empty) as ViewResult;
+
+                Assert.IsNotNull(result);
+            }
+        }
+
+        [Test]
+        public void FixturesController_ResultsSeason2010_2011NotNull_True()
+        {
+            using (var controller = new FixturesController())
+            {
+                var result = controller.ResultsSeason2010_2011(string.Empty) as ViewResult;
+
+                Assert.IsNotNull(result);
+            }
+        }
     }
+
 }

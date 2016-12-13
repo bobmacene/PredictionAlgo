@@ -20,7 +20,7 @@ namespace PredictionAlgo.Tests.Controllers
         }
 
         [Test]
-        public void MatchBettingDatasController_BettingData_2017NotNull_True()
+        public void MatchBettingDatasController_BettingData_2016NotNull_True()
         {
             using (var controller = new MatchBettingDatasController())
             {
@@ -29,5 +29,7 @@ namespace PredictionAlgo.Tests.Controllers
                 Assert.IsNotNull(result);
             }
         }
+
+       
     }
 }
