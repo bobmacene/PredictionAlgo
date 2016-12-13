@@ -43,7 +43,7 @@ namespace PredictionAlgo.Models
 
         public double AwaySpread { get; set; }
 
-        public MatchBettingData BettingData { get; set; }
+        public MatchBettingData BettingData { get; }
 
         public PredictionComparison() { } //CsvHelper serialization
 

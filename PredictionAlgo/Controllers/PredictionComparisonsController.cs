@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Web.Mvc;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.DataModel;
+using System.Web.Mvc;
 
 namespace PredictionAlgo.Controllers
 {
