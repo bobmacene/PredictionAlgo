@@ -76,7 +76,7 @@ namespace PredictionAlgo.Models
         public double GetAverageScoreDeltaLastFiveAwayGames =>
             _predictedResult.GetAveDeltaLast5AwayGames(SelectAwayTeam, SelectDate, _db);
 
-        public double GetAverageScoreDeltaOfLastTwoResultsBetweenTeams =>
+        public double GetSameFixturePreviousResult =>
             _predictedResult.GetSameFixturePreviousResult(SelectHomeTeam, SelectAwayTeam, SelectDate, _db);
 
         public double GetPredictedScoreDelta
