@@ -37,7 +37,7 @@ namespace PredictionAlgo.Models
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double AveDeltaLast5AwayGames { get; set; }
 
-        [DisplayName("Ave Delta Last 2 Results Btwn Teams")]
+        [DisplayName("Same Fixture Previous Result")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         public double SameFixturePreviousResult { get; set; }
 
