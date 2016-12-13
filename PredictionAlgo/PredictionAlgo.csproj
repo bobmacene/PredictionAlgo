@@ -215,7 +215,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FixturesController.cs" />
     <Compile Include="Models\CommonFunctions.cs" />
-    <Compile Include="Models\DataModel\AzureData.cs" />
     <Compile Include="Models\PredictionComparison.cs" />
     <Compile Include="Views\ToBeDeleted\__HomeController.cs" />
     <Compile Include="Controllers\MatchBettingDatasController.cs" />
