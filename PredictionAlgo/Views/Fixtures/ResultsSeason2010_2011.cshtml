@@ -74,16 +74,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.AwayScore)
             </th>
-            <th>
+            <th title="Diff btwn home & away score; positive = home win; negative = home loss">
                 @Html.DisplayNameFor(model => model.ScoreDelta)
             </th>
-            <th>
+            <th title="Score predicted by app alogorithm">
                 @Html.DisplayNameFor(model => model.PredictedDelta)
             </th>
-            <th>
+            <th title="Result predicted by app algorithm">
                 @Html.DisplayNameFor(model => model.PredictedResult)
             </th>
-            <th>
+            <th title="Was prediction successful">
                 @Html.DisplayNameFor(model => model.PredictionOutcome)
             </th>
         </tr>

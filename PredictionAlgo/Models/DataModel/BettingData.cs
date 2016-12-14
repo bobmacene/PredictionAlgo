@@ -57,13 +57,10 @@ namespace PredictionAlgo.Models.DataModel
         public void SaveCsv<T>(IEnumerable records, string fileName)
         {
             var time = DateTime.Now.ToString("yyyyMMdd_hmmss");
-            const string directoryPath = @"C:\\Users\\TEMP";
 
-            var path = $@"C:\\Users\\TEMP\\{fileName}_{time}.csv";
+            var directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
 
-            if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
-
-            using (var csv = new CsvWriter(new StreamWriter(path)))
+            using (var csv = new CsvWriter(new StreamWriter(Path.Combine(directoryPath, $"{fileName}_{time}.csv"))))
             {
                 csv.WriteHeader<T>();
 
