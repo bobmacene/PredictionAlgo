@@ -64,21 +64,5 @@ namespace PredictionAlgo.Models
             TimeStamp = DateTime.Now;
         }
     
-
-        public PredictionComparison(Fixture fixture, MatchBettingData betting)
-        {
-            PredictionComparisonReference = fixture.FixtureReference;
-            FixtureDate = fixture.FixtureDate;
-            HomeTeam = fixture.HomeTeam;
-            HomeSpread = betting.HomeSpread;
-            AwayTeam = fixture.AwayTeam;
-            AwaySpread = betting.AwaySpread;
-            BettingData = betting;
-            PredictionDelta = fixture.PredictedDelta;
-            BookVsPrediction = fixture.PredictedDelta + betting.HomeSpread;
-            ActualScoreDelta = fixture.ScoreDelta;
-            TimeStamp = DateTime.Now;
-        }
-
     }
 }

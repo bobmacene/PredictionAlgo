@@ -255,8 +255,8 @@ namespace PredictionAlgo.Models.ViewModel
             var split = date.Split(' ');
             var day = Convert.ToInt16(split[0]);
             var month = DateTime.ParseExact(split[1], "MMM", CultureInfo.CurrentCulture).Month;
-            var year = DateTime.Now.Year;
-            if (month == 1 || month == 2 || month == 3 || month == 4 || month == 5 || month == 6) year = 2017;
+            var year = DateTime.Now.Year - 1;
+            if (month == 1 || month == 2 || month == 3 || month == 4 || month == 5 || month == 6) year = DateTime.Now.Year;
             return new DateTime(year, month, day);
         }
 

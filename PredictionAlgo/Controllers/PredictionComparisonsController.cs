@@ -3,6 +3,7 @@ using System.Linq;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.DataModel;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 
 namespace PredictionAlgo.Controllers
 {
@@ -74,7 +75,10 @@ namespace PredictionAlgo.Controllers
         {
             using (var predict = new PredictionComparisonData())
             {
-                var allPredictions = predict.GetAllPredictionComparisons(_db).OrderByDescending(x => x.FixtureDate);
+                var allPredictions = _db.PredictionComparisons
+                    .DistinctBy(x => x.PredictionComparisonReference)
+                    .OrderByDescending(x => x.FixtureDate)
+                    .ToList();
 
                 ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
 

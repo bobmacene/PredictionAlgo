@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using PredictionAlgo.Models;
 using PredictionAlgo.Models.DataModel;
@@ -25,11 +26,12 @@ namespace PredictionAlgo.Tests.Models
         [SetUp]
         public void Setup()
         {
-            const string betDataFakePath =
-                @"C:\Users\bob\Documents\ITT Project\BettingHtml\2016.10.25_HCapCoupon - Paddy Power.html";
+            var testDataPath = Assembly.GetCallingAssembly().CodeBase;
+            testDataPath = testDataPath.Replace(".Tests/bin/Debug/nunit.framework.DLL", 
+                "\\bin\\TestData\\2016.10.25_HCapCoupon - Paddy Power.html");
 
-            _uriHCapCouponFake = new Uri(betDataFakePath).LocalPath;
-
+            _uriHCapCouponFake = new Uri(testDataPath).LocalPath;
+           
             _fakeWebscraper = new WebScraper();
             _matchBettingDataList = _fakeWebscraper.GetMatchBettingData(_fakeWebscraper.GetSpreadsAndOdds(_uriHCapCouponFake));
 
@@ -77,16 +79,6 @@ namespace PredictionAlgo.Tests.Models
             Assert.AreEqual(typeIsPredcitionComparison, false);
         }
 
-
-        [Test]
-        public void GetAllComparisons_CountAllComparisons_True()
-        {
-            var totalPredictionComparison = _predictedData.GetAllPredictionComparisons(_context).Count();
-
-            var dbPredictionComparisonCount = _context.PredictionComparisons.GroupBy(x => x.PredictionComparisonReference).Count();
-
-            Assert.AreEqual(totalPredictionComparison, dbPredictionComparisonCount);
-        }
 
         [Test]
         public void GetFixtures_CountDbFixtures_True()

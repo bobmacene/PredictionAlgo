@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PredictionAlgo.Models.DataModel
 {
-    public class PredictionComparisonData : CommonFunctions, IDisposable
+    public sealed class PredictionComparisonData : CommonFunctions, IDisposable
     {
         public ICollection<PredictionComparison> PredictedComparisonDataList { get; set; } = new List<PredictionComparison>();
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
@@ -59,52 +59,6 @@ namespace PredictionAlgo.Models.DataModel
             }
 
             _db.SaveChanges();
-        }
-
-
-        public IEnumerable<PredictionComparison> GetAllPredictionComparisons(PredictionAlgoContext context)
-        {
-            var fixturesWithBettingData = GetFixtureBettingDatas(context);
-
-            var predictionComparisons = fixturesWithBettingData.Select(
-                fixtureWithBetting => new PredictionComparison(
-                fixtureWithBetting.Fixture, fixtureWithBetting.BettingData));
-
-            var distinctList = predictionComparisons.OrderByDescending(x => x.TimeStamp)
-                        .GroupBy(x => x.PredictionComparisonReference)
-                        .Select(g => g.First())
-                        .ToList();
-
-            foreach (var prediction in distinctList)
-            {
-                var backedTeamData = GetTeamToBack(prediction.BettingData, prediction.PredictionDelta);
-                prediction.TeamToBack = backedTeamData.BackedTeam;
-
-                prediction.SwerveTeam = prediction.TeamToBack == prediction.HomeTeam ? prediction.AwayTeam : prediction.HomeTeam;
-
-                prediction.PredictionResult =
-                    GetPredictionOutcome(prediction.BettingData, backedTeamData, prediction.ActualScoreDelta);
-            }
-
-            foreach (var prediction in distinctList)
-            {
-                if (_db.PredictionComparisons.Any(x => x.PredictionComparisonReference == prediction.PredictionComparisonReference))
-                {
-                    var recordToEdit = _db.PredictionComparisons.FirstOrDefault(
-                            x => x.PredictionComparisonReference == prediction.PredictionComparisonReference);
-
-                    _db.PredictionComparisons.Remove(recordToEdit);
-                    _db.PredictionComparisons.Add(prediction);
-                }
-                else
-                {
-                    _db.PredictionComparisons.Add(prediction);
-                }
-            }
-
-            _db.SaveChanges();
-
-            return distinctList;
         }
 
 
