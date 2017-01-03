@@ -29,25 +29,25 @@
             <th>
                 @Html.DisplayNameFor(model => model.HomeTeam)
             </th>
-            <th>
+            <th title="Score difference as predicted by bookmaker online">
                 @Html.DisplayNameFor(model => model.HomeSpread)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AwayTeam)
             </th>
-            <th>
+            <th title="Score difference as predicted by bookmaker online">
                 @Html.DisplayNameFor(model => model.AwaySpread)
             </th>
-            <th>
+            <th title="Score difference as predicted by PredictionAlgo">
                 @Html.DisplayNameFor(model => model.PredictionDelta)
             </th>
-            <th>
+            <th title="Actual score difference once match is played">
                 @Html.DisplayNameFor(model => model.ActualScoreDelta)
             </th>
-            <th>
+            <th title="Team PerdictionAlgo recommended to beat bookmaker spread">
                 @Html.DisplayNameFor(model => model.TeamToBack)
             </th>
-            <th>
+            <th title="Success means PredictionAlgo recommended correct team to back">
                 @Html.DisplayNameFor(model => model.PredictionResult)
             </th>
             <th></th>

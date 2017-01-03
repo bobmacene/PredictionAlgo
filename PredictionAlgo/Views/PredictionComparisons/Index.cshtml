@@ -21,22 +21,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.HomeTeam)
             </th>
-            <th>
+            <th title="Score difference as predicted by bookmaker online">
                 @Html.DisplayNameFor(model => model.HomeSpread)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AwayTeam)
             </th>
-            <th>
+            <th title="Score difference as predicted by bookmaker online">
                 @Html.DisplayNameFor(model => model.AwaySpread)
             </th>
-            <th>
+            <th title="Score difference as predicted by PredictionAlgo">
                 @Html.DisplayNameFor(model => model.PredictionDelta)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookVsPrediction)
-            </th>
-            <th style="background-color: azure">
+            <th title="Team PerdictionAlgo recommends to beat bookmaker spread" 
+                style="background-color: azure">
                 @Html.DisplayNameFor(model => model.TeamToBack)
             </th>
         </tr>
@@ -66,9 +64,6 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.PredictionDelta)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BookVsPrediction)
-                    </td>
                     <td style="background-color: azure">
                         @Html.DisplayFor(modelItem => item.TeamToBack)
                     </td>
@@ -94,9 +89,6 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.PredictionDelta)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BookVsPrediction)
                     </td>
                     <td style="background-color: azure">
                         @Html.DisplayFor(modelItem => item.TeamToBack)
