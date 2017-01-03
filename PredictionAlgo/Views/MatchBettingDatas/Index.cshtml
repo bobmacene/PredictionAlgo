@@ -23,27 +23,6 @@
     <h2>Previous betting data:</h2>
 </div>
 
-<div align="right">
-    @if ((string) ViewData["CsvExport"] == string.Empty)
-    {
-        <h4>
-            @Html.ActionLink("Export betting data to csv", "Index",
-                new {id = "id", title = "Csv exports to C:\\Users\\TEMP"})
-        </h4>
-    }
-    else
-    {
-        <div style="color: red">
-            @ViewData["CsvExport"]
-        </div>
-        <h4>
-            @Html.ActionLink("Export betting data to csv", "Index",
-                new {id = "id", title = "Csv exports to C:\\Users\\TEMP"})
-        </h4>
-    }
-</div>
-
-
 @{
     var rowCount = 0;
 

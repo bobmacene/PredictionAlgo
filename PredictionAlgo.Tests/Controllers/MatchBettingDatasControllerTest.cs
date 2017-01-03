@@ -13,7 +13,7 @@ namespace PredictionAlgo.Tests.Controllers
         {
             using (var controller = new MatchBettingDatasController())
             {
-                var result = controller.Index(null) as ViewResult;
+                var result = controller.Index() as ViewResult;
 
                 Assert.IsNotNull(result);
             }
@@ -24,7 +24,7 @@ namespace PredictionAlgo.Tests.Controllers
         {
             using (var controller = new MatchBettingDatasController())
             {
-                var result = controller.GetBettingData(null) as ViewResult;
+                var result = controller.GetBettingData() as ViewResult;
 
                 Assert.IsNotNull(result);
             }

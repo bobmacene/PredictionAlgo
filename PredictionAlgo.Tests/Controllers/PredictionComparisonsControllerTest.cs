@@ -12,7 +12,7 @@ namespace PredictionAlgo.Tests.Controllers
         {
             using (var controller = new PredictionComparisonsController())
             {
-                var result = controller.Index(string.Empty) as ViewResult;
+                var result = controller.Index() as ViewResult;
 
                 Assert.IsNotNull(result);
             }
@@ -23,7 +23,7 @@ namespace PredictionAlgo.Tests.Controllers
         {
             using (var controller = new PredictionComparisonsController())
             {
-                var result = controller.AllPreviousComparisons(string.Empty) as ViewResult;
+                var result = controller.AllPreviousComparisons() as ViewResult;
 
                 Assert.IsNotNull(result);
             }

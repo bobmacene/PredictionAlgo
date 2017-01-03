@@ -25,7 +25,7 @@ namespace PredictionAlgo.Tests.Controllers
         {
             using (var controller = new FixturesController())
             {
-                var result = controller.ResultsSeason2015_2016(string.Empty) as ViewResult;
+                var result = controller.ResultsSeason2015_2016() as ViewResult;
 
                 Assert.IsNotNull(result);
             }
@@ -36,7 +36,7 @@ namespace PredictionAlgo.Tests.Controllers
         {
             using (var controller = new FixturesController())
             {
-                var result = controller.ResultsSeason2014_2015(string.Empty) as ViewResult;
+                var result = controller.ResultsSeason2014_2015() as ViewResult;
 
                 Assert.IsNotNull(result);
             }
@@ -47,7 +47,7 @@ namespace PredictionAlgo.Tests.Controllers
         {
             using (var controller = new FixturesController())
             {
-                var result = controller.ResultsSeason2013_2014(string.Empty) as ViewResult;
+                var result = controller.ResultsSeason2013_2014() as ViewResult;
 
                 Assert.IsNotNull(result);
             }
@@ -58,7 +58,7 @@ namespace PredictionAlgo.Tests.Controllers
         {
             using (var controller = new FixturesController())
             {
-                var result = controller.ResultsSeason2012_2013(string.Empty) as ViewResult;
+                var result = controller.ResultsSeason2012_2013() as ViewResult;
 
                 Assert.IsNotNull(result);
             }
@@ -69,7 +69,7 @@ namespace PredictionAlgo.Tests.Controllers
         {
             using (var controller = new FixturesController())
             {
-                var result = controller.ResultsSeason2011_2012(string.Empty) as ViewResult;
+                var result = controller.ResultsSeason2011_2012() as ViewResult;
 
                 Assert.IsNotNull(result);
             }
@@ -80,7 +80,7 @@ namespace PredictionAlgo.Tests.Controllers
         {
             using (var controller = new FixturesController())
             {
-                var result = controller.ResultsSeason2010_2011(string.Empty) as ViewResult;
+                var result = controller.ResultsSeason2010_2011() as ViewResult;
 
                 Assert.IsNotNull(result);
             }

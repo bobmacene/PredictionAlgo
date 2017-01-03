@@ -7,29 +7,6 @@
 <h2>Prediction Comparison - TEST DATA</h2>
 <h3>Recommended Teams To Back on Upcoming Fixtures</h3>
 
-
-@if ((string)ViewData["CsvExport"] == string.Empty)
-{
-    <div align="right">
-        <h4>
-            @Html.ActionLink("Export predictions to csv", "Index",
-       new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
-        </h4>
-    </div>
-}
-else
-{
-    <div align="right">
-        <div style="color: red">
-            @ViewData["CsvExport"]
-        </div>
-        <h4>
-            @Html.ActionLink("Export predictions to csv", "Index",
-            new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
-        </h4>
-    </div>
-}
-
 @{
     var rowCount = 1;
 

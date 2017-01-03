@@ -11,7 +11,7 @@ namespace PredictionAlgo.Controllers
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
        
 
-        public ActionResult ResultsSeason2010_2011(string id)
+        public ActionResult ResultsSeason2010_2011()
         {
             var results = new ResultsSeason2010_2011();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
@@ -20,17 +20,10 @@ namespace PredictionAlgo.Controllers
 
             ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
-            if (id == null) return View(orderedResults);
-
-            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
-
             return View(orderedResults);
         }
 
-        public ActionResult ResultsSeason2011_2012(string id)
+        public ActionResult ResultsSeason2011_2012()
         {
             var results = new ResultsSeason2011_2012();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
@@ -39,17 +32,10 @@ namespace PredictionAlgo.Controllers
 
             ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
-            if (id == null) return View(orderedResults);
-
-            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
-
             return View(orderedResults);
         }
 
-        public ActionResult ResultsSeason2012_2013(string id)
+        public ActionResult ResultsSeason2012_2013()
         {
             var results = new ResultsSeason2012_2013();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
@@ -58,16 +44,10 @@ namespace PredictionAlgo.Controllers
 
             ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
-            if (id == null) return View(orderedResults);
-
-            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
 
             return View(orderedResults);
         }
-        public ActionResult ResultsSeason2013_2014(string id)
+        public ActionResult ResultsSeason2013_2014()
         {
             var results = new ResultsSeason2013_2014();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
@@ -76,17 +56,10 @@ namespace PredictionAlgo.Controllers
 
             ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
-            if (id == null) return View(orderedResults);
-
-            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
-
             return View(orderedResults);
         }
 
-        public ActionResult ResultsSeason2014_2015(string id)
+        public ActionResult ResultsSeason2014_2015()
         {
             var results = new ResultsSeason2014_2015 ();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
@@ -95,16 +68,9 @@ namespace PredictionAlgo.Controllers
 
             ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
-            if (id == null) return View(orderedResults);
-
-            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
-
             return View(orderedResults);
         }
-        public ActionResult ResultsSeason2015_2016(string id)
+        public ActionResult ResultsSeason2015_2016()
         {
             var results = new ResultsSeason2015_2016();
             var orderedResults = results.GetSeasonResults(_db).ToList().OrderByDescending(x => x.FixtureDate);
@@ -112,13 +78,6 @@ namespace PredictionAlgo.Controllers
             _db.SaveChanges();
 
             ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
-
-            if (id == null) return View(orderedResults);
-
-            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
 
             return View(orderedResults);
         }
@@ -141,13 +100,6 @@ namespace PredictionAlgo.Controllers
 
             ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
-            if (id == "id")
-            {
-                ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-                var bet = new BettingData();
-                bet.SaveCsv<Fixture>(orderedResults, "Fixtures");
-            }
 
             return View(orderedResults);
         }

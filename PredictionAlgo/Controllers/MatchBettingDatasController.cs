@@ -13,54 +13,34 @@ namespace PredictionAlgo.Controllers
         private readonly PredictionAlgoContext _db = new PredictionAlgoContext();
 
         // GET: MatchBettingDatas
-        public ActionResult Index(string id)
+        public ActionResult Index()
         {
             var bettingData = _db.MatchBettingDatas
                 .DistinctBy(x => x.FixtureReference)
                 .OrderByDescending(x => x.FixtureDate);
 
-            if (id == null) return View(bettingData);
-
-            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<MatchBettingData>(bettingData, "PreviousBettingData");
-
             return View(bettingData);
         }
 
 
-        public ActionResult GetBettingData(string id)
+        public ActionResult GetBettingData()
         {
             var bettingData = new BettingData();
             var pro12Data = bettingData.GetCurrentBettingData;
 
             if (!pro12Data.Any()) ViewData["NoData"] = "Currently no betting odds available online";
 
-            if (id == null) return View(pro12Data.ToList());
-
-            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<MatchBettingData>(pro12Data, "FutureBettingData");
 
             return View(pro12Data.ToList());
         }
 
 
-        public ActionResult TestDataBetData(string id)
+        public ActionResult SampleBetData()
         {
             var pro12Data = _db.MatchBettingDatas
                  .Where(x => x.FixtureDate > new DateTime(2016, 10, 27) && x.FixtureDate < new DateTime(2016, 10, 30))
                  .OrderBy(x => x.FixtureDate)
                  .ToList();
-
-            if (id == null) return View(pro12Data.ToList());
-
-            @ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<MatchBettingData>(pro12Data, "FutureBettingData");
 
             return View(pro12Data.ToList());
         }

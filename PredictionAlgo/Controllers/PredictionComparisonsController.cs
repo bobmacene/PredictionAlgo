@@ -13,7 +13,7 @@ namespace PredictionAlgo.Controllers
         private readonly PredictionComparisonData _predictCompare = new PredictionComparisonData();
 
         // GET: PredictionComparisons
-        public ActionResult Index(string id)
+        public ActionResult Index()
         {
             var upcomingFixturesWithBettingData = _db.MatchBettingDatas
                 .Where(x => x.FixtureDate >= DateTime.Today)
@@ -38,21 +38,11 @@ namespace PredictionAlgo.Controllers
                 .OrderBy(x => x.FixtureDate)
                 .ToList();
 
-
-            if (id == null) return View(predictions);
-
-
-            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-
-            var bet = new BettingData();
-            bet.SaveCsv<PredictionComparison>(predictions, "PreviousBettingData");
-
             return View(predictions);
         }
 
 
-        public ActionResult TestDataComparisons(string id)
+        public ActionResult SampleDataComparisons()
         {
             var upcomingFixturesWithBettingData = _db.MatchBettingDatas
                 .Where(x => x.FixtureDate > new DateTime(2016,10,27) && x.FixtureDate < new DateTime(2016, 10, 30))
@@ -61,17 +51,10 @@ namespace PredictionAlgo.Controllers
 
             var predictions =  _predictCompare.GetPredictionComparisons(upcomingFixturesWithBettingData);
 
-            if (id == null) return View(predictions);
-
-            ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-            var bet = new BettingData();
-            bet.SaveCsv<PredictionComparison>(predictions, "PreviousBettingData");
-
             return View(predictions);
         }
 
-        public ActionResult AllPreviousComparisons(string id)
+        public ActionResult AllPreviousComparisons()
         {
             using (var predict = new PredictionComparisonData())
             {
@@ -81,13 +64,6 @@ namespace PredictionAlgo.Controllers
                     .ToList();
 
                 ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
-
-                if (id == null) return View(allPredictions);
-
-                ViewData["CsvExport"] = "Fixtures have been saved to C:\\Users\\TEMP";
-
-                var bet = new BettingData();
-                bet.SaveCsv<PredictionComparison>(allPredictions, "PreviousBettingData");
 
                 return View(allPredictions);
             }

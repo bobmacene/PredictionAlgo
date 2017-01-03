@@ -287,8 +287,8 @@
     </Content>
     <Content Include="Views\PredictionComparisons\AllPreviousComparisons.cshtml" />
     <Content Include="Views\MatchBettingDatas\GetBettingData.cshtml" />
-    <Content Include="Views\PredictionComparisons\TestDataComparisons.cshtml" />
-    <Content Include="Views\MatchBettingDatas\TestDataBetData.cshtml" />
+    <Content Include="Views\PredictionComparisons\SampleDataComparisons.cshtml" />
+    <Content Include="Views\MatchBettingDatas\SampleBetData.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -29,25 +29,6 @@
 
 <h4>Result Prediction Success Rate: @ViewData["ResultsWithoutSpreadSuccessRate"] %</h4>
 
-<div align="right">
-    @if ((string)ViewData["CsvExport"] == string.Empty)
-    {
-        <h4>
-            @Html.ActionLink("Export fixtures to csv", "ResultsSeason2010_2011",
-       new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
-        </h4>
-    }
-    else
-    {
-        <div style="color: red">
-            @ViewData["CsvExport"]
-        </div>
-        <h4>
-            @Html.ActionLink("Export fixtures to csv", "ResultsSeason2010_2011",
-        new { id = "id", title = "Csv exports to C:\\Users\\TEMP" })
-        </h4>
-    }
-</div>
 
 
 @{
