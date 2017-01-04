@@ -4,12 +4,13 @@ namespace PredictionAlgo.Models
 {
     public abstract class CommonFunctions
     {
+        //Used in PredictionAlgoDataUpdater to changed historical db data
         public double GetPredictedDelta(double aveHomeScoreLast5HomeResults, double aveAwayScoreLast5AwayResults,
           double deltaLast5HomeResults, double deltaLast5AwayResults, double sameFixturePreviousResult)
         {
             return (aveHomeScoreLast5HomeResults + deltaLast5HomeResults
                     - aveAwayScoreLast5AwayResults + deltaLast5AwayResults
-                    + sameFixturePreviousResult) / .5;
+                    + sameFixturePreviousResult) / 2;
         }
 
 
@@ -20,6 +21,14 @@ namespace PredictionAlgo.Models
             return homeTeam + dateString;
         }
 
+        //Used in PredictionAlgoDataUpdater to changed historical db data
+        public double GetPredictedDeltaRandom(double aveHomeScoreLast5HomeResults, double aveAwayScoreLast5AwayResults,
+         double deltaLast5HomeResults, double deltaLast5AwayResults, double sameFixturePreviousResult , double random)
+        {
+            return (aveHomeScoreLast5HomeResults + deltaLast5HomeResults
+                    - aveAwayScoreLast5AwayResults + deltaLast5AwayResults
+                    + sameFixturePreviousResult) / random;
+        }
     }
 }
 

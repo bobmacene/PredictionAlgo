@@ -17,8 +17,18 @@
 
 <h2>Prediction Comparison</h2>
 <h4>Algorithm Overall Prediction Success Rate: @ViewData["SuccessRate"] %</h4>
-@{
 
+
+
+<div align="right">
+    <input type="button" class="btn btn-info" value="Update Previous Comparisons"
+           onclick="@("window.location.href='" + @Url.Action("AllPreviousComparisons",
+                          new {id= "id"}) + "'"); " />
+    <h5>Click above button to update predictions if TBD values exist (will only update if matches have been played)</h5>
+</div>
+
+
+@{
     var rowCount = 1;
 
     <table class="table">
@@ -81,7 +91,14 @@
                         @Html.DisplayFor(modelItem => item.PredictionDelta)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ActualScoreDelta)
+                    @if (item.ActualScoreDelta == -1000)
+                    {
+                         @:TBD
+                    }
+                    else
+                    {
+                         @Html.DisplayFor(modelItem => item.ActualScoreDelta)
+                    }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TeamToBack)
@@ -98,7 +115,7 @@
                             @Html.DisplayFor(modelItem => item.PredictionResult)
                         </td>
                     }
-                    </tr>
+                </tr>
             }
             else
             {
@@ -122,7 +139,14 @@
                         @Html.DisplayFor(modelItem => item.PredictionDelta)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ActualScoreDelta)
+                        @if (item.ActualScoreDelta == -1000)
+                        {
+                            @:TBD
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.ActualScoreDelta)
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TeamToBack)
@@ -145,3 +169,5 @@
 
     </table>
 }
+
+

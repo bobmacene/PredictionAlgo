@@ -41,14 +41,15 @@ namespace PredictionAlgo.Models.DataModel
 
         public void UpdateDatabase()
         {
-            var predictionsWithoutDupes = PredictedComparisonDataList.GroupBy(x => x.PredictionComparisonReference)
-                            .Select(x => x.First());
+            var predictionsWithoutDupes = PredictedComparisonDataList
+                .GroupBy(x => x.PredictionComparisonReference).Select(x => x.First());
 
             foreach (var prediction in predictionsWithoutDupes)
             {
-                if (_db.PredictionComparisons.Find(prediction.PredictionComparisonReference) != null)
-                {
-                    var predictionToEdit = _db.PredictionComparisons.Find(prediction.PredictionComparisonReference);
+                var predictionToEdit = _db.PredictionComparisons.Find(prediction.PredictionComparisonReference);
+
+                if (predictionToEdit != null)
+                {    
                     _db.PredictionComparisons.Remove(predictionToEdit);
                     _db.PredictionComparisons.Add(prediction);
                 }
@@ -61,6 +62,25 @@ namespace PredictionAlgo.Models.DataModel
             _db.SaveChanges();
         }
 
+        public IEnumerable<PredictionComparison> UpdatePredictions()
+        {
+            var fixturesToUpdate = _db.PredictionComparisons
+                .Where(x => x.ActualScoreDelta == -1000).ToList();
+
+            foreach (var fixture in fixturesToUpdate)
+            {
+                var predictionToEdit = _db.Fixtures.Find(fixture.PredictionComparisonReference);
+
+                if (predictionToEdit == null) continue;
+
+                fixture.PredictionDelta = predictionToEdit.PredictedDelta;
+                fixture.ActualScoreDelta = predictionToEdit.ScoreDelta;
+            }
+
+            _db.SaveChanges();
+
+            return _db.PredictionComparisons.OrderByDescending(x=>x.FixtureDate);
+        }
 
         public IEnumerable<FixtureAndBettingData> GetFixtureBettingDatas(PredictionAlgoContext context)
         {

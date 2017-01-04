@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace PredictionAlgo.Models.ViewModel
 {
     public class WebScraper : CommonFunctions
     {
-          #region XPaths
+        #region XPaths
+
         //private const string DateXpath = "//*[@id=\"main\"]//div//div//div//span";
         //private const string MatchXpath = "//*[@id=\"main\"]//table//tr//td//div//div"; 
+
         #endregion
 
         private const string Round = "Round";
@@ -45,8 +48,8 @@ namespace PredictionAlgo.Models.ViewModel
                 {
                     fixtureDate = GetPro12Date(fixtureDataList[v + 2]);
                     if (fixtureDate > DateTime.Now) continue;
-                    homeTeam = (Team)Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 4]));
-                    awayTeam = (Team)Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 6]));
+                    homeTeam = (Team) Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 4]));
+                    awayTeam = (Team) Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 6]));
                     homeScore = GetScores(fixtureDataList[v + 5], 0);
                     awayScore = GetScores(fixtureDataList[v + 5], 1);
                 }
@@ -56,30 +59,33 @@ namespace PredictionAlgo.Models.ViewModel
                     if (fixtureDate > DateTime.Now) continue;
                     if (fixtureDataList[v + 2].Length <= 5)
                     {
-                        homeTeam = (Team)Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 3]));
-                        awayTeam = (Team)Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 5]));
+                        homeTeam = (Team) Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 3]));
+                        awayTeam = (Team) Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 5]));
                         homeScore = GetScores(fixtureDataList[v + 4], 0);
                         awayScore = GetScores(fixtureDataList[v + 4], 1);
                     }
                     else
                     {
-                        homeTeam = (Team)Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 2]));
-                        awayTeam = (Team)Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 4]));
+                        homeTeam = (Team) Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 2]));
+                        awayTeam = (Team) Enum.Parse(typeof(Team), StandardiseTeamName(fixtureDataList[v + 4]));
                         homeScore = GetScores(fixtureDataList[v + 3], 0);
                         awayScore = GetScores(fixtureDataList[v + 3], 1);
                     }
                 }
-               
+
                 var predictedDelta = predictedResult.GetPredictedResult(homeTeam, awayTeam, fixtureDate, context);
 
-                var predictedFixtureResult = predictedDelta.PredictedScoreDelta < 0 ? Result.HomeLoss :Result.HomeWin;
+                var predictedFixtureResult = predictedDelta.PredictedScoreDelta < 0 ? Result.HomeLoss : Result.HomeWin;
 
                 var scoreDelta = homeScore - awayScore;
 
-                var actualResult = scoreDelta < 0 ?  Result.HomeLoss : 
-                                       scoreDelta == 0 ? Result.Draw : Result.HomeWin;
+                var actualResult = scoreDelta < 0
+                    ? Result.HomeLoss
+                    : scoreDelta == 0 ? Result.Draw : Result.HomeWin;
 
-                var predictionOutcome = actualResult == predictedFixtureResult ? PredictionOutcome.Success : PredictionOutcome.Fail;
+                var predictionOutcome = actualResult == predictedFixtureResult
+                    ? PredictionOutcome.Success
+                    : PredictionOutcome.Fail;
 
                 var fixture = new Fixture
                 {
@@ -96,6 +102,7 @@ namespace PredictionAlgo.Models.ViewModel
                     Competition = Competition.Pro12,
                     FixtureReference = GetFixtureReference(homeTeam, fixtureDate)
                 };
+
                 fixturesResultList.Add(fixture);
             }
             return fixturesResultList;
@@ -121,21 +128,22 @@ namespace PredictionAlgo.Models.ViewModel
 
         private static int GetScores(string str, int index)
         {
-            var split =  str.Split('-');
+            var split = str.Split('-');
             int score;
             try
             {
                 score = Convert.ToInt16(split[index].Trim());
             }
             catch (Exception)
-            { 
+            {
                 return 0;
             }
             return score;
         }
 
         #region GetMatchDataWithDates
-        public ICollection<MatchBettingData> GetMatchBettingData(IEnumerable<OddsSpreads> oddsSpreads) 
+
+        public ICollection<MatchBettingData> GetMatchBettingData(IEnumerable<OddsSpreads> oddsSpreads)
         {
             var matchBettingDataList = new List<MatchBettingData>(100);
             foreach (var oddsSpread in oddsSpreads)
@@ -147,19 +155,19 @@ namespace PredictionAlgo.Models.ViewModel
 
                     try
                     {
-                        isValidHomeTeam = (Team)Enum.Parse(typeof(Team), oddsSpread.HomeTeam);
-                        isValidAwayTeam = (Team)Enum.Parse(typeof(Team), oddsSpread.AwayTeam);
+                        isValidHomeTeam = (Team) Enum.Parse(typeof(Team), oddsSpread.HomeTeam);
+                        isValidAwayTeam = (Team) Enum.Parse(typeof(Team), oddsSpread.AwayTeam);
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         isValidHomeTeam = Team.None;
                         isValidAwayTeam = Team.None;
                     }
-                        
+
                     if (isValidHomeTeam != Team.None || isValidAwayTeam != Team.None)
                     {
                         matchBettingDataList.Add(new MatchBettingData(oddsSpread));
-                    }                    
+                    }
                 }
                 else
                 {
@@ -171,6 +179,7 @@ namespace PredictionAlgo.Models.ViewModel
             }
             return matchBettingDataList;
         }
+
         #endregion
 
         public ICollection<OddsSpreads> GetSpreadsAndOdds(string url)
@@ -200,16 +209,16 @@ namespace PredictionAlgo.Models.ViewModel
                 }
 
                 if (!matchDataList[x].Contains(versus)) continue;
-                if(matchDataList[x + 1].Contains(inPlayBetting))
+                if (matchDataList[x + 1].Contains(inPlayBetting))
                 {
-                    var teams = matchDataList[x].Split(new [] { versus }, StringSplitOptions.None);
+                    var teams = matchDataList[x].Split(new[] {versus}, StringSplitOptions.None);
                     teamAndOddsList.Add(new OddsSpreads(matchDate,
                         teams[0], matchDataList[x + 2], matchDataList[x + 3], teams[1],
                         matchDataList[x + 8], matchDataList[x + 9]));
                 }
                 else
                 {
-                    var teams = matchDataList[x].Split(new [] { versus }, StringSplitOptions.None);
+                    var teams = matchDataList[x].Split(new[] {versus}, StringSplitOptions.None);
                     teamAndOddsList.Add(new OddsSpreads(matchDate,
                         teams[0], matchDataList[x + 1], matchDataList[x + 2], teams[1],
                         matchDataList[x + 7], matchDataList[x + 8]));
@@ -222,26 +231,24 @@ namespace PredictionAlgo.Models.ViewModel
         private static DateTime GetDate(string str)
         {
             var date = new DateTime(1, 1, 1, 0, 0, 0);
-            if (str.Length < 4) return date;
-            var replaced = str.Substring(0, 4)
-                                     .Replace("nd", "")
-                                     .Replace("th", "")
-                                     .Replace("rd", "")
-                                     .Replace("st", "")
-                                     + str.Substring(4);
-            var cultureUs = new CultureInfo("en-US")
+            if (str.Length < 6) return date;
+
+            try
             {
-                DateTimeFormat =
-                {
-                    AbbreviatedMonthNames = new []
-                    {
-                        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec", ""
-                    }
-                }
-            };
-            DateTime.TryParseExact(replaced, "dd MMM yyyy", cultureUs, DateTimeStyles.AssumeUniversal, out date);
-            if(date == new DateTime(1, 1, 1)) DateTime.TryParseExact(replaced, "d MMM yyyy", cultureUs, DateTimeStyles.AssumeUniversal, out date);
-            return date;
+                var split = str.Split(' ');
+
+                var reg = new Regex("\\d+");
+                var regDate = Convert.ToInt32(reg.Match(split[0]).ToString());
+
+                var month = DateTime.ParseExact(split[1].Substring(0, 3), "MMM", CultureInfo.CurrentCulture).Month;
+                var year = Convert.ToInt32(split[2]);
+
+                return new DateTime(year, month, regDate);
+            }
+            catch (Exception)
+            {
+                return date;
+            }
         }
 
         private static DateTime GetPro12Date(string date)

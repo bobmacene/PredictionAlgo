@@ -90,7 +90,8 @@ namespace PredictionAlgo.Controllers
             {
                 var scrapedFixtures = fixtureData.GetFixturesAndResults;
 
-                ViewData["ResultsWithoutSpreadSuccessRate"] = new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
+                ViewData["ResultsWithoutSpreadSuccessRate"] = 
+                    new FixtureData().GetResultsWithoutSpreadsPredictionSuccessRate;
 
                 return View(scrapedFixtures.ToList().OrderByDescending(x => x.FixtureDate));
             }

@@ -40,6 +40,7 @@ namespace PredictionAlgo.Models
         [DisplayName("Stats At This Date")]
         [DataType(DataType.Date)]
         public DateTime? SelectDate { get; set; }
+        public string CommonReference { get; set; }
     }
 
     public enum Result { HomeWin = 1, Draw = 0, HomeLoss = -1, NoPrectiction = -2 }

@@ -21,7 +21,7 @@ namespace PredictionAlgo.Controllers
                 .ToList();
 
 
-            ViewData["UpcomingFixtureAvailability"] = upcomingFixturesWithBettingData.Any() 
+            ViewData["UpcomingFixtureAvailability"] = upcomingFixturesWithBettingData.Any()
                 ? string.Empty
                 : "Currently no fixtures are available online";
 
@@ -45,28 +45,35 @@ namespace PredictionAlgo.Controllers
         public ActionResult SampleDataComparisons()
         {
             var upcomingFixturesWithBettingData = _db.MatchBettingDatas
-                .Where(x => x.FixtureDate > new DateTime(2016,10,27) && x.FixtureDate < new DateTime(2016, 10, 30))
+                .Where(x => x.FixtureDate > new DateTime(2016, 10, 27) && x.FixtureDate < new DateTime(2016, 10, 30))
                 .OrderBy(x => x.FixtureDate)
                 .ToList();
 
-            var predictions =  _predictCompare.GetPredictionComparisons(upcomingFixturesWithBettingData);
+            var predictions = _predictCompare.GetPredictionComparisons(upcomingFixturesWithBettingData);
 
             return View(predictions);
         }
 
-        public ActionResult AllPreviousComparisons()
+        public ActionResult AllPreviousComparisons(string id)
         {
-            using (var predict = new PredictionComparisonData())
+            var predict = new PredictionComparisonData();
+
+            if (id == "id")
             {
-                var allPredictions = _db.PredictionComparisons
-                    .DistinctBy(x => x.PredictionComparisonReference)
-                    .OrderByDescending(x => x.FixtureDate)
-                    .ToList();
+                var updatedPredictions = predict.UpdatePredictions();
 
                 ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
 
-                return View(allPredictions);
+                return View(updatedPredictions);
             }
+            var allPredictions = _db.PredictionComparisons
+                .DistinctBy(x => x.PredictionComparisonReference)
+                .OrderByDescending(x => x.FixtureDate)
+                .ToList();
+
+            ViewData["SuccessRate"] = _predictCompare.GetTotalPreditionSuccess;
+
+            return View(allPredictions);
         }
 
         protected override void Dispose(bool disposing)
